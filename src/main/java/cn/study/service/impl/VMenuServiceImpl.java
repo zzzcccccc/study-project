@@ -2,37 +2,61 @@ package cn.study.service.impl;
 
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VMenuDto;
+import cn.study.dto.VRoleMenuDto;
 import cn.study.entity.VMenu;
+import cn.study.entity.VRoleMenu;
 import cn.study.mapper.VMenuMapper;
+import cn.study.mapper.VRoleMenuMapper;
 import cn.study.service.VMenuService;
 import cn.study.vo.VMenuVo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements VMenuService {
 
+    @Resource
+    private VRoleMenuMapper vRoleMenuMapper;
+
+    /**
+     *
+     * @param flag 1菜单 2目录 0所有
+     * @return
+     */
     @Override
-    public List<VMenuVo> getAll() {
+    public List<VMenuVo> getAll(Integer flag) {
         List<VMenuVo> menuVoList = new ArrayList<>();
-        List<VMenu> vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
-                .eq(VMenu::getLevel, 1)
-                .eq(VMenu::getDelFlag, CommonConstants.STATUS_NORMAL));
-        for (VMenu vmenu: vMenus ) {
+        List<VMenu> vMenus = new ArrayList<>();
+        if (flag!=0){
+            vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
+                    .eq(VMenu::getShowFlag, flag)
+                    .eq(VMenu::getLevel, 1)
+                    .eq(VMenu::getDelFlag, CommonConstants.STATUS_NORMAL));
+        }else{
+           vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
+                    .eq(VMenu::getLevel, 1)
+                    .eq(VMenu::getDelFlag, CommonConstants.STATUS_NORMAL));
+        }
+        for (int i = 0; i < vMenus.size(); i++) {
+            VMenu vmenu = vMenus.get(i);
             VMenuVo vMenuVo = new VMenuVo();
             BeanUtils.copyProperties(vmenu,vMenuVo);
-            Integer parentId = vmenu.getId();
-            List<VMenuVo> vMenusChildren = this.baseMapper.getList(parentId,null);
-            for (int i = 0; i < vMenusChildren.size(); i++) {
-                VMenuVo vMenuVo1 = vMenusChildren.get(i);
-                Integer parentId1 = vMenuVo1.getId();
-                List<VMenuVo> vMenusChildren1 = this.baseMapper.getList(parentId1,null);
+            Integer parentId = vmenu.getMenuId();
+            List<VMenuVo> vMenusChildren = this.baseMapper.getList(parentId,flag);
+            for (int j = 0; j < vMenusChildren.size(); j++) {
+                VMenuVo vMenuVo1 = vMenusChildren.get(j);
+                Integer parentId1 = vMenuVo1.getMenuId();
+                List<VMenuVo> vMenusChildren1 = this.baseMapper.getList(parentId1,flag);
                 vMenuVo1.setChildren(vMenusChildren1);
             }
             vMenuVo.setChildren(vMenusChildren);
@@ -51,6 +75,10 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
             vMenu.setLevel(1);
         }else{
             int parentId = value[value.length-1];
+            VMenu vMenu1 = this.baseMapper.selectById(parentId);
+            if (vMenu1.getLevel()==3){
+                return "此登记不允许添加";
+            }
             vMenu.setLevel(value.length+1);
             vMenu.setParentId(parentId);
         }
@@ -67,8 +95,8 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
         for (VMenu vmenu: vMenus ) {
             VMenuVo vMenuVo = new VMenuVo();
             BeanUtils.copyProperties(vmenu,vMenuVo);
-            Integer parentId = vmenu.getId();
-            List<VMenuVo> vMenusChildren = this.baseMapper.getList(parentId,null);
+            Integer parentId = vmenu.getMenuId();
+            List<VMenuVo> vMenusChildren = this.baseMapper.getList(parentId,0);
             vMenuVo.setChildren(vMenusChildren);
             menuVoList.add(vMenuVo);
         }
@@ -93,15 +121,67 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
     }
 
     @Override
-    public String delMenu(Integer id, Integer parentId) {
-//        if (parentId==-1){
-//            this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
-//                    .eq(VMenu::getParentId,id));
-//        }
-//
-//
-//        vMenu.setDelFlag(CommonConstants.STATUS_DEL);
-//        this.baseMapper.updateById(vMenu);
-        return null;
+    public String delMenu(Integer id, Integer level) {
+        VMenu vMenu = this.baseMapper.selectById(id);
+        if (level==2){
+            List<VMenu> vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
+                    .eq(VMenu::getParentId, id)
+                    .eq(VMenu::getDelFlag, CommonConstants.SUCCESS));
+            for (int i = 0; i <vMenus.size() ; i++) {
+                VMenu menu = vMenus.get(i);
+                menu.setDelFlag(CommonConstants.STATUS_DEL);
+                this.baseMapper.updateById(menu);
+            }
+        }else if (level==1){
+            List<VMenu> vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
+                    .eq(VMenu::getParentId, id)
+                    .eq(VMenu::getDelFlag, CommonConstants.SUCCESS));
+            for (int i = 0; i <vMenus.size() ; i++) {
+                VMenu vMenuTwo = vMenus.get(i);
+
+                Integer idTwo = vMenuTwo.getMenuId();
+                VMenu vMenuThree = new VMenu();
+                vMenuThree.setDelFlag(CommonConstants.STATUS_DEL);
+                this.baseMapper.update(vMenuThree,
+                        Wrappers.<VMenu>lambdaQuery().eq(VMenu::getParentId,idTwo));
+
+                vMenuTwo.setDelFlag(CommonConstants.STATUS_DEL);
+                this.baseMapper.updateById(vMenuTwo);
+            }
+        }
+        vMenu.setDelFlag(CommonConstants.STATUS_DEL);
+        this.baseMapper.updateById(vMenu);
+        return "删除成功";
+    }
+
+
+    //---------------------------------------------角色和权限
+    @Override
+    public Integer[] getRoleMenuByRoleId(Integer roleId) {
+        List<Integer> collect = vRoleMenuMapper.selectList(Wrappers.<VRoleMenu>lambdaQuery()
+                .eq(VRoleMenu::getRoleId, roleId))
+                .stream().map(VRoleMenu::getMenuId).collect(Collectors.toList());
+        Integer[] array2 = collect.toArray(new Integer[collect.size()]);
+        return array2;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE,
+            rollbackFor = Exception.class)
+    public Integer editRoleMenu(VRoleMenuDto vRoleMenuDto) {
+        Integer roleId = vRoleMenuDto.getRoleId();
+
+        int delete = vRoleMenuMapper.delete(Wrappers.<VRoleMenu>lambdaQuery()
+                .eq(VRoleMenu::getRoleId, roleId));
+        if (delete>=0){
+            Integer[] menuIds = vRoleMenuDto.getMenuIds();
+            for (int i = 0; i < menuIds.length; i++) {
+                VRoleMenu vRoleMenu = new VRoleMenu();
+                vRoleMenu.setMenuId(menuIds[i]);
+                vRoleMenu.setRoleId(roleId);
+                vRoleMenuMapper.insert(vRoleMenu);
+            }
+        }
+        return 0;
     }
 }
