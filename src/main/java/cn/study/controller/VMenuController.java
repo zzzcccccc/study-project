@@ -3,9 +3,11 @@ package cn.study.controller;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VMenuDto;
+import cn.study.dto.VRoleMenuDto;
 import cn.study.entity.VMenu;
 import cn.study.service.VMenuService;
 import cn.study.vo.VMenuVo;
+import io.swagger.models.auth.In;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,13 +21,33 @@ public class VMenuController {
     VMenuService vMenuService;
 
     /**
-     * 页面左侧导航栏查询、主列表
+     * 页面左侧导航栏查询
      * @return
      */
-    @GetMapping("/getAll")
-    public RES getAll() {
-        List<VMenuVo> all = vMenuService.getAll();
+    @GetMapping("/getAll/{flag}")
+    public RES getAll(@PathVariable(value = "flag") Integer flag) {
+        List<VMenuVo> all = vMenuService.getAll(flag);
         return RES.ok(CommonConstants.SUCCESS,"查询成功",all);
+    }
+
+    @GetMapping("/getRoleMenuByRoleId/{roleId}")
+    public RES getRoleMenuByRoleId(@PathVariable(value = "roleId") Integer roleId) {
+        Integer[] ids = vMenuService.getRoleMenuByRoleId(roleId);
+        return RES.ok(CommonConstants.SUCCESS,"查询成功",ids);
+    }
+
+    @PutMapping("/editRoleMenu")
+    public RES editRoleMenu(@RequestBody VRoleMenuDto vRoleMenuDto) {
+        Integer[] menuIds = vRoleMenuDto.getMenuIds();
+        if (menuIds != null && menuIds.length > 0) {
+            Integer flag = vMenuService.editRoleMenu(vRoleMenuDto);
+            if (flag == 0) {
+                return RES.ok(CommonConstants.SUCCESS, "操作成功", null);
+            }
+        } else {
+            return RES.ok(CommonConstants.SUCCESS, "操作成功", null);
+        }
+        return RES.no(CommonConstants.FAIL, "操作失败");
     }
 
     /**
@@ -42,7 +64,11 @@ public class VMenuController {
     @PostMapping("/addMenu")
     public RES addMenu(@RequestBody VMenuDto vMenuDto) {
         String flag  = vMenuService.addMenu(vMenuDto);
-        return RES.ok(CommonConstants.SUCCESS,flag,null);
+        if ("添加成功".equals(flag)){
+            return RES.ok(CommonConstants.SUCCESS,flag,null);
+        }
+        return RES.no(CommonConstants.FAIL,flag);
+
     }
 
     @PutMapping("/editMenu")
@@ -62,11 +88,11 @@ public class VMenuController {
         return RES.ok(CommonConstants.SUCCESS,"查询成功",infoById);
     }
 
-    @DeleteMapping("/delMenu/{id}/{parentId}")
+    @DeleteMapping("/delMenu/{id}/{level}")
     public RES delMenu(@PathVariable(value = "id") Integer id,
-                       @PathVariable(value = "parentId") Integer parentId) {
+                       @PathVariable(value = "level") Integer level) {
 
-        String flag = vMenuService.delMenu(id,parentId);
+        String flag = vMenuService.delMenu(id,level);
         if ("删除成功".equals(flag)) {
             return RES.ok(CommonConstants.SUCCESS, flag, null);
         }

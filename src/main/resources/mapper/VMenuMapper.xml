@@ -5,13 +5,14 @@
 
     <select id="getList" resultType="cn.study.vo.VMenuVo">
         select
-            id,
-            auth_name,
-            path,
+            menu_id,
+            `name`,
+            permission,
             parent_id,
             `level`,
-            icon,
             detail,
+            path,
+            icon,
             show_flag,
             create_time,
             update_time,
@@ -22,7 +23,7 @@
             del_flag = '0'
         AND
             parent_id = #{parentId}
-        <if test="showFlag!=null">
+        <if test="showFlag!=0">
             AND show_flag = #{showFlag}
         </if>
 

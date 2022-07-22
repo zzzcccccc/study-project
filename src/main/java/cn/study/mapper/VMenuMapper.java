@@ -12,5 +12,5 @@ import java.util.List;
 public interface VMenuMapper extends BaseMapper<VMenu> {
 
 
-    List<VMenuVo> getList(@Param("parentId") Integer parentId,@Param("showFlag") String showFlag);
+    List<VMenuVo> getList(@Param("parentId") Integer parentId,@Param("showFlag") Integer showFlag);
 }

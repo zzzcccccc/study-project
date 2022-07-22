@@ -76,6 +76,12 @@ public class UserController {
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
 
+    @GetMapping("getInfoByUsername/{username}")
+    public RES getInfoByUsername(@PathVariable("username") String username) {
+        VUser vUser = userService.getInfoByUsername(username);
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
+    }
+
     @PutMapping("editUser")
     public RES editUser(@RequestBody VUser vUser) {
         VUser oneByUserName = userService.getOneByUserName(vUser.getUserName());

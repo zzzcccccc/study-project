@@ -117,5 +117,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
         return 1;
     }
 
+    @Override
+    public VUser getInfoByUsername(String username) {
+        return this.baseMapper.selectOne(Wrappers.<VUser>lambdaQuery()
+                .eq(VUser::getUserName,username)
+                .eq(VUser::getDelFlag,CommonConstants.SUCCESS));
+    }
+
 
 }

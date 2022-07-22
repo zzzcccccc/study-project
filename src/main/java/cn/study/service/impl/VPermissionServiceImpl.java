@@ -133,8 +133,10 @@ public class VPermissionServiceImpl extends ServiceImpl<VPermissionMapper, VPerm
                     names += permissionName+",";
                 }
             }
-            names = names.substring(0,names.length()-1);
-            return "<"+names+">权限已绑定角色,无法删除";
+            if (!"".equals(names)){
+                names = names.substring(0,names.length()-1);
+                return "<"+names+">权限已绑定角色,无法删除";
+            }
         }else{
             Integer count = vRolePermissionMapper.selectCount(Wrappers.<VRolePermission>lambdaQuery()
                     .eq(VRolePermission::getPermissionId, id));

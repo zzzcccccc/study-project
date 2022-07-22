@@ -9,57 +9,42 @@ import java.io.Serializable;
 @TableName(value = "v_menu")
 public class VMenu implements Serializable {
 
-    @TableId(value = "id", type = IdType.AUTO)//指定自增策略
-    private Integer id;
-    private String authName;
-    private String path;
+    @TableId(value = "menu_id", type = IdType.AUTO)//指定自增策略
+    private Integer menuId;
+    private String name;
+    private String permission;
     private Integer parentId;
     private Integer level;
-    private String detail;
+    private String path;
     private String icon;
-    private String showFlag;
+    private Integer showFlag;  //1菜单 2按钮 0所有
+    private String detail;
     private String createTime;
     private String updateTime;
     private String delFlag;
 
-    public String getIcon() {
-        return icon;
+    public Integer getMenuId() {
+        return menuId;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 
-    public String getShowFlag() {
-        return showFlag;
+    public String getName() {
+        return name;
     }
 
-    public void setShowFlag(String showFlag) {
-        this.showFlag = showFlag;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getId() {
-        return id;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAuthName() {
-        return authName;
-    }
-
-    public void setAuthName(String authName) {
-        this.authName = authName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     public Integer getParentId() {
@@ -70,6 +55,14 @@ public class VMenu implements Serializable {
         this.parentId = parentId;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public Integer getLevel() {
         return level;
     }
@@ -78,20 +71,28 @@ public class VMenu implements Serializable {
         this.level = level;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getShowFlag() {
+        return showFlag;
+    }
+
+    public void setShowFlag(Integer showFlag) {
+        this.showFlag = showFlag;
+    }
+
     public String getDetail() {
         return detail;
     }
 
     public void setDetail(String detail) {
         this.detail = detail;
-    }
-
-    public String getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(String delFlag) {
-        this.delFlag = delFlag;
     }
 
     public String getCreateTime() {
@@ -108,5 +109,13 @@ public class VMenu implements Serializable {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 }

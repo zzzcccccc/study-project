@@ -23,4 +23,6 @@ public interface UserService {
     Integer editUser(VUser vUser);
 
     Integer del(Integer userId);
+
+    VUser getInfoByUsername(String username);
 }
