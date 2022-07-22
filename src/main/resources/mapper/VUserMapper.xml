@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.study.mapper.UserMapper">
+
+    <resultMap id="baseResultMap" type="cn.study.vo.VUserVo">
+
+    </resultMap>
+    <sql id="resultSql">
+        `user`.id,`user`.userUuid,`user`.userName,`user`.password,`user`.realName,`user`.age, `user`.sex,`user`.birthDay,
+         `user`.userLevel, `user`.phone,
+        `user`.role,`user`.status,`user`.imagePath, `user`.createTime,`user`.updateTime,`user`.lastActiveTime,`user`.delFlag,
+        `user`.wxOpenId
+    </sql>
+    <select id="getPage" resultMap="baseResultMap">
+        SELECT
+        `user`.id,
+        `user`.user_uuid,
+        `user`.user_name,
+        `user`.password,
+        `user`.real_name,
+        `user`.age,
+        `user`.sex,
+        `user`.birth_day,
+        `user`.user_level,
+        `user`.phone,
+        `user`.status,
+        `user`.image_path,
+        `user`.create_time
+        FROM
+        v_user AS `user`
+        LEFT  JOIN  v_user_role AS user_role ON `user`.id =user_role.user_id
+        WHERE
+        user_role.role_id = #{query.roleId}
+        AND user.del_flag = '0'
+        <if test="query.userName!=null and query.userName!=''">
+            AND `user`.user_name LIKE CONCAT('%',#{query.userName},'%')
+        </if>
+    </select>
+
+</mapper>

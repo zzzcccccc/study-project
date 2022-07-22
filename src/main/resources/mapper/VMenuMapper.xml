@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.study.mapper.VMenuMapper">
+
+
+    <select id="getList" resultType="cn.study.vo.VMenuVo">
+        select
+            id,
+            auth_name,
+            path,
+            parent_id,
+            `level`,
+            icon,
+            detail,
+            show_flag,
+            create_time,
+            update_time,
+            del_flag
+        from
+            v_menu
+        WHERE
+            del_flag = '0'
+        AND
+            parent_id = #{parentId}
+        <if test="showFlag!=null">
+            AND show_flag = #{showFlag}
+        </if>
+
+    </select>
+</mapper>
