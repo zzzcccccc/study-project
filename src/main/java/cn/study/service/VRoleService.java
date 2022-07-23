@@ -1,6 +1,5 @@
 package cn.study.service;
 
-import cn.study.entity.VPermission;
 import cn.study.entity.VRole;
 
 import java.util.List;

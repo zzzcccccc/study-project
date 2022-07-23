@@ -2,10 +2,10 @@ package cn.study.service.impl;
 
 import cn.study.constant.CommonConstants;
 import cn.study.entity.VRole;
-import cn.study.entity.VRolePermission;
+import cn.study.entity.VRoleMenu;
 import cn.study.entity.VUserRole;
 import cn.study.mapper.VRoleMapper;
-import cn.study.mapper.VRolePermissionMapper;
+import cn.study.mapper.VRoleMenuMapper;
 import cn.study.mapper.VUserRoleMapper;
 import cn.study.service.VRoleService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -24,7 +24,7 @@ public class VRoleServiceImpl extends ServiceImpl<VRoleMapper, VRole>  implement
     @Resource
     private VUserRoleMapper vUserRoleMapper;
     @Resource
-    private VRolePermissionMapper vRolePermissionMapper;
+    private VRoleMenuMapper vRoleMenuMapper;
 
     @Override
     public List<VRole> getAllRole() {
@@ -51,8 +51,8 @@ public class VRoleServiceImpl extends ServiceImpl<VRoleMapper, VRole>  implement
         if (count>0){
             return "该角色已绑定用户,无法删除";
         }
-        vRolePermissionMapper.delete(Wrappers.<VRolePermission>lambdaQuery()
-                .eq(VRolePermission::getRoleId, id));
+        vRoleMenuMapper.delete(Wrappers.<VRoleMenu>lambdaQuery()
+                .eq(VRoleMenu::getRoleId, id));
         VRole vRole = this.baseMapper.selectById(id);
         vRole.setDelFlag(CommonConstants.STATUS_DEL);
         int flag = this.baseMapper.updateById(vRole);
