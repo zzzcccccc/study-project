@@ -1,6 +1,8 @@
 package cn.study.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VUserDto;
 import cn.study.entity.VRole;

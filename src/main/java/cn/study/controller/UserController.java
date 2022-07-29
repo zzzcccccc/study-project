@@ -1,5 +1,6 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.study.config.RES;
@@ -33,7 +34,9 @@ public class UserController {
     public RES doLogin(String userName, String password) {
         Integer flag = userService.doLogin(userName, password);
         if (flag==0){
-            return RES.ok(CommonConstants.SUCCESS,"登录成功",null);
+            // 第2步，获取 Token  相关参数
+            SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+            return RES.ok(CommonConstants.SUCCESS,"登录成功",tokenInfo);
         }else if (flag==1){
             return RES.no(CommonConstants.FAIL,"用户名或密码错误");
         }
