@@ -1,5 +1,6 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -44,11 +45,26 @@ public class UserController {
     }
 
     /**
+     * 退出登录
+     * @param loginId
+     * @return
+     */
+    @RequestMapping("logOut/{loginId}")
+    public RES logOut(@PathVariable(value = "loginId") String loginId) {
+        StpUtil.logout(loginId);
+        if (!StpUtil.isLogin()){
+            return RES.ok(CommonConstants.SUCCESS,"操作成功",null);
+        }
+        return RES.no(CommonConstants.FAIL,"操作失败");
+    }
+
+    /**
      * 获取老师列表-分页
      * @param page
      * @param vUserDto
      * @return
      */
+    @SaCheckLogin
     @GetMapping("getUserPage")
     public RES getUserPage(Page page, VUserDto vUserDto) {
         IPage teacherPage = userService.getUserPage(page, vUserDto);
@@ -60,6 +76,7 @@ public class UserController {
      * @param vUserDto
      * @return
      */
+    @SaCheckLogin
     @PostMapping("addUser")
     public RES addUser(@RequestBody VUserDto vUserDto) {
         VUser oneByUserName = userService.getOneByUserName(vUserDto.getUserName());
@@ -72,19 +89,19 @@ public class UserController {
         }
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
-
+    @SaCheckLogin
     @GetMapping("getInfoById/{userId}")
     public RES getInfoById(@PathVariable("userId") Integer userId) {
         VUser vUser = userService.getInfoById(userId);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
-
+    @SaCheckLogin
     @GetMapping("getInfoByUsername/{username}")
     public RES getInfoByUsername(@PathVariable("username") String username) {
         VUser vUser = userService.getInfoByUsername(username);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
-
+    @SaCheckLogin
     @PutMapping("editUser")
     public RES editUser(@RequestBody VUser vUser) {
         VUser oneByUserName = userService.getOneByUserName(vUser.getUserName());
@@ -99,7 +116,7 @@ public class UserController {
         }
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
-
+    @SaCheckLogin
     @DeleteMapping("del/{userId}")
     public RES del(@PathVariable("userId") Integer userId) {
         Integer flag = userService.del(userId);

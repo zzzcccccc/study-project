@@ -48,6 +48,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
             String password1 = vUser.getPassword();
             if(userName1.equals(userName) && password1.equals(password)) {
                 Integer id = vUser.getId();
+                boolean login = StpUtil.isLogin();
+                if (login){
+                    System.out.println("1111");
+                    String tokenValueByLoginId = StpUtil.getTokenValueByLoginId(id);
+                    StpUtil.kickout(id);                    // 将指定账号踢下线
+                    StpUtil.kickoutByTokenValue(tokenValueByLoginId);      // 将指定 Token 踢下线
+                }
                 StpUtil.login(id);
                 List<String> roleList = stpInterfaceImpl.getRoleList(id, null);
                 //获取用户权限、角色

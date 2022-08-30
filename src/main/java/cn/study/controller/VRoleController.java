@@ -1,5 +1,7 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VUserRoleDto;
@@ -25,6 +27,7 @@ public class VRoleController {
     @Resource
     VUserRoleService vUserRoleService;
 
+    @SaCheckLogin
     @GetMapping("/getAllRole")
     public RES getAllRole() {
         List<VRole> allRole = vRoleService.getAllRole();
@@ -36,7 +39,7 @@ public class VRoleController {
         VRole vRole = vRoleService.getRoleById(id);
         return RES.ok(CommonConstants.SUCCESS, "查询成功", vRole);
     }
-
+    @SaCheckLogin
     @PutMapping("/editRole")
     public RES editRole(@RequestBody VRole vRole) {
         Integer flag = vRoleService.editRole(vRole);
@@ -45,7 +48,7 @@ public class VRoleController {
         }
         return RES.no(CommonConstants.FAIL, "修改失败");
     }
-
+    @SaCheckLogin
     @GetMapping("/getUseRoleByUserId/{userId}")
     public RES getUseRoleByUserId(@PathVariable(value = "userId") Integer userId) {
         List<Integer> collect = vUserRoleService.getUseRoleByUserId(userId)
@@ -55,7 +58,7 @@ public class VRoleController {
 
         return RES.ok(CommonConstants.SUCCESS, "查询成功", array2);
     }
-
+    @SaCheckLogin
     @PutMapping("/editUsrRole")
     public RES editUsrRole(@RequestBody VUserRoleDto vUserRoleDto) {
         Integer[] roleIds = vUserRoleDto.getRoleIds();
@@ -69,7 +72,7 @@ public class VRoleController {
         }
         return RES.no(CommonConstants.FAIL, "修改失败");
     }
-
+    @SaCheckLogin
     @DeleteMapping("/delRole/{id}")
     public RES delRole(@PathVariable(value = "id") Integer id) {
 
@@ -80,6 +83,7 @@ public class VRoleController {
         return RES.no(CommonConstants.FAIL, flag);
     }
 
+    @SaCheckLogin
     @PostMapping("/addRole")
     public RES addRole(@RequestBody VRole vRole) {
 
@@ -88,5 +92,18 @@ public class VRoleController {
             return RES.ok(CommonConstants.SUCCESS, flag, null);
         }
         return RES.no(CommonConstants.FAIL, flag);
+    }
+
+    @GetMapping("getPermissionList")
+    public RES getPermissionList() {
+        // 获取：当前账号所拥有的权限集合
+        List<String> permissionList = StpUtil.getPermissionList();
+        return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
+    }
+    @GetMapping("getRoleList")
+    public RES getRoleList() {
+        // 获取：当前账号所拥有的权限集合
+        List<String> permissionList = StpUtil.getRoleList();
+        return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
     }
 }

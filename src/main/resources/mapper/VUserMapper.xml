@@ -33,7 +33,7 @@
         user_role.role_id = #{query.roleId}
         AND user.del_flag = '0'
         <if test="query.userName!=null and query.userName!=''">
-            AND `user`.user_name LIKE CONCAT('%',#{query.userName},'%')
+            AND `user`.user_name LIKE CONCAT(CONCAT('%',#{query.userName},'%'))
         </if>
     </select>
 

@@ -25,4 +25,9 @@ public interface CommonConstants {
      */
     Integer FAIL = 1;
 
+    /**
+     * token失效
+     */
+    Integer TOKEN_FAIL = 401;
+
 }

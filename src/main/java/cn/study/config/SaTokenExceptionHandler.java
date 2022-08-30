@@ -1,6 +1,7 @@
 package cn.study.config;
 
 import cn.dev33.satoken.exception.*;
+import cn.study.constant.CommonConstants;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,11 +25,15 @@ public class SaTokenExceptionHandler {
             message = "您的账户已在另一台设备上登录，如非本人操作，请立即修改密码";
         } else if (nle.getType().equals(NotLoginException.KICK_OUT)) {
             message = "已被系统强制下线";
+        } else if (nle.getType().equals(NotLoginException.NOT_TOKEN_MESSAGE)) {
+            message = "未能读取到有效Token";
+        }else if (nle.getType().equals(NotLoginException.TOKEN_TIMEOUT_MESSAGE)) {
+            message = "Token已过期";
         } else {
             message = "当前会话未登录";
         }
         // 返回给前端
-        return RES.no(401, message);
+        return RES.no( CommonConstants.TOKEN_FAIL, message);
     }
 
     @ExceptionHandler
@@ -43,11 +48,11 @@ public class SaTokenExceptionHandler {
 
     @ExceptionHandler
     public RES handlerDisableLoginException(DisableLoginException e) {
-        return RES.no(401, "账户被封禁：" + e.getDisableTime() + "秒后解封");
+        return RES.no( CommonConstants.TOKEN_FAIL, "账户被封禁：" + e.getDisableTime() + "秒后解封");
     }
 
     @ExceptionHandler
     public RES handlerNotSafeException(NotSafeException e) {
-        return RES.no(401, "二级认证异常：" + e.getMessage());
+        return RES.no( CommonConstants.TOKEN_FAIL, "二级认证异常：" + e.getMessage());
     }
 }

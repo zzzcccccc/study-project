@@ -1,5 +1,6 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VMenuDto;
@@ -36,6 +37,7 @@ public class VMenuController {
         return RES.ok(CommonConstants.SUCCESS,"查询成功",ids);
     }
 
+    @SaCheckLogin
     @PutMapping("/editRoleMenu")
     public RES editRoleMenu(@RequestBody VRoleMenuDto vRoleMenuDto) {
         Integer[] menuIds = vRoleMenuDto.getMenuIds();
@@ -61,6 +63,7 @@ public class VMenuController {
         return RES.ok(CommonConstants.SUCCESS,"查询成功",all);
     }
 
+    @SaCheckLogin
     @PostMapping("/addMenu")
     public RES addMenu(@RequestBody VMenuDto vMenuDto) {
         String flag  = vMenuService.addMenu(vMenuDto);
@@ -71,6 +74,7 @@ public class VMenuController {
 
     }
 
+    @SaCheckLogin
     @PutMapping("/editMenu")
     public RES editMenu(@RequestBody VMenuDto vMenuDto) {
         String flag  = vMenuService.editMenu(vMenuDto);
@@ -88,6 +92,7 @@ public class VMenuController {
         return RES.ok(CommonConstants.SUCCESS,"查询成功",infoById);
     }
 
+    @SaCheckLogin
     @DeleteMapping("/delMenu/{id}/{level}")
     public RES delMenu(@PathVariable(value = "id") Integer id,
                        @PathVariable(value = "level") Integer level) {
