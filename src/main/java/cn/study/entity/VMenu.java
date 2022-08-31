@@ -17,11 +17,20 @@ public class VMenu implements Serializable {
     private Integer level;
     private String path;
     private String icon;
+    private Integer sort;  //排序
     private Integer showFlag;  //1菜单 2按钮 0所有
     private String detail;
     private String createTime;
     private String updateTime;
     private String delFlag;
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
     public Integer getMenuId() {
         return menuId;

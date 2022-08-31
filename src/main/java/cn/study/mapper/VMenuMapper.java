@@ -13,4 +13,13 @@ public interface VMenuMapper extends BaseMapper<VMenu> {
 
 
     List<VMenuVo> getList(@Param("parentId") Integer parentId,@Param("showFlag") Integer showFlag);
+
+
+    List<VMenuVo> getChildMenu(@Param("menuId") Integer menuId,
+                             @Param("roleIds") String roleIds);
+
+    List<VMenuVo> getMenuOne(String roleIds);
+
+    List<Integer> findMenuIdsByRoleId(Integer roleId);
+
 }

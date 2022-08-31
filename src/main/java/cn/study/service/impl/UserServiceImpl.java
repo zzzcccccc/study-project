@@ -56,8 +56,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
                     StpUtil.kickoutByTokenValue(tokenValueByLoginId);      // 将指定 Token 踢下线
                 }
                 StpUtil.login(id);
+                //获取用户角色\权限
                 List<String> roleList = stpInterfaceImpl.getRoleList(id, null);
-                //获取用户权限、角色
                 List<String> permissionList = stpInterfaceImpl.getPermissionList(id, null);
                 return 0;
             }else{

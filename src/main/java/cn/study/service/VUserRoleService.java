@@ -10,4 +10,5 @@ public interface VUserRoleService {
     Integer editUsrRole(VUserRoleDto vUserRoleDto);
 
     List<VUserRole> getUseRoleByUserId(Integer userId);
+
 }

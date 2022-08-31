@@ -27,7 +27,11 @@ public class VRoleController {
     @Resource
     VUserRoleService vUserRoleService;
 
-    @SaCheckLogin
+
+    /**
+     * 权限列表
+     * @return
+     */
     @GetMapping("/getAllRole")
     public RES getAllRole() {
         List<VRole> allRole = vRoleService.getAllRole();
@@ -39,6 +43,7 @@ public class VRoleController {
         VRole vRole = vRoleService.getRoleById(id);
         return RES.ok(CommonConstants.SUCCESS, "查询成功", vRole);
     }
+
     @SaCheckLogin
     @PutMapping("/editRole")
     public RES editRole(@RequestBody VRole vRole) {
@@ -48,7 +53,12 @@ public class VRoleController {
         }
         return RES.no(CommonConstants.FAIL, "修改失败");
     }
-    @SaCheckLogin
+
+    /**
+     * 获取已选中的权限id
+     * @param userId
+     * @return
+     */
     @GetMapping("/getUseRoleByUserId/{userId}")
     public RES getUseRoleByUserId(@PathVariable(value = "userId") Integer userId) {
         List<Integer> collect = vUserRoleService.getUseRoleByUserId(userId)
@@ -58,6 +68,7 @@ public class VRoleController {
 
         return RES.ok(CommonConstants.SUCCESS, "查询成功", array2);
     }
+
     @SaCheckLogin
     @PutMapping("/editUsrRole")
     public RES editUsrRole(@RequestBody VUserRoleDto vUserRoleDto) {
@@ -72,6 +83,7 @@ public class VRoleController {
         }
         return RES.no(CommonConstants.FAIL, "修改失败");
     }
+
     @SaCheckLogin
     @DeleteMapping("/delRole/{id}")
     public RES delRole(@PathVariable(value = "id") Integer id) {
@@ -92,18 +104,5 @@ public class VRoleController {
             return RES.ok(CommonConstants.SUCCESS, flag, null);
         }
         return RES.no(CommonConstants.FAIL, flag);
-    }
-
-    @GetMapping("getPermissionList")
-    public RES getPermissionList() {
-        // 获取：当前账号所拥有的权限集合
-        List<String> permissionList = StpUtil.getPermissionList();
-        return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
-    }
-    @GetMapping("getRoleList")
-    public RES getRoleList() {
-        // 获取：当前账号所拥有的权限集合
-        List<String> permissionList = StpUtil.getRoleList();
-        return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
     }
 }

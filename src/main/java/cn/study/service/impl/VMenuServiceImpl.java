@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,12 +31,36 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
     private VRoleMenuMapper vRoleMenuMapper;
 
     /**
+     *  左侧菜单栏+权限查询展示
+     * @param roleIds
+     * @return
+     */
+    @Override
+    public List<VMenuVo> getAllByRole(String roleIds) {
+        List<VMenuVo> menuVoList = new ArrayList<>();
+        List<VMenuVo> menuOne = this.baseMapper.getMenuOne(roleIds); //一级
+        for (VMenuVo menuVo: menuOne) {
+            List<VMenuVo> vMenuVos  = this.baseMapper.getChildMenu( menuVo.getMenuId(), roleIds); //二级
+            for (int j = 0; j < vMenuVos.size(); j++) {
+                Integer parentId = vMenuVos.get(j).getMenuId();
+                List<VMenuVo> childMenu = this.baseMapper.getChildMenu(parentId, roleIds);//三级
+                vMenuVos.get(j).setChildren(childMenu);
+            }
+            menuVo.setChildren(vMenuVos);
+            menuVoList.add(menuVo);
+        }
+        return menuVoList;
+    }
+
+
+    /**
      *
      * @param flag 1菜单 2目录 0所有
      * @return
      */
     @Override
     public List<VMenuVo> getAll(Integer flag) {
+
         List<VMenuVo> menuVoList = new ArrayList<>();
         List<VMenu> vMenus = new ArrayList<>();
         if (flag!=0){
@@ -158,10 +184,11 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
     //---------------------------------------------角色和权限
     @Override
     public Integer[] getRoleMenuByRoleId(Integer roleId) {
-        List<Integer> collect = vRoleMenuMapper.selectList(Wrappers.<VRoleMenu>lambdaQuery()
-                .eq(VRoleMenu::getRoleId, roleId))
-                .stream().map(VRoleMenu::getMenuId).collect(Collectors.toList());
-        Integer[] array2 = collect.toArray(new Integer[collect.size()]);
+        List<Integer>  menuIdsByRoleId = this.baseMapper.findMenuIdsByRoleId(roleId);
+//        List<Integer> collect = vRoleMenuMapper.selectList(Wrappers.<VRoleMenu>lambdaQuery()
+//                .eq(VRoleMenu::getRoleId, roleId))
+//                .stream().map(VRoleMenu::getMenuId).collect(Collectors.toList());
+        Integer[] array2 = menuIdsByRoleId.toArray(new Integer[menuIdsByRoleId.size()]);
         return array2;
     }
 
@@ -184,4 +211,6 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
         }
         return 0;
     }
+
+
 }

@@ -30,7 +30,7 @@ public class VUserRoleServiceImpl extends ServiceImpl<VUserRoleMapper, VUserRole
         Integer userId = vUserRoleDto.getUserId();
         int delete = this.baseMapper.delete(Wrappers.<VUserRole>lambdaQuery()
                 .eq(VUserRole::getUserId, userId));
-        if (delete>0){
+        if (delete>=0){
             Integer[] roleIds = vUserRoleDto.getRoleIds();
             for (int i = 0; i < roleIds.length; i++) {
                 VUserRole vUserRole = new VUserRole();

@@ -1,14 +1,15 @@
 package cn.study.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VMenuDto;
 import cn.study.dto.VRoleMenuDto;
 import cn.study.entity.VMenu;
 import cn.study.service.VMenuService;
+import cn.study.service.impl.StpInterfaceImpl;
 import cn.study.vo.VMenuVo;
-import io.swagger.models.auth.In;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,9 +21,23 @@ public class VMenuController {
 
     @Resource
     VMenuService vMenuService;
+    @Resource
+    private StpInterfaceImpl stpInterfaceImpl;
 
     /**
-     * 页面左侧导航栏查询
+     * 页面左侧导航栏查询+（权限查询，不同权限返回不同菜单）
+     * roleIds 权限ids
+     * @return
+     */
+    @GetMapping("/getAllByRole/{roleIds}")
+    public RES getAllByRole(@PathVariable(value = "roleIds") String roleIds) {
+        System.out.println(roleIds);
+        List<VMenuVo> all = vMenuService.getAllByRole(roleIds);
+        return RES.ok(CommonConstants.SUCCESS,"查询成功",all);
+    }
+
+    /**
+     * 页面左侧导航栏查询（查询全部，三级）
      * @return
      */
     @GetMapping("/getAll/{flag}")
@@ -31,6 +46,11 @@ public class VMenuController {
         return RES.ok(CommonConstants.SUCCESS,"查询成功",all);
     }
 
+    /**
+     * 根据角色id获取用户绑定的权限，只返回第三级的menuId，不然tree会选中
+     * @param roleId
+     * @return
+     */
     @GetMapping("/getRoleMenuByRoleId/{roleId}")
     public RES getRoleMenuByRoleId(@PathVariable(value = "roleId") Integer roleId) {
         Integer[] ids = vMenuService.getRoleMenuByRoleId(roleId);
@@ -102,5 +122,18 @@ public class VMenuController {
             return RES.ok(CommonConstants.SUCCESS, flag, null);
         }
         return RES.no(CommonConstants.FAIL, flag);
+    }
+
+    /**
+     * 根据用户ID获取权限标识
+     * @param userId
+     * @return
+     */
+    @GetMapping("getPermissionList/{userId}")
+    public RES getPermissionFlagByUserId(@PathVariable(value = "userId") Integer userId) {
+        //获取用户角色\权限
+        List<String> roleList = stpInterfaceImpl.getRoleList(userId, null);
+        List<String> permissionList = stpInterfaceImpl.getPermissionList(userId, null);
+        return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
     }
 }

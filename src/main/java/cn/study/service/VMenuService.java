@@ -24,4 +24,6 @@ public interface VMenuService {
     Integer[] getRoleMenuByRoleId(Integer roleId);
 
     Integer editRoleMenu(VRoleMenuDto vRoleMenuDto);
+
+    List<VMenuVo> getAllByRole(String roleIds);
 }
