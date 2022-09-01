@@ -29,5 +29,9 @@ public interface CommonConstants {
      * token失效
      */
     Integer TOKEN_FAIL = 401;
+    /**
+     * 无此权限
+     */
+    Integer PERMISSION_FAIL = 503;
 
 }

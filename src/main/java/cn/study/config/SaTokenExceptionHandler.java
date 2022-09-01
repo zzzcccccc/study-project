@@ -38,12 +38,12 @@ public class SaTokenExceptionHandler {
 
     @ExceptionHandler
     public RES handlerNotRoleException(NotRoleException e) {
-        return RES.no(403, "无此角色：" + e.getRole());
+        return RES.no(CommonConstants.PERMISSION_FAIL, "无此角色：" + e.getRole());
     }
 
     @ExceptionHandler
     public RES handlerNotPermissionException(NotPermissionException e) {
-        return RES.no(403, "无此权限：" + e.getCode());
+        return RES.no(CommonConstants.PERMISSION_FAIL, "无此权限");
     }
 
     @ExceptionHandler

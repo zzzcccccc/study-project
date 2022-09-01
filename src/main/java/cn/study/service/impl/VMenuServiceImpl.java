@@ -96,7 +96,7 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
         VMenu vMenu = new VMenu();
         BeanUtils.copyProperties(vMenuDto,vMenu);
         Integer[] value = vMenuDto.getValue(); //分类ID
-        if (value.length==0){
+        if ( value==null || value.length==0 ){
             vMenu.setParentId(-1);
             vMenu.setLevel(1);
         }else{
@@ -140,8 +140,12 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
         BeanUtils.copyProperties(vMenuDto,vMenu);
         Integer[] value = vMenuDto.getValue(); //分类ID
         int parentId = value[value.length-1];
+        if (parentId==-1){
+            vMenu.setLevel(1);
+        }else{
+            vMenu.setLevel(value.length+1);
+        }
         vMenu.setParentId(parentId);
-        vMenu.setLevel(value.length+1);
         this.baseMapper.updateById(vMenu);
         return "修改成功";
     }

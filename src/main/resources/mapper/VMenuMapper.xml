@@ -14,6 +14,7 @@
             path,
             icon,
             show_flag,
+            sort,
             create_time,
             update_time,
             del_flag
@@ -26,7 +27,6 @@
         <if test="showFlag!=0">
             AND show_flag = #{showFlag}
         </if>
-
     </select>
     <select id="getMenuOne" resultType="cn.study.vo.VMenuVo">
         SELECT

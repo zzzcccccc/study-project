@@ -1,6 +1,9 @@
 package cn.study.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaMode;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -77,6 +80,7 @@ public class UserController {
      * @return
      */
     @SaCheckLogin
+    @SaCheckPermission(value = "student:add", orRole = "admin")
     @PostMapping("addUser")
     public RES addUser(@RequestBody VUserDto vUserDto) {
         VUser oneByUserName = userService.getOneByUserName(vUserDto.getUserName());
@@ -89,19 +93,23 @@ public class UserController {
         }
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
+
     @SaCheckLogin
     @GetMapping("getInfoById/{userId}")
     public RES getInfoById(@PathVariable("userId") Integer userId) {
         VUser vUser = userService.getInfoById(userId);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
+
     @SaCheckLogin
     @GetMapping("getInfoByUsername/{username}")
     public RES getInfoByUsername(@PathVariable("username") String username) {
         VUser vUser = userService.getInfoByUsername(username);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
+
     @SaCheckLogin
+    @SaCheckPermission(value = "student:edit", orRole = "admin")
     @PutMapping("editUser")
     public RES editUser(@RequestBody VUser vUser) {
         VUser oneByUserName = userService.getOneByUserName(vUser.getUserName());
@@ -116,14 +124,16 @@ public class UserController {
         }
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
+
     @SaCheckLogin
+    @SaCheckPermission(value = "student:del", orRole = "admin")
     @DeleteMapping("del/{userId}")
     public RES del(@PathVariable("userId") Integer userId) {
         Integer flag = userService.del(userId);
         if (flag==0){
-            return RES.ok(CommonConstants.SUCCESS,"操作成功",null);
+            return RES.ok(CommonConstants.SUCCESS,"删除成功",null);
         }
-        return RES.no(CommonConstants.FAIL,"操作失败");
+        return RES.no(CommonConstants.FAIL,"删除失败");
     }
 
     // 查询登录状态，浏览器访问： http://localhost:8081/user/isLogin

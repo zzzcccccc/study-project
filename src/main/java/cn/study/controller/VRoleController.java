@@ -1,6 +1,7 @@
 package cn.study.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
@@ -32,6 +33,7 @@ public class VRoleController {
      * 权限列表
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getAllRole")
     public RES getAllRole() {
         List<VRole> allRole = vRoleService.getAllRole();
@@ -45,6 +47,7 @@ public class VRoleController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PutMapping("/editRole")
     public RES editRole(@RequestBody VRole vRole) {
         Integer flag = vRoleService.editRole(vRole);
@@ -70,6 +73,7 @@ public class VRoleController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PutMapping("/editUsrRole")
     public RES editUsrRole(@RequestBody VUserRoleDto vUserRoleDto) {
         Integer[] roleIds = vUserRoleDto.getRoleIds();
@@ -85,6 +89,7 @@ public class VRoleController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @DeleteMapping("/delRole/{id}")
     public RES delRole(@PathVariable(value = "id") Integer id) {
 
@@ -96,6 +101,7 @@ public class VRoleController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PostMapping("/addRole")
     public RES addRole(@RequestBody VRole vRole) {
 

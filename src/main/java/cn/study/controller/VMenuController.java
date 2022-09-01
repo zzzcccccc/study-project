@@ -1,6 +1,7 @@
 package cn.study.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
@@ -40,6 +41,7 @@ public class VMenuController {
      * 页面左侧导航栏查询（查询全部，三级）
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getAll/{flag}")
     public RES getAll(@PathVariable(value = "flag") Integer flag) {
         List<VMenuVo> all = vMenuService.getAll(flag);
@@ -58,6 +60,7 @@ public class VMenuController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PutMapping("/editRoleMenu")
     public RES editRoleMenu(@RequestBody VRoleMenuDto vRoleMenuDto) {
         Integer[] menuIds = vRoleMenuDto.getMenuIds();
@@ -84,6 +87,7 @@ public class VMenuController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PostMapping("/addMenu")
     public RES addMenu(@RequestBody VMenuDto vMenuDto) {
         String flag  = vMenuService.addMenu(vMenuDto);
@@ -95,6 +99,7 @@ public class VMenuController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @PutMapping("/editMenu")
     public RES editMenu(@RequestBody VMenuDto vMenuDto) {
         String flag  = vMenuService.editMenu(vMenuDto);
@@ -113,6 +118,7 @@ public class VMenuController {
     }
 
     @SaCheckLogin
+    @SaCheckRole("admin")
     @DeleteMapping("/delMenu/{id}/{level}")
     public RES delMenu(@PathVariable(value = "id") Integer id,
                        @PathVariable(value = "level") Integer level) {
