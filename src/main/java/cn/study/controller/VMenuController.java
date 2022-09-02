@@ -30,6 +30,7 @@ public class VMenuController {
      * roleIds 权限ids
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getAllByRole/{roleIds}")
     public RES getAllByRole(@PathVariable(value = "roleIds") String roleIds) {
         System.out.println(roleIds);
@@ -53,6 +54,7 @@ public class VMenuController {
      * @param roleId
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getRoleMenuByRoleId/{roleId}")
     public RES getRoleMenuByRoleId(@PathVariable(value = "roleId") Integer roleId) {
         Integer[] ids = vMenuService.getRoleMenuByRoleId(roleId);

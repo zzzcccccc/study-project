@@ -1,14 +1,16 @@
 package cn.study.service;
 
 import cn.study.dto.VUserDto;
+import cn.study.entity.VSubject;
 import cn.study.entity.VUser;
 import cn.study.vo.VUserVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends IService<VUser> {
 
     Integer doLogin(String userName, String password);
 

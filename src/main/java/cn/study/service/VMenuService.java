@@ -3,11 +3,13 @@ package cn.study.service;
 import cn.study.dto.VMenuDto;
 import cn.study.dto.VRoleMenuDto;
 import cn.study.entity.VMenu;
+import cn.study.entity.VUser;
 import cn.study.vo.VMenuVo;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-public interface VMenuService {
+public interface VMenuService extends IService<VMenu> {
 
     List<VMenuVo> getAll(Integer flag);
 

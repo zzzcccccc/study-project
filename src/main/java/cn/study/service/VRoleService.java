@@ -1,10 +1,12 @@
 package cn.study.service;
 
+import cn.study.entity.VMenu;
 import cn.study.entity.VRole;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-public interface VRoleService {
+public interface VRoleService extends IService<VRole> {
 
     List<VRole> getAllRole();
 
