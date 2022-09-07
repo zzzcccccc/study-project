@@ -1,21 +1,17 @@
 package cn.study.service.impl;
 
-import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
+import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VUserDto;
-import cn.study.entity.VRole;
 import cn.study.entity.VUser;
 import cn.study.entity.VUserRole;
+import cn.study.entity.VUserSubjectClass;
 import cn.study.mapper.UserMapper;
-import cn.study.mapper.VRoleMapper;
 import cn.study.mapper.VUserRoleMapper;
+import cn.study.mapper.VUserSubjectClassMapper;
 import cn.study.service.UserService;
-import cn.study.vo.VUserVo;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,7 +22,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -36,6 +32,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
     private StpInterfaceImpl stpInterfaceImpl;
     @Resource
     private VUserRoleMapper vUserRoleMapper;
+    @Resource
+    private VUserSubjectClassMapper vUserSubjectClassMapper;
 
     @Override
     public Integer doLogin(String userName, String password) {
@@ -75,18 +73,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE,
+            rollbackFor = Exception.class)
     public Integer addUser(VUserDto vUserDto) {
-        Integer roleId = vUserDto.getRoleId();
+        Integer[] roleIds = vUserDto.getRoleIds();
         VUser vUser = new VUser();
         BeanUtils.copyProperties(vUserDto,vUser);
         int insert = this.baseMapper.insert(vUser);
         if (insert>0) {
             Integer userId = vUser.getId();
-            VUserRole vUserRole = new VUserRole();
-            vUserRole.setUserId(userId);
-            vUserRole.setRoleId(roleId);
-            vUserRoleMapper.insert(vUserRole);
+            for (int i = 0; i < roleIds.length; i++) {
+                VUserRole vUserRole = new VUserRole();
+                vUserRole.setUserId(userId);
+                vUserRole.setRoleId(roleIds[i]);
+                vUserRoleMapper.insert(vUserRole);
+            }
+
+            VUserSubjectClass vUserSubjectClass = new VUserSubjectClass();
+            vUserSubjectClass.setUserId(userId);
+            vUserSubjectClass.setSubjectId(vUserDto.getSubjectId());
+            vUserSubjectClass.setGradeId(vUserDto.getGradeId());
+            vUserSubjectClass.setClassIds(Arrays.toString(vUserDto.getClassIds()));
+            vUserSubjectClassMapper.insert(vUserSubjectClass);
         }
+
         return insert;
     }
 

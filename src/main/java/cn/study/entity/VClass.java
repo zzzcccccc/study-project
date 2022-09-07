@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 
-@TableName(value = "v_subject")
-public class VSubject implements Serializable {
+/**
+ * 班级表
+ */
+@TableName(value = "v_class")
+public class VClass implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)//指定自增策略
     private Integer id;

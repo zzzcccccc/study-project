@@ -1,8 +1,8 @@
 package cn.study.dto;
 
-import cn.study.entity.VSubject;
+import cn.study.entity.VClass;
 
-public class VSubjectDto extends VSubject {
+public class VClassDto extends VClass {
 
     private Integer[] chooseGradeIds;
 

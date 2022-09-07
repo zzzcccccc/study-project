@@ -1,15 +1,14 @@
 package cn.study.service.impl;
 
-import cn.study.constant.CommonConstants;
+import cn.study.dto.VSubjectDto;
 import cn.study.entity.VGrade;
-import cn.study.entity.VLink;
 import cn.study.entity.VSubject;
-import cn.study.mapper.StudyMapper;
 import cn.study.mapper.VGradeMapper;
 import cn.study.mapper.VSubjectMapper;
-import cn.study.service.StudyService;
 import cn.study.service.VSubjectService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +29,12 @@ public class VSubjectServiceImpl extends ServiceImpl<VSubjectMapper, VSubject> i
     @Override
     public List<VSubject> getAllSubject() {
         return this.baseMapper.selectList(null);
+    }
+
+    @Override
+    public IPage getPageSubject(Page page, VSubjectDto subjectDto) {
+        IPage pageSubject = this.baseMapper.getPageSubject(page, subjectDto);
+        return pageSubject;
     }
 
 }

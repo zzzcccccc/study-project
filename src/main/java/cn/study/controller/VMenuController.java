@@ -2,7 +2,6 @@ package cn.study.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckRole;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VMenuDto;
@@ -143,5 +142,16 @@ public class VMenuController {
         List<String> roleList = stpInterfaceImpl.getRoleList(userId, null);
         List<String> permissionList = stpInterfaceImpl.getPermissionList(userId, null);
         return RES.ok(CommonConstants.SUCCESS, "0", permissionList);
+    }
+
+    /**
+     * 根据用户ID获取权限标识
+     * @param userId
+     * @return
+     */
+    @GetMapping("getRoleList/{userId}")
+    public RES getRoleList(@PathVariable(value = "userId") Integer userId) {
+        List<String> roleList = stpInterfaceImpl.getRoleList(userId, null);
+        return RES.ok(CommonConstants.SUCCESS, "0", roleList);
     }
 }

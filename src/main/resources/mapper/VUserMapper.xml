@@ -25,16 +25,37 @@
         `user`.phone,
         `user`.status,
         `user`.image_path,
-        `user`.create_time
+        `user`.create_time,
+         sub_class.class_ids,
+         sub.`name` AS subjectName,
+         grade.`name` AS gradeName
         FROM
         v_user AS `user`
         LEFT  JOIN  v_user_role AS user_role ON `user`.id =user_role.user_id
+        LEFT  JOIN  v_user_subject_class AS sub_class ON `user`.id =sub_class.user_id
+        LEFT  JOIN  v_subject AS sub ON sub_class.subject_id =sub.id
+        LEFT  JOIN  v_grade AS grade ON sub_class.grade_id =grade.id
         WHERE
-        user_role.role_id = #{query.roleId}
-        AND user.del_flag = '0'
+         user.del_flag = '0'
         <if test="query.userName!=null and query.userName!=''">
             AND `user`.user_name LIKE CONCAT(CONCAT('%',#{query.userName},'%'))
         </if>
+        <if test="query.gradeId!=null">
+            AND sub_class.grade_id = #{query.gradeId}
+        </if>
+        <if test="query.roleId!=null">
+            AND user_role.role_id = #{query.roleId}
+        </if>
+        <if test="query.classId!=null">
+            AND JSON_CONTAINS( sub_class.class_ids,CONVERT ( #{query.classId}, CHAR )) = 1
+        </if>
+        GROUP BY `user`.id
+        <if test="query.orderBy != null">
+            ORDER BY
+            <choose>
+                <when test='query.orderBy=="create_time_asc"'>create_time ASC</when>
+                <when test='query.orderBy=="create_time_desc"'>create_time DESC</when>
+            </choose>
+        </if>
     </select>
-
 </mapper>

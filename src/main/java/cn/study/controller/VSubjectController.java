@@ -52,17 +52,27 @@ public class VSubjectController {
         List<VSubject> allSubject = vSubjectService.getAllSubject();
         return RES.ok(CommonConstants.SUCCESS,"操作成功",allSubject);
     }
+
+    /**
+     * 学科列表BygradeId
+     * @return
+     */
+    @SaCheckLogin
+    @GetMapping("/getSubjectByGradeId/{gradeId}")
+    public RES getSubjectByGradeId(@PathVariable("gradeId") Integer gradeId){
+        List<VSubject> list = vSubjectService.list(Wrappers.<VSubject>lambdaQuery()
+                .eq(VSubject::getGradeId, gradeId)
+                .eq(VSubject::getDelFlag, CommonConstants.SUCCESS));
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",list);
+    }
     /**
      * 学科列表--分页
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getPageSubject")
     public RES getPageSubject(Page page, VSubjectDto subjectDto){
-        QueryWrapper<VSubject> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StringUtils.isNotBlank(subjectDto.getName()), "name", subjectDto.getName());
-        queryWrapper.eq(StringUtils.isNotBlank(subjectDto.getGradeName()), "grade_name", subjectDto.getGradeName());
-        queryWrapper.eq("del_flag",CommonConstants.SUCCESS);
-        IPage page1 = vSubjectService.page(page, queryWrapper);
+        IPage page1 = vSubjectService.getPageSubject(page, subjectDto);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
     }
 
@@ -75,15 +85,36 @@ public class VSubjectController {
                 .eq(VSubject::getName, name)
                 .eq(VSubject::getGradeId, gradeId)
                 .eq(VSubject::getDelFlag, CommonConstants.STATUS_NORMAL));
-        if (count>1){
-            return RES.no(CommonConstants.FAIL,"科目已存在");
+        if (count>0){
+            return RES.no(CommonConstants.FAIL,"学科已存在");
         }
         vSubjectService.save(vSubject);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
     }
 
     @SaCheckLogin
-    @PostMapping("edit")
+    @PostMapping("addBatch")
+    public RES addBatch(@RequestBody VSubjectDto vSubjectDto) {
+        String name = vSubjectDto.getName();
+        Integer[] chooseGradeIds = vSubjectDto.getChooseGradeIds();
+        for (int i = 0; i <chooseGradeIds.length ; i++) {
+            Integer chooseGradeId = chooseGradeIds[i];
+            Integer count = vSubjectService.count(Wrappers.<VSubject>lambdaQuery()
+                    .eq(VSubject::getName, name)
+                    .eq(VSubject::getGradeId, chooseGradeId)
+                    .eq(VSubject::getDelFlag, CommonConstants.STATUS_NORMAL));
+            if (count == 0) {
+                VSubject vSubject = new VSubject();
+                vSubject.setName(name);
+                vSubject.setGradeId(chooseGradeId);
+                vSubjectService.save(vSubject);
+            }
+        }
+        return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
+    }
+
+    @SaCheckLogin
+    @PutMapping("edit")
     public RES edit(@RequestBody VSubject vSubject) {
         String name = vSubject.getName();
         Integer gradeId = vSubject.getGradeId();
@@ -92,11 +123,19 @@ public class VSubjectController {
                 .eq(VSubject::getGradeId, gradeId)
                 .ne(VSubject::getId, vSubject.getId())
                 .eq(VSubject::getDelFlag, CommonConstants.STATUS_NORMAL));
-        if (count>1){
+        if (count>0){
             return RES.no(CommonConstants.FAIL,"科目已存在");
         }
         vSubjectService.updateById(vSubject);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
     }
 
+    @SaCheckLogin
+    @DeleteMapping("del/{id}")
+    public RES del(@PathVariable(value = "id") Integer id) {
+        VSubject byId = vSubjectService.getById(id);
+        byId.setDelFlag(CommonConstants.STATUS_DEL);
+        vSubjectService.updateById(byId);
+        return RES.ok(CommonConstants.SUCCESS,"删除成功",null);
+    }
 }
