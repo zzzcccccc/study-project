@@ -20,9 +20,9 @@ public interface UserService extends IService<VUser> {
 
     VUser getOneByUserName(String userName);
 
-    VUser getInfoById(Integer userId);
+    VUserVo getInfoById(Integer userId);
 
-    Integer editUser(VUser vUser);
+    Integer editUser(VUserDto vUserDto);
 
     Integer del(Integer userId);
 

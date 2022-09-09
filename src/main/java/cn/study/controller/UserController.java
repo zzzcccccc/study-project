@@ -15,6 +15,7 @@ import cn.study.mapper.UserMapper;
 import cn.study.service.UserService;
 import cn.study.service.impl.StpInterfaceImpl;
 import cn.study.vo.VUserVo;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -67,7 +68,6 @@ public class UserController {
      * @param vUserDto
      * @return
      */
-    @SaCheckLogin
     @GetMapping("getUserPage")
     public RES getUserPage(Page page, VUserDto vUserDto) {
         IPage teacherPage = userService.getUserPage(page, vUserDto);
@@ -80,7 +80,7 @@ public class UserController {
      * @return
      */
     @SaCheckLogin
-    @SaCheckPermission(value = "student:add", orRole = "admin")
+    @SaCheckPermission(value = "user:add", orRole = "admin")
     @PostMapping("addUser")
     public RES addUser(@RequestBody VUserDto vUserDto) {
         VUser oneByUserName = userService.getOneByUserName(vUserDto.getUserName());
@@ -94,11 +94,17 @@ public class UserController {
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
 
-    @SaCheckLogin
     @GetMapping("getInfoById/{userId}")
     public RES getInfoById(@PathVariable("userId") Integer userId) {
-        VUser vUser = userService.getInfoById(userId);
-        return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
+        VUserVo infoById = userService.getInfoById(userId);
+        String classIds = infoById.getClassIds();
+        if(classIds!=null){
+            infoById.setClassIdArray(JSON.parse(classIds));
+        }else{
+            Integer[] arr  = new  Integer[]{};
+            infoById.setClassIdArray(arr);
+        }
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",infoById);
     }
 
     @SaCheckLogin
@@ -109,16 +115,16 @@ public class UserController {
     }
 
     @SaCheckLogin
-    @SaCheckPermission(value = "student:edit", orRole = "admin")
+    @SaCheckPermission(value = "user:edit", orRole = "admin")
     @PutMapping("editUser")
-    public RES editUser(@RequestBody VUser vUser) {
-        VUser oneByUserName = userService.getOneByUserName(vUser.getUserName());
+    public RES editUser(@RequestBody VUserDto vUserDto) {
+        VUser oneByUserName = userService.getOneByUserName(vUserDto.getUserName());
         if (oneByUserName!= null){
-            if (vUser.getId() != oneByUserName.getId()){
+            if (vUserDto.getId() != oneByUserName.getId()){
                 return RES.no(CommonConstants.FAIL,"用户名已存在");
             }
         }
-        Integer flag = userService.editUser(vUser);
+        Integer flag = userService.editUser(vUserDto);
         if (flag>0){
             return RES.ok(CommonConstants.SUCCESS,"操作成功",null);
         }
@@ -126,7 +132,7 @@ public class UserController {
     }
 
     @SaCheckLogin
-    @SaCheckPermission(value = "student:del", orRole = "admin")
+    @SaCheckPermission(value = "user:del", orRole = "admin")
     @DeleteMapping("del/{userId}")
     public RES del(@PathVariable("userId") Integer userId) {
         Integer flag = userService.del(userId);

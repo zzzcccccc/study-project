@@ -36,6 +36,7 @@ public class VSubjectController {
      * 查所有年级
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/getAllGrade")
     public RES getAllGrade(){
         List<VGrade> allGrade = vSubjectService.getAllGrade();

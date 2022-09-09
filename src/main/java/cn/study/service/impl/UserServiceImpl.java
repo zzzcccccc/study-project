@@ -11,6 +11,8 @@ import cn.study.mapper.UserMapper;
 import cn.study.mapper.VUserRoleMapper;
 import cn.study.mapper.VUserSubjectClassMapper;
 import cn.study.service.UserService;
+import cn.study.vo.VUserVo;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -69,6 +71,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
     @Override
     public IPage getUserPage(Page page, VUserDto vUserDto) {
         IPage iPage = this.baseMapper.getPage(page, vUserDto);
+        List<VUserVo> records = iPage.getRecords();
+        for (VUserVo vo:records) {
+            String classIds = vo.getClassIds();
+            if(classIds!=null){
+                vo.setClassIdArray(JSON.parse(classIds));
+            }else{
+                Integer[] arr  = new  Integer[]{};
+                vo.setClassIdArray(arr);
+            }
+        }
         return iPage;
     }
 
@@ -109,13 +121,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
     }
 
     @Override
-    public VUser getInfoById(Integer userId) {
-        VUser vUser = this.baseMapper.selectById(userId);
-        return vUser;
+    public VUserVo getInfoById(Integer userId) {
+        VUserVo vUserVo = this.baseMapper.getInfoById(userId);
+        return vUserVo;
     }
 
+
     @Override
-    public Integer editUser(VUser vUser) {
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE,
+            rollbackFor = Exception.class)
+    public Integer editUser(VUserDto vUserDto) {
+        Integer userId = vUserDto.getId();
+        int delete = vUserRoleMapper.delete(Wrappers.<VUserRole>lambdaQuery()
+                .eq(VUserRole::getUserId, userId));
+        if (delete>=0){
+            Integer[] roleIds = vUserDto.getRoleIds();
+            for (int i = 0; i < roleIds.length; i++) {
+                VUserRole vUserRole = new VUserRole();
+                vUserRole.setUserId(userId);
+                vUserRole.setRoleId(roleIds[i]);
+                vUserRoleMapper.insert(vUserRole);
+            }
+        }
+        int flag = vUserSubjectClassMapper.delete(Wrappers.<VUserSubjectClass>lambdaQuery()
+                .eq(VUserSubjectClass::getUserId, userId));
+        if (flag>=0){
+            VUserSubjectClass vUserSubjectClass = new VUserSubjectClass();
+            vUserSubjectClass.setUserId(userId);
+            vUserSubjectClass.setSubjectId(vUserDto.getSubjectId());
+            vUserSubjectClass.setGradeId(vUserDto.getGradeId());
+            vUserSubjectClass.setClassIds(Arrays.toString(vUserDto.getClassIds()));
+            vUserSubjectClassMapper.insert(vUserSubjectClass);
+        }
+
+        VUser vUser = new VUser();
+        BeanUtils.copyProperties(vUserDto,vUser);
         return this.baseMapper.updateById(vUser);
     }
 
@@ -127,6 +167,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
         vUser.setDelFlag(CommonConstants.STATUS_DEL);
         int i = this.baseMapper.updateById(vUser);
         if (i>0){
+           vUserSubjectClassMapper.delete(Wrappers.<VUserSubjectClass>lambdaQuery()
+                    .eq(VUserSubjectClass::getUserId, userId));
+
             int delete = vUserRoleMapper.delete(Wrappers.<VUserRole>lambdaQuery()
                     .eq(VUserRole::getUserId, userId));
             if (delete>=0){
