@@ -28,7 +28,9 @@
         `user`.create_time,
          sub_class.class_ids,
          sub.`name` AS subjectName,
-         grade.`name` AS gradeName
+         grade.`name` AS gradeName,
+         sub_class.subject_id,
+         sub_class.grade_id
         FROM
         v_user AS `user`
         LEFT  JOIN  v_user_role AS user_role ON `user`.id =user_role.user_id
@@ -57,5 +59,30 @@
                 <when test='query.orderBy=="create_time_desc"'>create_time DESC</when>
             </choose>
         </if>
+    </select>
+    <select id="getInfoById" resultMap="baseResultMap">
+        SELECT
+        `user`.id,
+        `user`.user_uuid,
+        `user`.user_name,
+        `user`.password,
+        `user`.real_name,
+        `user`.age,
+        `user`.sex,
+        `user`.birth_day,
+        `user`.user_level,
+        `user`.phone,
+        `user`.status,
+        `user`.image_path,
+        `user`.create_time,
+        sub_class.class_ids,
+        sub_class.subject_id,
+        sub_class.grade_id
+        FROM
+        v_user AS `user`
+        LEFT  JOIN  v_user_subject_class AS sub_class ON `user`.id =sub_class.user_id
+        WHERE
+        user.del_flag = '0'
+        AND `user`.id = #{userId}
     </select>
 </mapper>
