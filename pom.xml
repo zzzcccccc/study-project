@@ -113,6 +113,17 @@
             <version>2.4.2</version>
         </dependency>
 
+        <!--hutool定时器-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-cron</artifactId>
+            <version>5.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.15</version>
+        </dependency>
 
     </dependencies>
 

@@ -6,12 +6,14 @@ import cn.study.constant.CommonConstants;
 import cn.study.dto.VClassDto;
 import cn.study.entity.VClass;
 import cn.study.service.VClassService;
+import cn.study.task.CronUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ import java.util.List;
 public class VClassController {
 
     @Resource
-    VClassService vClassService;
+    private VClassService vClassService;
 
 
     /**

@@ -65,7 +65,7 @@
 		LEFT JOIN v_role_menu ON v_menu.menu_id = v_role_menu.menu_id
 		WHERE
 			v_menu.del_flag = 0
-		AND v_menu.`level` = 3
+		AND v_menu.`level`  > 1
 		AND  v_role_menu.role_id = #{roleId}
 		ORDER BY
 			v_menu.sort ASC
