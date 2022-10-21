@@ -5,8 +5,9 @@ import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VClassDto;
 import cn.study.entity.VClass;
+import cn.study.entity.VCron;
 import cn.study.service.VClassService;
-import cn.study.task.CronUtils;
+import cn.study.service.VCronService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -35,8 +36,8 @@ public class VClassController {
     @SaCheckLogin
     @GetMapping("/getAll")
     public RES getAllSubject(){
-        List<VClass> allSubject = vClassService.getAll();
-        return RES.ok(CommonConstants.SUCCESS,"操作成功",allSubject);
+        List<VClass> all = vClassService.getAll();
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",all);
     }
     /**
      * 分页

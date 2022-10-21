@@ -21,6 +21,8 @@ public class VCron implements Serializable {
     private String classPath;
     private String stauts;
     private String type;
+    private String lastExecutionTime;
+    private String latelyExecutionTime;
     private String createTime;
     private String updateTime;
     private String delFlag;
@@ -79,6 +81,22 @@ public class VCron implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLastExecutionTime() {
+        return lastExecutionTime;
+    }
+
+    public void setLastExecutionTime(String lastExecutionTime) {
+        this.lastExecutionTime = lastExecutionTime;
+    }
+
+    public String getLatelyExecutionTime() {
+        return latelyExecutionTime;
+    }
+
+    public void setLatelyExecutionTime(String latelyExecutionTime) {
+        this.latelyExecutionTime = latelyExecutionTime;
     }
 
     public String getCreateTime() {
