@@ -34,30 +34,30 @@ public class CronUtils {
         CronUtil.schedule(task.getId().toString(), task.getCron(), new Task() {
             @Override
             public void execute() {
-                run(task);
+                HttpRequest request = HttpUtil.createGet(task.getClassPath());
+                request.execute();
             }
         });
         Scheduler scheduler = CronUtil.getScheduler();
-        if (scheduler.isStarted()) {
-            return Boolean.TRUE;
+        if (!scheduler.isStarted()) {
+            CronUtil.setMatchSecond(true);
+            CronUtil.start();
+            saveTask(task);
         }
-        return Boolean.FALSE;
+        return Boolean.TRUE;
+
     }
 
 
-    public void run(VCron task) {
+    public void saveTask(VCron task) {
+        System.out.println("2222222222222");
 //        log.info("开始执行定时任务：{},任务id:{}", task.getTitle(), task.getId());
         try {
-            HttpRequest request = HttpUtil.createGet(task.getClassPath());
-            request.execute();
-
             if (!"0".equals(task.getType())){
                 task.setStauts("0");
                 vCronMapper.insert(task);
             }
 
-            CronUtil.setMatchSecond(true);
-            CronUtil.start();
         } catch (Exception e) {
             e.printStackTrace();
 //            log.error("任务id:【{}】, 任务:【{}】执行失败,原因:【{}】", task.getId(), task.getTitle(), e.getCause().getMessage());

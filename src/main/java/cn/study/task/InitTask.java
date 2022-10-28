@@ -2,6 +2,8 @@ package cn.study.task;
 
 import cn.hutool.cron.CronUtil;
 import cn.hutool.cron.task.Task;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpUtil;
 import cn.study.constant.CommonConstants;
 import cn.study.entity.VCron;
 import cn.study.mapper.VCronMapper;
@@ -9,6 +11,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -20,6 +23,7 @@ import java.util.List;
  * @create 2022-10-18
  **/
 @Slf4j
+@Order(2)
 @Component
 public class InitTask implements ApplicationRunner {
 
@@ -31,20 +35,16 @@ public class InitTask implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        List<VCron> taskList = vCronMapper.selectList(Wrappers.<VCron>lambdaQuery()
-                .eq(VCron::getStauts, "0")
-                .eq(VCron::getDelFlag, CommonConstants.SUCCESS));
-//            log.info("共发现定时任务有{}个", taskList.size());
-        if (null != taskList && taskList.size() > 0) {
-            for (VCron task : taskList) {
-                CronUtil.schedule(task.getId().toString(), task.getCron(), new Task() {
-                    @Override
-                    public void execute() {
-                        task.setType("0"); //0重启程序
-                        cronUtils.run(task);
-                    }
-                });
-            }
-        }
+//        List<VCron> taskList = vCronMapper.selectList(Wrappers.<VCron>lambdaQuery()
+//                .eq(VCron::getStauts, "0")
+//                .eq(VCron::getDelFlag, CommonConstants.SUCCESS));
+//        System.out.println("共发现定时任务有{}个");
+////            log.info("共发现定时任务有{}个", taskList.size());
+//        if (null != taskList && taskList.size() > 0) {
+//            for (VCron task : taskList) {
+//                task.setType("0");
+//                cronUtils.addTask(task);
+//            }
+//        }
     }
 }

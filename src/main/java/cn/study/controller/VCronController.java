@@ -6,6 +6,7 @@ import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.entity.VCron;
 import cn.study.service.VCronService;
+import cn.study.task.CronUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -20,6 +21,8 @@ import java.util.List;
 public class VCronController {
     @Resource
     private VCronService vCronService;
+    @Resource
+    private CronUtils cronUtils;
 
 
     /**
@@ -37,18 +40,16 @@ public class VCronController {
      * 分页
      * @return
      */
-    @SaCheckLogin
     @GetMapping("/getPage")
     public RES getPage(Page page, VCron vCron){
         // 简单分页查询
         QueryWrapper<VCron> queryWrapper = new QueryWrapper<>();
 //        queryWrapper.eq("gender", gender);
         IPage page1 = vCronService.page(page, queryWrapper);
+        System.out.println("1111111111111");
 
         return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
     }
-
-
     @SaCheckLogin
     @PostMapping("add")
     public RES add(@RequestBody VCron vCron) {
@@ -61,30 +62,10 @@ public class VCronController {
 //        if (count>0){
 //            return RES.no(CommonConstants.FAIL,"学科已存在");
 //        }
-        vCronService.save(vCron);
+//        vCronService.save(vCron);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
     }
 
-//    @SaCheckLogin
-//    @PostMapping("addBatch")
-//    public RES addBatch(@RequestBody VClassDto vClassDto) {
-//        String name = vClassDto.getName();
-//        Integer[] chooseGradeIds = vClassDto.getChooseGradeIds();
-//        for (int i = 0; i <chooseGradeIds.length ; i++) {
-//            Integer chooseGradeId = chooseGradeIds[i];
-//            Integer count = vClassService.count(Wrappers.<VClass>lambdaQuery()
-//                    .eq(VClass::getName, name)
-//                    .eq(VClass::getGradeId, chooseGradeId)
-//                    .eq(VClass::getDelFlag, CommonConstants.STATUS_NORMAL));
-//            if (count == 0) {
-//                VClass VClass = new VClass();
-//                VClass.setName(name);
-//                VClass.setGradeId(chooseGradeId);
-//                vClassService.save(VClass);
-//            }
-//        }
-//        return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
-//    }
 //
 //    @SaCheckLogin
 //    @PutMapping("edit")
