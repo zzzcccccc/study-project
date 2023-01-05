@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * hutool cron定时任务
+ */
 @RestController
 @RequestMapping("/cron")
 public class VCronController {

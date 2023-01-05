@@ -33,18 +33,25 @@ public class InitTask implements ApplicationRunner {
     private CronUtils cronUtils;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
 
-//        List<VCron> taskList = vCronMapper.selectList(Wrappers.<VCron>lambdaQuery()
-//                .eq(VCron::getStauts, "0")
-//                .eq(VCron::getDelFlag, CommonConstants.SUCCESS));
-//        System.out.println("共发现定时任务有{}个");
-////            log.info("共发现定时任务有{}个", taskList.size());
-//        if (null != taskList && taskList.size() > 0) {
-//            for (VCron task : taskList) {
-//                task.setType("0");
-//                cronUtils.addTask(task);
-//            }
-//        }
+        List<VCron> taskList = vCronMapper.selectList(Wrappers.<VCron>lambdaQuery()
+                .eq(VCron::getStauts, "0")
+                .eq(VCron::getDelFlag, CommonConstants.SUCCESS));
+        log.info("共发现定时任务有{}个", taskList.size());
+        if (null != taskList && taskList.size() > 0) {
+            for (VCron task : taskList) {
+
+                CronUtil.schedule(task.getId().toString(), task.getCron(), new Task() {
+                    @Override
+                    public void execute() {
+                        task.setType("0");
+                        cronUtils.run(task);
+                    }
+                });
+            }
+        }
+        CronUtil.setMatchSecond(true);
+        CronUtil.start();
     }
 }

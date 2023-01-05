@@ -52,5 +52,8 @@ sa-token:
   is-log: false
   # 是否自动续签（activity-timeout
   autoRenew: false
-
+logging:
+  config: logback.xml
+  level:
+    cn.study.mapper: trace
 
