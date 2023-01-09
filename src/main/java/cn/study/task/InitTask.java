@@ -1,9 +1,7 @@
 package cn.study.task;
 
 import cn.hutool.cron.CronUtil;
-import cn.hutool.cron.task.Task;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
+import cn.hutool.cron.task.Task;;
 import cn.study.constant.CommonConstants;
 import cn.study.entity.VCron;
 import cn.study.mapper.VCronMapper;

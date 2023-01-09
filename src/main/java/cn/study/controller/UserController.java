@@ -20,6 +20,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +32,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user/")
+@Api(value = "用户管理",tags = "用户管理")
 public class UserController {
 
     @Resource
     UserService userService;
 
     // 测试登录，浏览器访问： http://localhost:8081/user/doLogin?username=zhang&password=123456
+    @ApiOperation(value = "登录",notes = "登录")
     @GetMapping("doLogin")
-    public RES doLogin(String userName, String password) {
+    public RES doLogin(@ApiParam("用户名") String userName,@ApiParam("密码") String password) {
         Integer flag = userService.doLogin(userName, password);
         if (flag==0){
             // 第2步，获取 Token  相关参数
@@ -53,7 +58,8 @@ public class UserController {
      * @param loginId
      * @return
      */
-    @RequestMapping("logOut/{loginId}")
+    @ApiOperation(value = "退出登录",notes = "退出登录")
+    @GetMapping("logOut/{loginId}")
     public RES logOut(@PathVariable(value = "loginId") String loginId) {
         StpUtil.logout(loginId);
         if (!StpUtil.isLogin()){
@@ -68,6 +74,7 @@ public class UserController {
      * @param vUserDto
      * @return
      */
+    @ApiOperation(value = "获取老师列表-分页",notes = "获取老师列表-分页")
     @GetMapping("getUserPage")
     public RES getUserPage(Page page, VUserDto vUserDto) {
         IPage teacherPage = userService.getUserPage(page, vUserDto);
@@ -79,6 +86,7 @@ public class UserController {
      * @param vUserDto
      * @return
      */
+    @ApiOperation(value = "用户新增",notes = "用户新增")
     @SaCheckLogin
     @SaCheckPermission(value = "user:add", orRole = "admin")
     @PostMapping("addUser")
@@ -94,6 +102,7 @@ public class UserController {
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
 
+    @ApiOperation(value = "根据用户ID获取",notes = "根据用户ID获取")
     @GetMapping("getInfoById/{userId}")
     public RES getInfoById(@PathVariable("userId") Integer userId) {
         VUserVo infoById = userService.getInfoById(userId);
@@ -107,6 +116,7 @@ public class UserController {
         return RES.ok(CommonConstants.SUCCESS,"操作成功",infoById);
     }
 
+    @ApiOperation(value = "根据用户名获取",notes = "根据用户名获取")
     @SaCheckLogin
     @GetMapping("getInfoByUsername/{username}")
     public RES getInfoByUsername(@PathVariable("username") String username) {
@@ -114,6 +124,7 @@ public class UserController {
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
 
+    @ApiOperation(value = "修改用户",notes = "修改用户")
     @SaCheckLogin
     @SaCheckPermission(value = "user:edit", orRole = "admin")
     @PutMapping("editUser")
@@ -131,6 +142,7 @@ public class UserController {
         return RES.no(CommonConstants.FAIL,"操作失败");
     }
 
+    @ApiOperation(value = "删除用户",notes = "删除用户")
     @SaCheckLogin
     @SaCheckPermission(value = "user:del", orRole = "admin")
     @DeleteMapping("del/{userId}")
@@ -143,13 +155,15 @@ public class UserController {
     }
 
     // 查询登录状态，浏览器访问： http://localhost:8081/user/isLogin
-    @RequestMapping("isLogin")
+    @ApiOperation(value = "查询登录状态",notes = "查询登录状态")
+    @GetMapping("isLogin")
     public String isLogin() {
         return "当前会话是否登录：" + StpUtil.isLogin();
     }
 
     // 查询 Token 信息  ---- http://localhost:8081/acc/tokenInfo
-    @RequestMapping("tokenInfo")
+    @ApiOperation(value = "查询 Token 信息 ",notes = "查询 Token 信息 ")
+    @GetMapping("tokenInfo")
     public SaResult tokenInfo() {
         return SaResult.data(StpUtil.getTokenInfo());
     }

@@ -56,4 +56,6 @@ logging:
   config: logback.xml
   level:
     cn.study.mapper: trace
+swagger:
+  enable: true  #swagger接口网站开启配置
 
