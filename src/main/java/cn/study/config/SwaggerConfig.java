@@ -58,7 +58,7 @@ public class SwaggerConfig {
                 //文档描述
                 .description("接口说明")
                 //服务条款URL
-                //.termsOfServiceUrl("http://localhost:8081/")
+                //.termsOfServiceUrl("http://localhost:8081/doc.html")
                 //版本号
                 .version("1.0.0")
                 .build();
@@ -69,7 +69,7 @@ public class SwaggerConfig {
     private List<Parameter> getParameterList() {
         ParameterBuilder clientIdTicket = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<Parameter>();
-        clientIdTicket.name("token").description("token令牌")
+        clientIdTicket.name("token").description("token令牌") //自定义名称
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(false).build(); //设置false，表示clientId参数 非必填,可传可不传！
