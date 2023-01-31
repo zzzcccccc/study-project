@@ -52,10 +52,17 @@ sa-token:
   is-log: false
   # 是否自动续签（activity-timeout
   autoRenew: false
+#日志
 logging:
   config: logback.xml
   level:
     cn.study.mapper: trace
 swagger:
   enable: true  #swagger接口网站开启配置
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: minioadmin
+  access-secret: minioadmin
+  bucket: atest
+
 

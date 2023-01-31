@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--日志xml FILE_PATH存储位置  LOG_PATTERN文件命名-->
 <configuration debug="false">
     <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
     <property name="FILE_PATH" value="C:/logs/study/demo.%d{yyyy-MM-dd}.%i.log" />
