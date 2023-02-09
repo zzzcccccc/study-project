@@ -5,6 +5,8 @@ import cn.study.entity.SysUploadTask;
 import cn.study.vo.TaskInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -55,4 +57,6 @@ public interface SysUploadTaskService extends IService<SysUploadTask> {
      * @param identifier
      */
     void merge (String identifier);
+
+    void download(HttpServletResponse response, String bucketName, String fileName);
 }

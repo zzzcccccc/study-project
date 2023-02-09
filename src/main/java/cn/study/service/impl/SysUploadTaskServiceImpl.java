@@ -1,6 +1,7 @@
 package cn.study.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.study.constant.MinioConstant;
@@ -16,11 +17,14 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -53,9 +57,8 @@ public class SysUploadTaskServiceImpl extends ServiceImpl<SysUploadTaskMapper, S
 
     @Override
     public TaskInfoVo initTask(InitTaskDto param) {
-
         Date currentDate = new Date();
-        String bucketName = minioProperties.getBucket();
+        String bucketName = minioProperties.getBucket(); //可让前端传指定Bucket
         String fileName = param.getFileName();
         String suffix = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
         String key = StrUtil.format("{}/{}.{}", DateUtil.format(currentDate, "YYYY-MM-dd"), IdUtil.randomUUID(), suffix);
@@ -142,5 +145,17 @@ public class SysUploadTaskServiceImpl extends ServiceImpl<SysUploadTaskMapper, S
                 .withBucketName(task.getBucketName())
                 .withPartETags(parts.stream().map(partSummary -> new PartETag(partSummary.getPartNumber(), partSummary.getETag())).collect(Collectors.toList()));
         CompleteMultipartUploadResult result = amazonS3.completeMultipartUpload(completeMultipartUploadRequest);
+    }
+
+
+
+    //--------------------------
+    @SneakyThrows
+    @Override
+    public void download(HttpServletResponse response, String bucketName, String fileName) {
+        InputStream inputStream  = amazonS3.getObject(bucketName, fileName).getObjectContent();
+//        response.setContentType("image/jpeg; charset=UTF-8");
+ //response.setContentType("application/octet-stream; charset=UTF-8");
+        IoUtil.copy(inputStream, response.getOutputStream());
     }
 }
