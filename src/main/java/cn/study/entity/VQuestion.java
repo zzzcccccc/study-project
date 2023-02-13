@@ -1,5 +1,7 @@
 package cn.study.entity;
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,11 +28,8 @@ public class VQuestion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
-    /**
-     * id
-     */
     @ApiModelProperty("id")
-    private Integer id;
+    private Long id;
 
     /**
      * 题目
@@ -41,6 +40,7 @@ public class VQuestion implements Serializable {
     /**
      * 解析
      */
+    @TableField("`analyze`")
     @ApiModelProperty("解析")
     private String analyze;
 
@@ -48,7 +48,7 @@ public class VQuestion implements Serializable {
      * 正确答案 （多选题是数组[ a ， b ]）
      */
     @ApiModelProperty("正确答案 （多选题是数组[ a ， b ]）")
-    private String correct;
+    private String answer;
 
     /**
      * 难度
@@ -69,10 +69,10 @@ public class VQuestion implements Serializable {
     private String konwlegeIdList;
 
     /**
-     * 问题类型1单选 2多选 3判断 4填空 5简答
+     * 问题类型1单选 2多选 3填空 4简答 5判断
      */
-    @ApiModelProperty("问题类型1单选 2多选 3判断 4填空 5简答")
-    private String questionType;
+    @ApiModelProperty("问题类型1单选 2多选 3填空 4简答 5判断")
+    private String quesTypeId;
 
     /**
      * 分数
@@ -83,32 +83,26 @@ public class VQuestion implements Serializable {
     /**
      * 科目id
      */
-    @ApiModelProperty("科目id")
+    @ApiModelProperty("学科id")
     private Integer subjectId;
 
     /**
-     * 班级ids
+     * 年级id
      */
-    @ApiModelProperty("班级ids")
-    private Integer classId;
-
-    /**
-     * 试卷类型 1计时 2不计时
-     */
-    @ApiModelProperty("试卷类型 1计时 2不计时")
-    private String paperType;
+    @ApiModelProperty("年级id")
+    private Integer gradeId;
 
     /**
      * create_time
      */
     @ApiModelProperty("create_time")
-    private LocalDateTime createTime;
+    private String createTime;
 
     /**
      * update_time
      */
     @ApiModelProperty("update_time")
-    private LocalDateTime updateTime;
+    private String updateTime;
 
     /**
      * del_flag

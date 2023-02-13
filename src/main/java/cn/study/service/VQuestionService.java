@@ -1,5 +1,6 @@
 package cn.study.service;
 
+import cn.study.dto.VQuestionDto;
 import cn.study.entity.VMenu;
 import cn.study.entity.VQuestion;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -10,4 +11,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @date 2023-02-09
  */
 public interface VQuestionService extends IService<VQuestion> {
+
+
+    Boolean add(VQuestionDto vQuestionDto);
+
 }

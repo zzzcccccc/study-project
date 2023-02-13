@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 01/02/2023 14:13:17
+ Date: 13/02/2023 17:29:07
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `blog`  (
   `userId` int(11) NULL DEFAULT NULL,
   `postTime` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`blogId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog
@@ -55,20 +55,16 @@ CREATE TABLE `sys_upload_task`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uq_file_identifier`(`file_identifier`) USING BTREE,
   UNIQUE INDEX `uq_upload_id`(`upload_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分片上传-分片任务记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分片上传-分片任务记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_upload_task
 -- ----------------------------
-INSERT INTO `sys_upload_task` VALUES (1, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmZiM2Q2MmRjLTkxMzktNDg5Yy1iZmQwLTlhNDA2MzJiODA5Yw', '1', '1.jpg', 'atest', '2023-01-30/12ffe737-1887-465c-8d8e-327ed250e8e9.jpg', 100, 100, 1);
-INSERT INTO `sys_upload_task` VALUES (4, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmFhMDVlY2ZmLWRmMTAtNDBkZC04MDU2LTc3ZmQ0OWYwMjc2ZA', '2', '1.jpg', 'atest', '2023-01-31/7141c805-834d-4d77-bed6-1d21b1c2e957.jpg', 100, 100, 1);
-INSERT INTO `sys_upload_task` VALUES (5, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmYxYjY4MjgyLTRiM2ItNGFlNi1hODJlLTBlNTIzNDQwMDdiOA', 'e4a2a944585fc92636b5cb16d4ae3da7', 'beijing.jpg', 'atest', '2023-01-31/e6f18ed0-40f2-4471-b116-9ddf40913f40.jpg', 15043, 5242880, 1);
-INSERT INTO `sys_upload_task` VALUES (6, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmJkZDRiM2UwLTU0MmEtNDA3YS1hODYzLWE1NWQzMThlYjdhMw', '7680b4638de91316848a2c727c74cea8', '中信证券IT外包员工请假单.docx', 'atest', '2023-01-31/28a54457-1445-4cd4-8cae-785e8a6c8a5f.docx', 13944, 5242880, 1);
-INSERT INTO `sys_upload_task` VALUES (7, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0Ljg4OGNjMDQwLTcwN2YtNGEyMC1iNzYyLWJhMzljNTEyN2QyYw', '650482029e4bc34c0012279f59dbec23', 'mybatis自动生成代码工具.rar', 'atest', '2023-01-31/6f675422-aae7-4a5f-89e9-44349265acc4.rar', 10218297, 5242880, 2);
-INSERT INTO `sys_upload_task` VALUES (8, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmRiNjEwODlkLWEyMjktNDg1MC05ZTZjLTQ5MzU2MzM3ODRlOA', 'fdc4de106735ba3578032c65a4f5c16d', 'hr-platform-task.zip', 'atest', '2023-01-31/783620fd-3c26-4c34-b974-8c2896f06407.zip', 10902874, 5242880, 3);
-INSERT INTO `sys_upload_task` VALUES (9, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmRmNjMzMTFlLTIyZmMtNDBkMC04MmQzLTBhYzBjODNhMGMwOQ', '88be2764c8060c6b1520b0163523329c', 'nacos-server-2.0.3.zip', 'atest', '2023-01-31/3d45c07c-2f14-45e1-bc84-f5b79c48b382.zip', 117598819, 5242880, 23);
-INSERT INTO `sys_upload_task` VALUES (10, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LjM0MjdiZjc1LTZkM2MtNGRlMi1hNGI0LTYwMDlhMzNkZGFhNQ', '6cfc9cc0feb7cf5f0a18de407587b7da', 'nacos-server-1.1.4.zip', 'atest', '2023-01-31/3663a4ea-58f5-48d9-ad7a-cc2eb6ea5f25.zip', 52118820, 5242880, 10);
-INSERT INTO `sys_upload_task` VALUES (11, 'NjIxNzQyN2UtNDNiZC00ZjZjLWJlMzktZGNmOTdmNmNmMDI0LmNiZjhkYmRmLWYzMDMtNGU2Mi1hMmZkLTFkMTk0NDgwNTE5Nw', '483d39eb881b600e4da25c90bb15abd4', 'config.zip', 'atest', '2023-01-31/d3ad7dea-83dc-44f1-8a60-8dfc07c0a707.zip', 895, 5242880, 1);
+INSERT INTO `sys_upload_task` VALUES (2, 'N2M0Mjc0NjMtYTMzYi00NzQyLWFmZDMtYWIyOWEzNDQ3MzI2LmFhNDljNjdhLWMwYmYtNDNiYi1iNmM2LWVlZTcxNjQxYzQwZg', '6cfc9cc0feb7cf5f0a18de407587b7da', 'nacos-server-1.1.4.zip', 'atest', '2023-02-07/66929bac-bd85-4ed6-9bae-14b1cf43c3b6.zip', 52118820, 5242880, 10);
+INSERT INTO `sys_upload_task` VALUES (3, 'N2M0Mjc0NjMtYTMzYi00NzQyLWFmZDMtYWIyOWEzNDQ3MzI2LjFjMTMyY2QwLTVlMmEtNGU1Mi04NGVjLWExZjAxZmVjYjkwOA', '3adde09f65d7e8954d95bed8334ed985', 'th.jpg', 'atest', '2023-02-07/401f9ac6-f985-417b-9895-0ad1af8f8d06.jpg', 19683, 5242880, 1);
+INSERT INTO `sys_upload_task` VALUES (4, 'N2M0Mjc0NjMtYTMzYi00NzQyLWFmZDMtYWIyOWEzNDQ3MzI2LmQ4ZDRmMjA4LThkMjQtNDlkZS05Mjc5LWY0ZGFhNjhjNDIxYw', '88be2764c8060c6b1520b0163523329c', 'nacos-server-2.0.3.zip', 'atest', '2023-02-07/f0919f53-9b52-4ad4-b290-67dcf6bead81.zip', 117598819, 5242880, 23);
+INSERT INTO `sys_upload_task` VALUES (5, 'N2M0Mjc0NjMtYTMzYi00NzQyLWFmZDMtYWIyOWEzNDQ3MzI2LjMzMjM0MTQ3LTMxMmItNDNkOS04YTY2LTRkNjgxYzQ4ZjFkNw', '1245ddaa852c99278e555a672e8b9da6', '5fcde24849ccf5330321c30ad266082d.mp4', 'atest', '2023-02-07/0e8c1c2d-6ea1-4154-94b5-c693d1ab68ae.mp4', 579466, 5242880, 1);
+INSERT INTO `sys_upload_task` VALUES (6, 'N2M0Mjc0NjMtYTMzYi00NzQyLWFmZDMtYWIyOWEzNDQ3MzI2LmM2YmQwNzVjLTQ4NWMtNDcwMC1iYzFiLTEzMWI4NTRlNWRjYg', 'c5773bf98e692de2cd268bd5b7129292', 'caaaea7604424821136927011de9fabd.mp4', 'atest', '2023-02-07/d05e8597-eea1-42e0-8534-f8d7850e4932.mp4', 31028266, 5242880, 6);
 
 -- ----------------------------
 -- Table structure for user
@@ -82,7 +78,7 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`userId`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
   INDEX `indexName`(`userId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -101,7 +97,7 @@ CREATE TABLE `user_s`  (
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_s
@@ -184,6 +180,29 @@ CREATE TABLE `v_cron_exception`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for v_exam_paper
+-- ----------------------------
+DROP TABLE IF EXISTS `v_exam_paper`;
+CREATE TABLE `v_exam_paper`  (
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `headline` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷题目',
+  `paper_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷类型 1计时 2不计时',
+  `deadline` timestamp(0) NULL DEFAULT NULL COMMENT '截止时间',
+  `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
+  `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
+  `class_ids` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级ids',
+  `total_points` float(12, 1) NULL DEFAULT NULL COMMENT '总分',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of v_exam_paper
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for v_grade
 -- ----------------------------
 DROP TABLE IF EXISTS `v_grade`;
@@ -215,7 +234,7 @@ CREATE TABLE `v_link`  (
   `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '显隐状态 0显示1隐藏',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_link
@@ -242,7 +261,7 @@ CREATE TABLE `v_menu`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`) USING BTREE,
   INDEX `index_menu_id`(`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_menu
@@ -292,6 +311,35 @@ INSERT INTO `v_menu` VALUES (53, '班级创编', 'class:list', 45, 2, '年级-�
 INSERT INTO `v_menu` VALUES (54, '定时任务', 'admin:task', -1, 1, NULL, 'task', 'el-icon-alarm-clock', 1, 999, '2022-10-19 09:15:25', '2022-10-19 10:22:40', '0');
 INSERT INTO `v_menu` VALUES (55, '定时器详情', 'task:all', 54, 2, NULL, 'task/all', 'el-icon-location', 1, 999, '2022-10-19 09:16:44', '2022-10-19 10:25:07', '0');
 INSERT INTO `v_menu` VALUES (56, '文件上传', 'topic:file', 51, 2, NULL, 'topic/file', 'el-icon-menu', 1, 999, '2023-01-30 15:26:49', NULL, '0');
+INSERT INTO `v_menu` VALUES (57, '创编', 'topic:create', 51, 2, NULL, 'topic/create', 'el-icon-menu', 1, 999, '2023-02-10 13:56:51', '2023-02-10 13:56:59', '0');
+
+-- ----------------------------
+-- Table structure for v_question
+-- ----------------------------
+DROP TABLE IF EXISTS `v_question`;
+CREATE TABLE `v_question`  (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `headline` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷标题',
+  `titile` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '题目',
+  `analyze` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '解析',
+  `answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '正确答案 （多选题是数组[\"A\",\"B\"]）',
+  `difficult` int(11) NULL DEFAULT NULL COMMENT '难度',
+  `items` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '单多判题 选项 [{},{}]',
+  `konwlege_id_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '知识点',
+  `ques_type_id` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '问题类型1单选 2多选 3填空 4简答 5判断',
+  `score` float(12, 2) NULL DEFAULT NULL COMMENT '分数',
+  `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
+  `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of v_question
+-- ----------------------------
+INSERT INTO `v_question` VALUES (1, NULL, '<p style=\"text-align: center\"><img class=\"xzs-image\" src=\"https://www.mindskip.net:7000/resource/image/8e5a1c74-89df-40ee-9424-a82878675d01/img01_r.jpg\" alt=\"img01_r.jpg\"></p><p><span style=\"color: rgb(255, 255, 0);\">88888888888888888888888</span><span style=\"color: rgb(255, 255, 0);\"></span></p>', '<span style=\"color: rgb(255, 0, 0);\">JIEXI</span>', 'A', 2, '[{\"prefix\": \"A\", \"content\": \"<span style=\\\"text-decoration: underline;\\\">AAAAAAAAAAAAAAAAADDD</span>\"}, {\"prefix\": \"B\", \"content\": \"<p><span style=\\\"color: rgb(255, 255, 0);\\\">BBBBBBBBBBBBBBBBBBBBBBBB</span></p><p>bbbbbbbbbbbbbbb</p>\"}, {\"prefix\": \"C\", \"content\": \"<p><span style=\\\"color: rgb(255, 0, 0);\\\">CCCCCCCCCCCCCCCCCCCC</span></p><p><span style=\\\"color: rgb(0, 0, 0);\\\">LALALALLALAA</span><span style=\\\"color: rgb(0, 0, 0);\\\"></span></p>\"}, {\"prefix\": \"D\", \"content\": \"DDDDDDDDDDDDDDDDDDDD\"}]', NULL, '1', 1.00, 1, 1, '2023-02-10 09:40:01', '2023-02-10 10:39:39', '0');
 
 -- ----------------------------
 -- Table structure for v_role
@@ -372,6 +420,7 @@ INSERT INTO `v_role_menu` VALUES (3, 53);
 INSERT INTO `v_role_menu` VALUES (3, 51);
 INSERT INTO `v_role_menu` VALUES (3, 52);
 INSERT INTO `v_role_menu` VALUES (3, 56);
+INSERT INTO `v_role_menu` VALUES (3, 57);
 INSERT INTO `v_role_menu` VALUES (3, 54);
 INSERT INTO `v_role_menu` VALUES (3, 55);
 
@@ -404,47 +453,6 @@ INSERT INTO `v_subject` VALUES (9, '语文', 5, '2022-09-05 16:53:27', NULL, '0'
 INSERT INTO `v_subject` VALUES (10, '语文', 6, '2022-09-05 16:53:27', NULL, '0');
 INSERT INTO `v_subject` VALUES (11, '体育', 3, '2022-09-09 10:32:11', NULL, '0');
 INSERT INTO `v_subject` VALUES (12, '体育', 4, '2022-09-09 10:32:11', NULL, '0');
-
--- ----------------------------
--- Table structure for v_text_content
--- ----------------------------
-DROP TABLE IF EXISTS `v_text_content`;
-CREATE TABLE `v_text_content`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '问题选择详情表' ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of v_text_content
--- ----------------------------
-INSERT INTO `v_text_content` VALUES (1, '{\"titleContent\":\"test\",\"analyze\":\"111\",\"questionItemObjects\":[{\"prefix\":\"A\",\"content\":\"1\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"B\",\"content\":\"2\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"C\",\"content\":\"3\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"D\",\"content\":\"4\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"E\",\"content\":\"6\",\"score\":null,\"itemUuid\":null}],\"correct\":\"A\"}', '2022-04-29 17:41:05');
-INSERT INTO `v_text_content` VALUES (2, '[{\"name\":\"777777\",\"questionItems\":[{\"id\":1,\"itemOrder\":1},{\"id\":2,\"itemOrder\":2},{\"id\":1,\"itemOrder\":3}]}]', '2022-04-29 17:41:44');
-INSERT INTO `v_text_content` VALUES (3, '{\"titleContent\":\"666\",\"analyze\":\"9999\",\"questionItemObjects\":[{\"prefix\":\"A\",\"content\":\"6\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"B\",\"content\":\"7\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"C\",\"content\":\"8\",\"score\":null,\"itemUuid\":null},{\"prefix\":\"D\",\"content\":\"9\",\"score\":null,\"itemUuid\":null}],\"correct\":\"\"}', '2022-09-01 15:01:27');
-
--- ----------------------------
--- Table structure for v_topic
--- ----------------------------
-DROP TABLE IF EXISTS `v_topic`;
-CREATE TABLE `v_topic`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topic_type` int(11) NULL DEFAULT NULL COMMENT '问题类型1单选 2多选 3判断',
-  `subject_id` int(11) NULL DEFAULT NULL COMMENT '科目Id',
-  `class_id` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级ids',
-  `difficult` int(11) NULL DEFAULT NULL COMMENT '难度',
-  `correct` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '正确答案',
-  `text_content_id` int(11) NULL DEFAULT NULL COMMENT '问题选择内容Id',
-  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
-  `paper_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷类型',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of v_topic
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for v_user
