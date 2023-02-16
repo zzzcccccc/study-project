@@ -35,7 +35,7 @@ public class VQuestion implements Serializable {
      * 题目
      */
     @ApiModelProperty("题目")
-    private String titile;
+    private String title;
 
     /**
      * 解析
@@ -60,7 +60,7 @@ public class VQuestion implements Serializable {
      * 单多判题 选项 [{}，{}]
      */
     @ApiModelProperty("单多判题 选项 [{}，{}]")
-    private String items;
+    private String content;
 
     /**
      * 知识点

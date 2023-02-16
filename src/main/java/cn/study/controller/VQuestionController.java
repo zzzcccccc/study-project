@@ -38,7 +38,7 @@ public class VQuestionController {
 
 
     @ApiOperation(value = "新增", notes = "新增")
-    @PostMapping("add")
+    @PostMapping("/add")
     public RES add(@RequestBody VQuestionDto vQuestionDto) {
         vQuestionService.add(vQuestionDto);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);

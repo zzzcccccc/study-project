@@ -1,5 +1,6 @@
 package cn.study.entity;
 
+import cn.hutool.json.JSONArray;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -57,7 +58,7 @@ public class VExamPaper implements Serializable {
      * 班级ids
      */
     @ApiModelProperty("班级ids")
-    private String classIds;
+    private String classIdArray;
 
     /**
      * 总分

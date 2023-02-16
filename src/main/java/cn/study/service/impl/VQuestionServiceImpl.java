@@ -2,31 +2,79 @@ package cn.study.service.impl;
 
 import cn.study.dto.VQuestionDto;
 import cn.study.entity.VExamPaper;
+import cn.study.entity.VExamQuest;
 import cn.study.entity.VQuestion;
+import cn.study.mapper.VExamPaperMapper;
+import cn.study.mapper.VExamQuestMapper;
 import cn.study.mapper.VQuestionMapper;
 import cn.study.service.VQuestionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion>  implements VQuestionService {
 
+    @Resource
+    VExamPaperMapper vExamPaperMapper;
+    @Resource
+    VExamQuestMapper vExamQuestMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean add(VQuestionDto vQuestionDto) {
-        VExamPaper vExamPaper = new VExamPaper();
-        BeanUtils.copyProperties(vQuestionDto,vExamPaper);
+        String check = vQuestionDto.getCheck();
+        Integer gradeId = vQuestionDto.getGradeId();
+        Integer subjectId = vQuestionDto.getSubjectId();
 
-        List<VQuestion> questionList = vQuestionDto.getQuestions();
-        for (VQuestion question: questionList ) {
-            VQuestion vQuestion = new VQuestion();
-            BeanUtils.copyProperties(question,vQuestion);
-            this.baseMapper.insert(vQuestion);
+        List<Long> questIds = new ArrayList<>();
+        try {
+            List<VQuestion> questionList  = questionList = vQuestionDto.getQuestions();
+            for (VQuestion question: questionList ) {
+                question.setGradeId(gradeId);
+                question.setSubjectId(subjectId);
+                int insert = this.baseMapper.insert(question);
+                if (insert!=1){
+                    throw new Exception("保存失败1");
+                }
+                questIds.add(question.getId());
+            }
+            //check 1添加试卷 2只存到题库
+            if ("1".equals(check)){
+                VExamPaper vExamPaper = new VExamPaper();
+                BeanUtils.copyProperties(vQuestionDto,vExamPaper);
+                Integer[] classIds = vQuestionDto.getClassIds();
+                vExamPaper.setClassIdArray(Arrays.toString(classIds));
+                int insert2 = vExamPaperMapper.insert(vExamPaper);
+                if (insert2!=1){
+                    throw new Exception("保存失败2");
+                }
 
+                for (int i = 0; i < questIds.size(); i++) {
+                    VExamQuest vExamQuest = new VExamQuest();
+                    vExamQuest.setExamId(vExamPaper.getId());
+                    vExamQuest.setQuestId(questIds.get(i));
+                    int insert3 = vExamQuestMapper.insert(vExamQuest);
+                    if (insert3!=1){
+                        throw new Exception("保存失败3");
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //springboot+事务，多张表的操作事务回滚
+            //@Transactional和try catch捕获异常会让注解失效
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
-        return null;
+        return Boolean.TRUE;
     }
 }
