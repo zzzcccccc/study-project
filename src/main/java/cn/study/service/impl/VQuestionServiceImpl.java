@@ -8,6 +8,8 @@ import cn.study.mapper.VExamPaperMapper;
 import cn.study.mapper.VExamQuestMapper;
 import cn.study.mapper.VQuestionMapper;
 import cn.study.service.VQuestionService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -76,5 +78,11 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
         return Boolean.TRUE;
+    }
+
+
+    @Override
+    public IPage getPage(Page page, VQuestionDto vQuestionDto) {
+        return this.baseMapper.getPage(page,vQuestionDto);
     }
 }

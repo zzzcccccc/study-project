@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -30,9 +31,8 @@ public class VQuestionController {
 
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/getPage")
-    public RES getPage(Page page){
-        QueryWrapper<VQuestion> wrapper = new QueryWrapper<>();
-        IPage page1 = vQuestionService.page(page);
+    public RES getPage(Page page,VQuestionDto vQuestionDto){
+        IPage page1 = vQuestionService.getPage(page, vQuestionDto);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
     }
 
@@ -43,4 +43,5 @@ public class VQuestionController {
         vQuestionService.add(vQuestionDto);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);
     }
+
 }
