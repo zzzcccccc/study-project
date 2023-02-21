@@ -20,4 +20,8 @@ public interface VQuestionService extends IService<VQuestion> {
     Boolean add(VQuestionDto vQuestionDto);
 
     IPage getPage(Page page, VQuestionDto vQuestionDto);
+
+    Boolean edit(VQuestion vQuestion);
+
+    Integer del(Long id);
 }

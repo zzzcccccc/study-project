@@ -1,5 +1,6 @@
 package cn.study.service.impl;
 
+import cn.study.constant.CommonConstants;
 import cn.study.dto.VQuestionDto;
 import cn.study.entity.VExamPaper;
 import cn.study.entity.VExamQuest;
@@ -35,11 +36,11 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
         String check = vQuestionDto.getCheck();
         Integer gradeId = vQuestionDto.getGradeId();
         Integer subjectId = vQuestionDto.getSubjectId();
-
         List<Long> questIds = new ArrayList<>();
         try {
-            List<VQuestion> questionList  = questionList = vQuestionDto.getQuestions();
+            List<VQuestion> questionList  = vQuestionDto.getQuestions();
             for (VQuestion question: questionList ) {
+                System.out.println(question);
                 question.setGradeId(gradeId);
                 question.setSubjectId(subjectId);
                 int insert = this.baseMapper.insert(question);
@@ -84,5 +85,20 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
     @Override
     public IPage getPage(Page page, VQuestionDto vQuestionDto) {
         return this.baseMapper.getPage(page,vQuestionDto);
+    }
+
+    @Override
+    public Boolean edit(VQuestion vQuestion) {
+        this.baseMapper.updateById(vQuestion);
+        System.out.println(vQuestion);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Integer del(Long id) {
+        VQuestion vQuestion = this.baseMapper.selectById(id);
+        vQuestion.setDelFlag(CommonConstants.STATUS_DEL);
+        int i = this.baseMapper.updateById(vQuestion);
+        return i;
     }
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -61,7 +62,6 @@ public class VQuestion implements Serializable {
      */
     @ApiModelProperty("单多判题 选项 [{}，{}]")
     private String content;
-
     /**
      * 知识点
      */
@@ -72,7 +72,7 @@ public class VQuestion implements Serializable {
      * 问题类型1单选 2多选 3填空 4简答 5判断
      */
     @ApiModelProperty("问题类型1单选 2多选 3填空 4简答 5判断")
-    private String quesTypeId;
+    private Integer quesTypeId;
 
     /**
      * 分数
