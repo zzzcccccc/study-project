@@ -55,6 +55,7 @@ public class VQuestionController {
 
     @ApiOperation(value = "删除",notes = "删除")
     @SaCheckLogin
+    @SaCheckPermission(value = "topic:del", orRole = "admin")
     @DeleteMapping("del/{id}")
     public RES del(@PathVariable("id") Long id) {
         Integer flag = vQuestionService.del(id);

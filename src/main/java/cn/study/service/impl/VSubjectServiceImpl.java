@@ -13,7 +13,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class VSubjectServiceImpl extends ServiceImpl<VSubjectMapper, VSubject> implements VSubjectService {
@@ -28,7 +33,14 @@ public class VSubjectServiceImpl extends ServiceImpl<VSubjectMapper, VSubject> i
 
     @Override
     public List<VSubject> getAllSubject() {
-        return this.baseMapper.selectList(null);
+        List<VSubject> vSubjects = this.baseMapper.selectList(null);
+
+        List<VSubject> newList = vSubjects.stream().collect(Collectors
+                .collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(VSubject::getName))),
+                        ArrayList::new));
+
+        return newList;
     }
 
     @Override

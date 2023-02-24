@@ -27,6 +27,9 @@
         <if test="showFlag!=0">
             AND show_flag = #{showFlag}
         </if>
+        ORDER BY
+            `sort` ASC
+
     </select>
     <select id="getMenuOne" resultType="cn.study.vo.VMenuVo">
         SELECT

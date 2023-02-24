@@ -45,6 +45,7 @@ public class VSubjectController {
 
     /**
      * 学科列表
+     * 查询去重
      * @return
      */
     @SaCheckLogin

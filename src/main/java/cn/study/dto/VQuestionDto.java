@@ -29,4 +29,11 @@ public class VQuestionDto extends VExamPaper {
     private List<VQuestion> questions;
 
 
+    /**
+     * 学科name
+     */
+    @ApiModelProperty("学科name")
+    private String subjectName;
+
+
 }

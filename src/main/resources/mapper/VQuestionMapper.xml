@@ -13,6 +13,24 @@
         LEFT JOIN  v_subject AS `subject` ON question.subject_id = `subject`.id
         WHERE
             question.del_flag = '0'
+        <if test="query.gradeId != null and query.gradeId != ''">
+            AND  question.grade_id = #{query.gradeId}
+        </if>
+        <if test="query.subjectId != null and query.subjectId != ''">
+            AND  question.subject_id = #{query.subjectId}
+        </if>
+        <if test="query.subjectName != null and query.subjectName != ''">
+            AND  `subject`.`name` LIKE  CONCAT(CONCAT('%',#{query.subjectName},'%'))
+        </if>
+        <if test="query.paperType != null and query.paperType != ''">
+            AND  question.ques_type_id = #{query.paperType}
+        </if>
+        <if test="query.createTime != null">
+            AND date_format(question.create_time,'yyyy-MMM-dd') = #{query.createTime}
+        </if>
+        <if test="query.headline != null">
+            AND question.`title` LIKE  CONCAT(CONCAT('%',#{query.headline},'%'))
+        </if>
         ORDER BY question.create_time DESC
     </select>
 </mapper>

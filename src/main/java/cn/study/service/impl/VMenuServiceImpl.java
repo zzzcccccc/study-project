@@ -71,7 +71,8 @@ public class VMenuServiceImpl extends ServiceImpl<VMenuMapper, VMenu> implements
         }else{
            vMenus = this.baseMapper.selectList(Wrappers.<VMenu>lambdaQuery()
                     .eq(VMenu::getLevel, 1)
-                    .eq(VMenu::getDelFlag, CommonConstants.STATUS_NORMAL));
+                    .eq(VMenu::getDelFlag, CommonConstants.STATUS_NORMAL)
+                    .orderByAsc(VMenu::getSort));
         }
         for (int i = 0; i < vMenus.size(); i++) {
             VMenu vmenu = vMenus.get(i);

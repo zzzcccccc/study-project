@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 16/02/2023 14:22:54
+ Date: 24/02/2023 17:33:51
 */
 
 SET NAMES utf8mb4;
@@ -117,7 +117,7 @@ CREATE TABLE `v_class`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '班级和年级详情表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '班级和年级详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_class
@@ -168,7 +168,7 @@ CREATE TABLE `v_cron`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '删除标记 0正常 1删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_cron
@@ -209,13 +209,12 @@ CREATE TABLE `v_exam_paper`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_exam_paper
 -- ----------------------------
-INSERT INTO `v_exam_paper` VALUES (4, '9999', NULL, '2023-02-14 00:00:00', 5, 2, '[14]', NULL, '2023-02-15 14:13:52', NULL, '0');
-INSERT INTO `v_exam_paper` VALUES (5, '2222', NULL, '2023-02-03 00:00:00', 1, 1, '[1, 7, 13]', NULL, '2023-02-15 14:40:38', NULL, '0');
+INSERT INTO `v_exam_paper` VALUES (7, '三年级试卷-语文', NULL, '2023-02-24 00:00:00', 10, 6, '[6, 12]', NULL, '2023-02-24 15:45:01', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_exam_quest
@@ -226,14 +225,12 @@ CREATE TABLE `v_exam_quest`  (
   `exam_id` bigint(20) NULL DEFAULT NULL,
   `quest_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_exam_quest
 -- ----------------------------
-INSERT INTO `v_exam_quest` VALUES (3, 3, 27);
-INSERT INTO `v_exam_quest` VALUES (4, 4, 34);
-INSERT INTO `v_exam_quest` VALUES (5, 5, 35);
+INSERT INTO `v_exam_quest` VALUES (6, 7, 44);
 
 -- ----------------------------
 -- Table structure for v_grade
@@ -243,7 +240,7 @@ CREATE TABLE `v_grade`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '年级分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '年级分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_grade
@@ -294,59 +291,51 @@ CREATE TABLE `v_menu`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`) USING BTREE,
   INDEX `index_menu_id`(`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_menu
 -- ----------------------------
 INSERT INTO `v_menu` VALUES (1, '用户管理', 'user:all', -1, 1, NULL, 'user/', 'el-icon-user-solid', 1, 1, '2022-07-22 16:23:57', '2022-09-01 15:04:34', '0');
-INSERT INTO `v_menu` VALUES (2, '教师列表', 'teacher:list', 1, 2, 'test', 'user/teacherInfo', 'el-icon-s-custom', 1, 1, '2022-07-22 16:24:16', '2022-09-01 15:04:40', '1');
-INSERT INTO `v_menu` VALUES (3, '用户列表', 'user:list', 1, 2, NULL, 'user/userInfo', 'el-icon-s-custom', 1, 2, '2022-07-22 16:24:28', '2022-09-01 15:04:41', '0');
-INSERT INTO `v_menu` VALUES (4, '管理员列表', 'admin:list', 1, 2, NULL, 'user/adminInfo', 'el-icon-s-custom', 1, 3, '2022-07-22 16:24:33', '2022-09-01 15:04:43', '1');
-INSERT INTO `v_menu` VALUES (5, '添加用户', 'teacher:add', 2, 3, '描述', '/', 'el-icon-menu', 2, 1, '2022-07-22 16:25:15', '2022-09-01 15:05:01', '1');
-INSERT INTO `v_menu` VALUES (6, '修改', 'teacher:edit', 2, 3, 'xiugai', '--', 'el-icon-menu', 2, 2, '2022-07-22 16:25:17', '2022-09-01 15:05:02', '1');
-INSERT INTO `v_menu` VALUES (7, '删除', 'teacher:del', 2, 3, NULL, NULL, 'el-icon-menu', 2, 3, '2022-07-22 16:25:19', '2022-09-01 15:05:02', '1');
-INSERT INTO `v_menu` VALUES (8, '分配角色', 'teacher:roles', 2, 3, NULL, NULL, 'el-icon-menu', 2, 4, '2022-07-22 16:25:23', '2022-09-01 15:05:03', '1');
-INSERT INTO `v_menu` VALUES (9, '添加用户', 'user:add', 3, 3, NULL, NULL, 'el-icon-menu', 2, 5, '2022-07-22 16:25:42', '2022-09-07 17:03:12', '0');
-INSERT INTO `v_menu` VALUES (10, '修改', 'user:edit', 3, 3, NULL, NULL, 'el-icon-menu', 2, 6, '2022-07-22 16:25:42', '2022-09-07 17:03:16', '0');
-INSERT INTO `v_menu` VALUES (11, '删除', 'user:del', 3, 3, NULL, NULL, 'el-icon-menu', 2, 7, '2022-07-22 16:25:42', '2022-09-07 17:03:20', '0');
-INSERT INTO `v_menu` VALUES (12, '分配角色', 'user:roles', 3, 3, NULL, NULL, 'el-icon-menu', 2, 8, '2022-07-22 16:25:42', '2022-09-07 17:03:24', '0');
-INSERT INTO `v_menu` VALUES (13, '添加用户', 'admin:add', 4, 3, NULL, NULL, 'el-icon-menu', 2, 9, '2022-07-22 16:25:47', '2022-09-01 15:05:06', '1');
-INSERT INTO `v_menu` VALUES (14, '修改', 'admin:edit', 4, 3, NULL, NULL, 'el-icon-menu', 2, 10, '2022-07-22 16:25:47', '2022-09-01 15:05:07', '1');
-INSERT INTO `v_menu` VALUES (15, '删除', 'admin:del', 4, 3, NULL, NULL, 'el-icon-menu', 2, 11, '2022-07-22 16:25:47', '2022-09-01 15:05:08', '1');
-INSERT INTO `v_menu` VALUES (16, '分配角色', 'admin:roles', 4, 3, NULL, NULL, 'el-icon-menu', 2, 12, '2022-07-22 16:25:47', '2022-09-01 15:05:08', '1');
+INSERT INTO `v_menu` VALUES (3, '用户列表', 'user:list', 1, 2, NULL, 'user/userInfo', 'el-icon-s-custom', 1, 1010, '2022-07-22 16:24:28', '2023-02-24 14:58:42', '0');
+INSERT INTO `v_menu` VALUES (9, '添加用户', 'user:add', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101030, '2022-07-22 16:25:42', '2023-02-24 14:58:59', '0');
+INSERT INTO `v_menu` VALUES (10, '修改', 'user:edit', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101040, '2022-07-22 16:25:42', '2023-02-24 14:59:02', '0');
+INSERT INTO `v_menu` VALUES (11, '删除', 'user:del', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101050, '2022-07-22 16:25:42', '2023-02-24 14:59:04', '0');
+INSERT INTO `v_menu` VALUES (12, '分配角色', 'user:roles', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101020, '2022-07-22 16:25:42', '2023-02-24 14:58:56', '0');
 INSERT INTO `v_menu` VALUES (17, '系统管理', 'sys:all', -1, 1, NULL, 'system/', 'el-icon-s-tools', 1, 2, '2022-07-22 16:26:54', '2022-09-01 15:04:36', '0');
-INSERT INTO `v_menu` VALUES (18, '角色列表', 'role:list', 17, 2, NULL, 'system/roleIndex', 'el-icon-s-help', 1, 4, '2022-07-22 16:27:05', '2022-09-07 17:04:11', '0');
-INSERT INTO `v_menu` VALUES (19, '菜单列表', 'menu:list', 17, 2, NULL, 'menu/menuInfo', 'el-icon-menu', 1, 5, '2022-07-22 16:27:08', '2022-09-01 16:34:30', '0');
-INSERT INTO `v_menu` VALUES (20, 'demo列表', 'demo:list', 17, 2, 'ceshi', 'system/permissionDemo', 'el-icon-s-opportunity', 1, 6, '2022-07-22 16:27:12', '2022-09-01 15:04:46', '0');
-INSERT INTO `v_menu` VALUES (21, '添加角色', 'role:add', 18, 3, NULL, NULL, 'el-icon-menu', 2, 13, '2022-07-22 16:29:04', '2022-09-07 17:04:27', '0');
-INSERT INTO `v_menu` VALUES (22, '修改角色', 'role:edit', 18, 3, NULL, NULL, 'el-icon-menu', 2, 14, '2022-07-22 16:29:04', '2022-09-07 17:04:28', '0');
-INSERT INTO `v_menu` VALUES (23, '删除角色', 'role:del', 18, 3, NULL, NULL, 'el-icon-menu', 2, 15, '2022-07-22 16:29:04', '2022-09-07 17:04:28', '0');
-INSERT INTO `v_menu` VALUES (24, '分配权限', 'role:permission', 18, 3, NULL, NULL, 'el-icon-menu', 2, 16, '2022-07-22 16:29:04', '2022-09-07 17:04:28', '0');
-INSERT INTO `v_menu` VALUES (25, '添加分类', 'menu:add', 19, 3, NULL, NULL, 'el-icon-menu', 2, 17, '2022-07-22 16:32:13', '2022-09-01 15:05:14', '0');
-INSERT INTO `v_menu` VALUES (26, '新增', 'menu:addInfo', 19, 3, NULL, NULL, 'el-icon-menu', 2, 18, '2022-07-22 16:32:15', '2022-09-01 15:05:15', '0');
-INSERT INTO `v_menu` VALUES (27, '修改', 'menu:edit', 19, 3, NULL, NULL, 'el-icon-menu', 2, 19, '2022-07-22 16:32:17', '2022-09-01 15:05:17', '0');
-INSERT INTO `v_menu` VALUES (28, '删除', 'menu:del', 19, 3, NULL, NULL, 'el-icon-menu', 2, 20, '2022-07-22 16:32:22', '2022-09-01 15:05:19', '0');
-INSERT INTO `v_menu` VALUES (31, 'demo三', 'dem', 20, 3, NULL, '/dem', 'el-icon-menu', 2, 23, '2022-08-31 09:50:06', '2022-09-01 15:05:21', '0');
-INSERT INTO `v_menu` VALUES (32, '列表查询', 'user:select', 3, 3, NULL, 'user/studentInfo', 'el-icon-menu', 2, 24, '2022-08-31 16:04:56', '2022-09-07 17:03:29', '0');
-INSERT INTO `v_menu` VALUES (33, '列表查询', 'teacher:select', 2, 3, NULL, 'demo', 'el-icon-menu', 2, 25, '2022-08-31 16:09:50', '2022-09-01 15:05:24', '1');
-INSERT INTO `v_menu` VALUES (34, 'demo3333', 'demo33', 20, 3, NULL, 'demo33', 'el-icon-menu', 2, 26, '2022-08-31 16:53:34', '2022-09-01 15:05:26', '0');
-INSERT INTO `v_menu` VALUES (42, 'demo2页面', 'demo2', 17, 2, 'demo2', 'system/permissionIndex', 'el-icon-menu', 1, 7, '2022-09-01 11:20:26', '2022-09-01 15:04:47', '1');
-INSERT INTO `v_menu` VALUES (45, '学科管理', 'subject:all', -1, 1, '', 'subject/', 'el-icon-s-management', 1, 999, '2022-09-01 16:01:32', '2022-09-01 16:31:21', '0');
-INSERT INTO `v_menu` VALUES (46, '学科创编', 'subject:list', 45, 2, NULL, 'subject/list', 'el-icon-notebook-2', 1, 999, '2022-09-01 16:02:59', '2022-09-01 16:36:12', '0');
-INSERT INTO `v_menu` VALUES (47, '新增', 'subject:add', 46, 3, NULL, '/', 'el-icon-menu', 2, 999, '2022-09-01 16:07:09', NULL, '0');
-INSERT INTO `v_menu` VALUES (48, '删除', 'subject:del', 46, 3, NULL, '/', 'el-icon-menu', 2, 999, '2022-09-01 16:08:55', NULL, '0');
-INSERT INTO `v_menu` VALUES (49, '编辑', 'subject:edit', 46, 3, NULL, '/', 'el-icon-menu', 2, 999, '2022-09-01 16:12:34', NULL, '0');
-INSERT INTO `v_menu` VALUES (50, '列表', 'subject:list', 46, 3, NULL, '/', 'el-icon-menu', 2, 999, '2022-09-01 16:16:36', '2022-09-01 16:16:53', '0');
-INSERT INTO `v_menu` VALUES (51, '题库管理', 'topic:all', -1, 1, NULL, 'topic/', 'el-icon-s-order', 1, 999, '2022-09-01 16:23:23', '2022-09-01 16:32:20', '0');
-INSERT INTO `v_menu` VALUES (52, '列表', 'topic:list', 51, 2, NULL, 'topic/list', 'el-icon-location', 1, 999, '2022-09-01 16:24:21', '2023-02-15 09:34:01', '0');
-INSERT INTO `v_menu` VALUES (53, '班级创编', 'class:list', 45, 2, '年级-班级', 'class/list', 'el-icon-s-flag', 1, 999, '2022-09-05 17:23:24', '2022-09-05 17:26:48', '0');
-INSERT INTO `v_menu` VALUES (54, '定时任务', 'admin:task', -1, 1, NULL, 'task', 'el-icon-message-solid', 1, 1000, '2022-10-19 09:15:25', '2022-10-19 10:22:40', '0');
-INSERT INTO `v_menu` VALUES (55, '定时器详情', 'task:all', 54, 2, NULL, 'task/all', 'el-icon-location', 1, 1001, '2022-10-19 09:16:44', '2022-10-19 10:25:07', '0');
-INSERT INTO `v_menu` VALUES (56, '文件上传', 'topic:file', 51, 2, NULL, 'topic/file', 'el-icon-menu', 1, 999, '2023-01-30 15:26:49', NULL, '0');
-INSERT INTO `v_menu` VALUES (57, '创编', 'topic:create', 51, 2, NULL, 'topic/create', 'el-icon-location', 1, 999, '2023-02-10 13:56:51', '2023-02-10 13:56:59', '0');
-INSERT INTO `v_menu` VALUES (58, '卷库管理', 'exam:paper', -1, 1, NULL, 'exam', 'el-icon-s-data', 1, 999, '2023-02-15 09:30:35', '2023-02-15 09:30:49', '0');
-INSERT INTO `v_menu` VALUES (59, '列表', 'exam:paper', 58, 2, NULL, 'exam/paper', 'el-icon-s-data', 1, 999, '2023-02-15 09:31:25', NULL, '0');
+INSERT INTO `v_menu` VALUES (18, '角色列表', 'role:list', 17, 2, NULL, 'system/roleIndex', 'el-icon-s-help', 1, 2010, '2022-07-22 16:27:05', '2023-02-24 14:59:24', '0');
+INSERT INTO `v_menu` VALUES (19, '菜单列表', 'menu:list', 17, 2, NULL, 'menu/menuInfo', 'el-icon-menu', 1, 2020, '2022-07-22 16:27:08', '2023-02-24 14:59:26', '0');
+INSERT INTO `v_menu` VALUES (20, 'demo列表', 'demo:list', 17, 2, 'ceshi', 'system/permissionDemo', 'el-icon-s-opportunity', 1, 2030, '2022-07-22 16:27:12', '2023-02-24 14:59:29', '0');
+INSERT INTO `v_menu` VALUES (21, '添加角色', 'role:add', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201010, '2022-07-22 16:29:04', '2023-02-24 14:59:44', '0');
+INSERT INTO `v_menu` VALUES (22, '修改角色', 'role:edit', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201020, '2022-07-22 16:29:04', '2023-02-24 14:59:57', '0');
+INSERT INTO `v_menu` VALUES (23, '删除角色', 'role:del', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201030, '2022-07-22 16:29:04', '2023-02-24 15:00:01', '0');
+INSERT INTO `v_menu` VALUES (24, '分配权限', 'role:permission', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201040, '2022-07-22 16:29:04', '2023-02-24 15:00:05', '0');
+INSERT INTO `v_menu` VALUES (25, '添加分类', 'menu:add', 19, 3, NULL, NULL, 'el-icon-menu', 2, 202030, '2022-07-22 16:32:13', '2023-02-24 15:00:39', '0');
+INSERT INTO `v_menu` VALUES (26, '新增', 'menu:addInfo', 19, 3, NULL, NULL, 'el-icon-menu', 2, 202040, '2022-07-22 16:32:15', '2023-02-24 15:00:42', '0');
+INSERT INTO `v_menu` VALUES (27, '修改', 'menu:edit', 19, 3, NULL, NULL, 'el-icon-menu', 2, 202010, '2022-07-22 16:32:17', '2023-02-24 15:00:32', '0');
+INSERT INTO `v_menu` VALUES (28, '删除', 'menu:del', 19, 3, NULL, NULL, 'el-icon-menu', 2, 202020, '2022-07-22 16:32:22', '2023-02-24 15:00:36', '0');
+INSERT INTO `v_menu` VALUES (31, 'demo三', 'dem', 20, 3, NULL, '/dem', 'el-icon-menu', 2, 203010, '2022-08-31 09:50:06', '2023-02-24 15:01:04', '0');
+INSERT INTO `v_menu` VALUES (32, '用户列表', 'user:select', 3, 3, NULL, 'user/studentInfo', 'el-icon-menu', 2, 101010, '2022-08-31 16:04:56', '2023-02-24 14:58:53', '0');
+INSERT INTO `v_menu` VALUES (34, 'demo3333', 'demo33', 20, 3, NULL, 'demo33', 'el-icon-menu', 2, 203020, '2022-08-31 16:53:34', '2023-02-24 15:01:08', '0');
+INSERT INTO `v_menu` VALUES (45, '学科管理', 'subject:all', -1, 1, '', 'subject/', 'el-icon-s-management', 1, 3, '2022-09-01 16:01:32', '2023-02-24 14:36:51', '0');
+INSERT INTO `v_menu` VALUES (46, '学科创编', 'subject:list', 45, 2, NULL, 'subject/list', 'el-icon-notebook-2', 1, 3010, '2022-09-01 16:02:59', '2023-02-24 15:01:53', '0');
+INSERT INTO `v_menu` VALUES (47, '新增', 'subject:add', 46, 3, NULL, '/', 'el-icon-menu', 2, 301010, '2022-09-01 16:07:09', '2023-02-24 15:02:11', '0');
+INSERT INTO `v_menu` VALUES (48, '删除', 'subject:del', 46, 3, NULL, '/', 'el-icon-menu', 2, 301020, '2022-09-01 16:08:55', '2023-02-24 15:02:18', '0');
+INSERT INTO `v_menu` VALUES (49, '编辑', 'subject:edit', 46, 3, NULL, '/', 'el-icon-menu', 2, 301030, '2022-09-01 16:12:34', '2023-02-24 15:02:23', '0');
+INSERT INTO `v_menu` VALUES (50, '列表', 'subject:list', 46, 3, NULL, '/', 'el-icon-menu', 2, 301040, '2022-09-01 16:16:36', '2023-02-24 15:02:26', '0');
+INSERT INTO `v_menu` VALUES (51, '题库管理', 'topic:all', -1, 1, NULL, 'topic/', 'el-icon-s-order', 1, 4, '2022-09-01 16:23:23', '2023-02-24 14:37:04', '0');
+INSERT INTO `v_menu` VALUES (52, '列表', 'topic:list', 51, 2, NULL, 'topic/list', 'el-icon-location', 1, 4010, '2022-09-01 16:24:21', '2023-02-24 15:03:16', '0');
+INSERT INTO `v_menu` VALUES (53, '班级创编', 'class:list', 45, 2, '年级-班级', 'class/list', 'el-icon-s-flag', 1, 3020, '2022-09-05 17:23:24', '2023-02-24 15:01:57', '0');
+INSERT INTO `v_menu` VALUES (54, '定时任务', 'admin:task', -1, 1, NULL, 'task', 'el-icon-message-solid', 1, 6, '2022-10-19 09:15:25', '2023-02-24 14:37:08', '0');
+INSERT INTO `v_menu` VALUES (55, '定时器详情', 'task:all', 54, 2, NULL, 'task/all', 'el-icon-location', 1, 6010, '2022-10-19 09:16:44', '2023-02-24 15:03:57', '0');
+INSERT INTO `v_menu` VALUES (56, '文件上传', 'topic:file', 51, 2, NULL, 'topic/file', 'el-icon-upload', 1, 4040, '2023-01-30 15:26:49', '2023-02-24 15:03:25', '0');
+INSERT INTO `v_menu` VALUES (57, '创编', 'topic:create', 51, 2, NULL, 'topic/create', 'el-icon-s-opportunity', 1, 4020, '2023-02-10 13:56:51', '2023-02-24 15:03:19', '0');
+INSERT INTO `v_menu` VALUES (58, '卷库管理', 'exam:paper', -1, 1, NULL, 'exam', 'el-icon-s-data', 1, 5, '2023-02-15 09:30:35', '2023-02-24 14:37:05', '0');
+INSERT INTO `v_menu` VALUES (59, '列表', 'exam:paper', 58, 2, NULL, 'exam/paper', 'el-icon-s-data', 1, 5010, '2023-02-15 09:31:25', '2023-02-24 15:03:42', '0');
+INSERT INTO `v_menu` VALUES (60, '修改题库', 'topic:editQues', 52, 3, NULL, '/topic/editQues', 'el-icon-menu', 2, 401020, '2023-02-20 10:53:10', '2023-02-24 15:03:22', '0');
+INSERT INTO `v_menu` VALUES (61, '删除', 'topic:del', 52, 3, NULL, '/topic/del', 'el-icon-menu', 2, 401010, '2023-02-21 17:18:43', '2023-02-24 15:14:19', '0');
+INSERT INTO `v_menu` VALUES (62, 'test', 'test', 52, 3, NULL, 'test', 'el-icon-menu', 2, 999, '2023-02-21 17:21:01', '2023-02-24 15:10:40', '1');
+INSERT INTO `v_menu` VALUES (63, '创编', 'paper:create', 58, 2, NULL, 'paper/create', 'el-icon-s-opportunity', 1, 5020, '2023-02-24 14:33:06', '2023-02-24 15:03:44', '0');
 
 -- ----------------------------
 -- Table structure for v_question
@@ -360,7 +349,7 @@ CREATE TABLE `v_question`  (
   `difficult` int(11) NULL DEFAULT NULL COMMENT '难度',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '单多判题 选项 [{},{}]',
   `konwlege_id_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '知识点',
-  `ques_type_id` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '问题类型1单选 2多选 3填空 4简答 5判断',
+  `ques_type_id` int(11) NULL DEFAULT NULL COMMENT '问题类型1单选 2多选 3填空 4简答 5判断',
   `score` float(12, 1) NULL DEFAULT NULL COMMENT '分数',
   `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
   `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
@@ -368,27 +357,21 @@ CREATE TABLE `v_question`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_question
 -- ----------------------------
-INSERT INTO `v_question` VALUES (1, '<p style=\"text-align: center\"><img class=\"xzs-image\" src=\"https://www.mindskip.net:7000/resource/image/8e5a1c74-89df-40ee-9424-a82878675d01/img01_r.jpg\" alt=\"img01_r.jpg\"></p><p><span style=\"color: rgb(255, 255, 0);\">88888888888888888888888</span><span style=\"color: rgb(255, 255, 0);\"></span></p>', '<span style=\"color: rgb(255, 0, 0);\">JIEXI</span>', 'A', 2, '[{\"prefix\": \"A\", \"content\": \"<span style=\\\"text-decoration: underline;\\\">AAAAAAAAAAAAAAAAADDD</span>\"}, {\"prefix\": \"B\", \"content\": \"<p><span style=\\\"color: rgb(255, 255, 0);\\\">BBBBBBBBBBBBBBBBBBBBBBBB</span></p><p>bbbbbbbbbbbbbbb</p>\"}, {\"prefix\": \"C\", \"content\": \"<p><span style=\\\"color: rgb(255, 0, 0);\\\">CCCCCCCCCCCCCCCCCCCC</span></p><p><span style=\\\"color: rgb(0, 0, 0);\\\">LALALALLALAA</span><span style=\\\"color: rgb(0, 0, 0);\\\"></span></p>\"}, {\"prefix\": \"D\", \"content\": \"DDDDDDDDDDDDDDDDDDDD\"}]', NULL, '1', 1.0, 1, 1, '2023-02-10 09:40:01', '2023-02-10 10:39:39', '0');
-INSERT INTO `v_question` VALUES (16, 'sdfsdf', 'sdfasdfa', '[\"错\"]', 3, '[]', NULL, '5', 1.0, 3, 2, '2023-02-15 11:05:59', NULL, '0');
-INSERT INTO `v_question` VALUES (17, 'dd', 'sdfsa', '[\"ddfsd\"]', 5, '[]', NULL, '4', 2.0, 3, 2, '2023-02-15 11:05:59', NULL, '0');
-INSERT INTO `v_question` VALUES (18, 'ewrqwe', 'eee', '[\"错\"]', 2, '[]', NULL, '5', 2.0, 1, 1, '2023-02-15 11:07:31', NULL, '0');
-INSERT INTO `v_question` VALUES (19, '3333', 'wwe', '[\"rrrr\"]', 4, '[]', NULL, '3', 3.0, 1, 1, '2023-02-15 11:07:31', NULL, '0');
-INSERT INTO `v_question` VALUES (20, 'eee', 'dddd', '[\"错\"]', 5, '[]', NULL, '5', 1.0, 2, 1, '2023-02-15 11:11:16', NULL, '0');
-INSERT INTO `v_question` VALUES (21, '22', '222', '[\"错\"]', 3, '[]', NULL, '5', 1.0, 1, 1, '2023-02-15 11:14:07', NULL, '0');
-INSERT INTO `v_question` VALUES (22, '888', '888', '[\"对\"]', 2, '[]', NULL, '5', 0.0, 1, 1, '2023-02-15 13:16:13', NULL, '0');
-INSERT INTO `v_question` VALUES (23, '2', '2', '[\"错\"]', 5, '[]', NULL, '5', 2.0, 1, 1, '2023-02-15 13:20:59', NULL, '0');
-INSERT INTO `v_question` VALUES (24, '2', '2', '[\"错\"]', 4, '[]', NULL, '5', 2.0, 2, 1, '2023-02-15 13:22:52', NULL, '0');
-INSERT INTO `v_question` VALUES (25, '1', '1', '[\"对\"]', 3, '[]', NULL, '5', 0.0, 5, 2, '2023-02-15 13:28:57', NULL, '0');
-INSERT INTO `v_question` VALUES (26, 'eee', 'eeewe', '[\"错\"]', 5, '[]', NULL, '5', 1.0, NULL, 1, '2023-02-15 13:32:31', NULL, '0');
-INSERT INTO `v_question` VALUES (27, '87', '787878', '[\"对\"]', 3, '[]', NULL, '5', 0.0, 2, 1, '2023-02-15 13:33:10', NULL, '0');
-INSERT INTO `v_question` VALUES (28, '填空', '的说法', '[\"恩恩额\"]', 1, '[]', NULL, '3', 2.0, 2, 1, '2023-02-15 13:51:01', NULL, '0');
-INSERT INTO `v_question` VALUES (34, '9999', '9999', '[\"对\"]', 3, '[]', NULL, '5', 0.0, 5, 2, '2023-02-15 14:13:52', NULL, '0');
-INSERT INTO `v_question` VALUES (35, '11111', '111', '[\"对\"]', 1, '[]', NULL, '5', 1.0, 1, 1, '2023-02-15 14:40:38', NULL, '0');
+INSERT INTO `v_question` VALUES (1, '<p style=\"text-align: center\"><img class=\"xzs-image\" src=\"https://www.mindskip.net:7000/resource/image/8e5a1c74-89df-40ee-9424-a82878675d01/img01_r.jpg\" alt=\"img01_r.jpg\"></p><p><span style=\"color: rgb(255, 255, 0);\">88888888888888888888888</span><span style=\"color: rgb(255, 255, 0);\"></span></p>', '<span style=\"color: rgb(255, 0, 0);\">JIEXI</span>', 'A', 2, '[{\"prefix\": \"A\", \"content\": \"<span style=\\\"text-decoration: underline;\\\">AAAAAAAAAAAAAAAAADDD</span>\"}, {\"prefix\": \"B\", \"content\": \"<p><span style=\\\"color: rgb(255, 255, 0);\\\">BBBBBBBBBBBBBBBBBBBBBBBB</span></p><p>bbbbbbbbbbbbbbb</p>\"}, {\"prefix\": \"C\", \"content\": \"<p><span style=\\\"color: rgb(255, 0, 0);\\\">CCCCCCCCCCCCCCCCCCCC</span></p><p><span style=\\\"color: rgb(0, 0, 0);\\\">LALALALLALAA</span><span style=\\\"color: rgb(0, 0, 0);\\\"></span></p>\"}, {\"prefix\": \"D\", \"content\": \"DDDDDDDDDDDDDDDDDDDD\"}]', NULL, 1, 1.0, 1, 1, '2023-02-10 09:40:01', '2023-02-17 17:21:35', '1');
+INSERT INTO `v_question` VALUES (36, '题干是', '解析零零零零', '[\"参考答案是\"]', 3, '[]', NULL, 4, 5.0, 11, 3, '2023-02-17 17:22:29', '2023-02-21 17:13:17', '1');
+INSERT INTO `v_question` VALUES (37, '他们全让我走路，他们让我在雨里散步， ______?', '歌词', '[\"他们说我是怪物\"]', 5, '[]', NULL, 4, 777.0, 5, 2, '2023-02-17 17:23:43', '2023-02-24 11:02:00', '0');
+INSERT INTO `v_question` VALUES (38, '7777777', 'jic', '[\"7777\"]', 3, '[\"7777\",\"564\",\"45\",\"34\"]', NULL, 1, 7.0, 2, 1, '2023-02-20 14:35:54', '2023-02-21 15:59:41', '1');
+INSERT INTO `v_question` VALUES (39, '333333', '33334344', '[\"对\"]', 3, '[]', NULL, 5, 3.0, 2, 1, '2023-02-20 14:35:54', '2023-02-24 11:02:04', '1');
+INSERT INTO `v_question` VALUES (40, '写词都用12345 也听起来很俗 谁在乎呜呜呜呜~~', 'SDFSDFSD', '[\"BBBBBBB\"]', 2, '[\"BBBBBBB\",\"FFFFFFFFFFF\",\"CCCCCCCC\",\"DDDDDDDDD\"]', NULL, 1, 1.0, 1, 1, '2023-02-21 16:04:50', '2023-02-24 11:01:14', '0');
+INSERT INTO `v_question` VALUES (41, '高脚杯喝水真的很酷！！！', '45', '[\"6667676\"]', 2, '[\"6667676\",\"78\",\"56\",\"3\"]', NULL, 1, 9.0, 2, 1, '2023-02-21 16:35:13', '2023-02-21 16:36:16', '0');
+INSERT INTO `v_question` VALUES (42, '请问2023年2月24日星期天？', '自行百度', '[\"星期五\"]', 2, '[\"星期一\",\"星期五\",\"星期六\",\"星期四\"]', NULL, 1, 3.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
+INSERT INTO `v_question` VALUES (43, '1+1=2对吗', '有有有', '[\"对\"]', 4, '[]', NULL, 5, 2.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
+INSERT INTO `v_question` VALUES (44, '多选题 三年级下册 语文 一班二班 测试', '绑定卡了大家考虑进去看我Joe u恶女老总的', '[\"史蒂芬德尔呃呃\",\"大苏打JFK是\"]', 2, '[\"大苏打JFK是\",\"似懂非懂\",\"是的方法\",\"史蒂芬德尔呃呃\"]', NULL, 2, 10.0, 10, 6, '2023-02-24 15:45:01', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_role
@@ -402,7 +385,7 @@ CREATE TABLE `v_role`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_role
@@ -423,12 +406,6 @@ CREATE TABLE `v_role_menu`  (
 -- ----------------------------
 -- Records of v_role_menu
 -- ----------------------------
-INSERT INTO `v_role_menu` VALUES (2, 33);
-INSERT INTO `v_role_menu` VALUES (2, 9);
-INSERT INTO `v_role_menu` VALUES (2, 10);
-INSERT INTO `v_role_menu` VALUES (2, 11);
-INSERT INTO `v_role_menu` VALUES (2, 20);
-INSERT INTO `v_role_menu` VALUES (2, 31);
 INSERT INTO `v_role_menu` VALUES (1, 33);
 INSERT INTO `v_role_menu` VALUES (1, 32);
 INSERT INTO `v_role_menu` VALUES (1, 20);
@@ -438,13 +415,27 @@ INSERT INTO `v_role_menu` VALUES (1, 1);
 INSERT INTO `v_role_menu` VALUES (1, 2);
 INSERT INTO `v_role_menu` VALUES (1, 3);
 INSERT INTO `v_role_menu` VALUES (1, 17);
+INSERT INTO `v_role_menu` VALUES (2, 9);
+INSERT INTO `v_role_menu` VALUES (2, 10);
+INSERT INTO `v_role_menu` VALUES (2, 11);
+INSERT INTO `v_role_menu` VALUES (2, 20);
+INSERT INTO `v_role_menu` VALUES (2, 31);
+INSERT INTO `v_role_menu` VALUES (2, 34);
+INSERT INTO `v_role_menu` VALUES (2, 62);
+INSERT INTO `v_role_menu` VALUES (2, 56);
+INSERT INTO `v_role_menu` VALUES (2, 57);
+INSERT INTO `v_role_menu` VALUES (2, 1);
+INSERT INTO `v_role_menu` VALUES (2, 3);
+INSERT INTO `v_role_menu` VALUES (2, 17);
+INSERT INTO `v_role_menu` VALUES (2, 51);
+INSERT INTO `v_role_menu` VALUES (2, 52);
 INSERT INTO `v_role_menu` VALUES (3, 1);
 INSERT INTO `v_role_menu` VALUES (3, 3);
+INSERT INTO `v_role_menu` VALUES (3, 32);
+INSERT INTO `v_role_menu` VALUES (3, 12);
 INSERT INTO `v_role_menu` VALUES (3, 9);
 INSERT INTO `v_role_menu` VALUES (3, 10);
 INSERT INTO `v_role_menu` VALUES (3, 11);
-INSERT INTO `v_role_menu` VALUES (3, 12);
-INSERT INTO `v_role_menu` VALUES (3, 32);
 INSERT INTO `v_role_menu` VALUES (3, 17);
 INSERT INTO `v_role_menu` VALUES (3, 18);
 INSERT INTO `v_role_menu` VALUES (3, 21);
@@ -452,10 +443,10 @@ INSERT INTO `v_role_menu` VALUES (3, 22);
 INSERT INTO `v_role_menu` VALUES (3, 23);
 INSERT INTO `v_role_menu` VALUES (3, 24);
 INSERT INTO `v_role_menu` VALUES (3, 19);
-INSERT INTO `v_role_menu` VALUES (3, 25);
-INSERT INTO `v_role_menu` VALUES (3, 26);
 INSERT INTO `v_role_menu` VALUES (3, 27);
 INSERT INTO `v_role_menu` VALUES (3, 28);
+INSERT INTO `v_role_menu` VALUES (3, 25);
+INSERT INTO `v_role_menu` VALUES (3, 26);
 INSERT INTO `v_role_menu` VALUES (3, 20);
 INSERT INTO `v_role_menu` VALUES (3, 31);
 INSERT INTO `v_role_menu` VALUES (3, 34);
@@ -468,12 +459,15 @@ INSERT INTO `v_role_menu` VALUES (3, 50);
 INSERT INTO `v_role_menu` VALUES (3, 53);
 INSERT INTO `v_role_menu` VALUES (3, 51);
 INSERT INTO `v_role_menu` VALUES (3, 52);
-INSERT INTO `v_role_menu` VALUES (3, 56);
+INSERT INTO `v_role_menu` VALUES (3, 61);
+INSERT INTO `v_role_menu` VALUES (3, 60);
 INSERT INTO `v_role_menu` VALUES (3, 57);
-INSERT INTO `v_role_menu` VALUES (3, 54);
-INSERT INTO `v_role_menu` VALUES (3, 55);
+INSERT INTO `v_role_menu` VALUES (3, 56);
 INSERT INTO `v_role_menu` VALUES (3, 58);
 INSERT INTO `v_role_menu` VALUES (3, 59);
+INSERT INTO `v_role_menu` VALUES (3, 63);
+INSERT INTO `v_role_menu` VALUES (3, 54);
+INSERT INTO `v_role_menu` VALUES (3, 55);
 
 -- ----------------------------
 -- Table structure for v_subject
@@ -487,7 +481,7 @@ CREATE TABLE `v_subject`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '学科表（学科和年级）' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '学科表（学科和年级）' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_subject
@@ -529,7 +523,7 @@ CREATE TABLE `v_user`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_user_id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of v_user
@@ -548,7 +542,7 @@ INSERT INTO `v_user` VALUES (29, NULL, '李老师', '123456', '李四', 44, 2, '
 INSERT INTO `v_user` VALUES (30, NULL, '王老师', '123456', '王五', 555, 1, '2021-09-07 08:00:00.0', NULL, '57382739021', 1, NULL, '2022-09-06 15:35:01', NULL, NULL, NULL, '0');
 INSERT INTO `v_user` VALUES (31, NULL, '00', '000000', '00', 0, 2, '2022-09-13 08:00:00.0', NULL, '00889786556', 1, NULL, '2022-09-07 10:39:58', '2022-09-09 10:07:05', NULL, NULL, '1');
 INSERT INTO `v_user` VALUES (32, NULL, '33', '333333', '33', 33, 1, '2022-09-20 08:00:00.0', NULL, '33333333333', 1, NULL, '2022-09-07 10:53:09', NULL, NULL, NULL, '0');
-INSERT INTO `v_user` VALUES (33, NULL, '665', '555555', '55555', 55, 1, '2022-09-13 08:00:00.0', NULL, '54534455', 1, NULL, '2022-09-07 10:58:05', NULL, NULL, NULL, '0');
+INSERT INTO `v_user` VALUES (33, NULL, '665', '555555', '55555', 55, 1, '2022-09-13 08:00:00.0', NULL, '54534455', 1, NULL, '2022-09-07 10:58:05', '2023-02-21 17:26:26', NULL, NULL, '1');
 INSERT INTO `v_user` VALUES (34, NULL, 'test', '123456', 'test', 12, 1, '2022-09-06 08:00:00.0', NULL, '12223424675', 1, NULL, '2022-09-07 16:51:15', NULL, NULL, NULL, '0');
 
 -- ----------------------------
@@ -560,7 +554,7 @@ CREATE TABLE `v_user_role`  (
   `user_id` int(11) NULL DEFAULT NULL,
   `role_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_user_role
@@ -568,13 +562,12 @@ CREATE TABLE `v_user_role`  (
 INSERT INTO `v_user_role` VALUES (38, 29, 2);
 INSERT INTO `v_user_role` VALUES (39, 30, 2);
 INSERT INTO `v_user_role` VALUES (41, 32, NULL);
-INSERT INTO `v_user_role` VALUES (42, 33, NULL);
 INSERT INTO `v_user_role` VALUES (59, 1, 1);
 INSERT INTO `v_user_role` VALUES (60, 3, 2);
-INSERT INTO `v_user_role` VALUES (64, 28, 2);
 INSERT INTO `v_user_role` VALUES (68, 34, 2);
 INSERT INTO `v_user_role` VALUES (69, 34, 3);
 INSERT INTO `v_user_role` VALUES (70, 2, 3);
+INSERT INTO `v_user_role` VALUES (74, 28, 2);
 
 -- ----------------------------
 -- Table structure for v_user_subject_class
@@ -592,8 +585,8 @@ CREATE TABLE `v_user_subject_class`  (
 -- ----------------------------
 INSERT INTO `v_user_subject_class` VALUES (1, 3, 2, '[3]');
 INSERT INTO `v_user_subject_class` VALUES (3, 3, 2, '[3]');
-INSERT INTO `v_user_subject_class` VALUES (28, 4, 1, '[13, 7, 1]');
 INSERT INTO `v_user_subject_class` VALUES (34, 10, 6, '[12, 6]');
 INSERT INTO `v_user_subject_class` VALUES (2, NULL, NULL, '[]');
+INSERT INTO `v_user_subject_class` VALUES (28, 4, 1, '[1]');
 
 SET FOREIGN_KEY_CHECKS = 1;
