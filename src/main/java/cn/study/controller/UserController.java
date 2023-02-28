@@ -118,7 +118,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户",notes = "修改用户")
     @SaCheckLogin
-    @SaCheckPermission(value = "user:edit", orRole = "admin")
+    @SaCheckPermission(value = "user:edit", orRole = {"admin","teacher"})
     @PutMapping("editUser")
     public RES editUser(@RequestBody VUserDto vUserDto) {
         VUser oneByUserName = userService.getOneByUserName(vUserDto.getUserName());

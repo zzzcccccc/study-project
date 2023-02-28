@@ -90,7 +90,6 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
     @Override
     public Boolean edit(VQuestion vQuestion) {
         this.baseMapper.updateById(vQuestion);
-        System.out.println(vQuestion);
         return Boolean.TRUE;
     }
 
