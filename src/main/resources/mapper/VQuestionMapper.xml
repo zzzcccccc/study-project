@@ -13,6 +13,9 @@
         LEFT JOIN  v_subject AS `subject` ON question.subject_id = `subject`.id
         WHERE
             question.del_flag = '0'
+        <if test="query.quesIds != null and query.quesIds != ''">
+            AND  !FIND_IN_SET(question.id, #{query.quesIds})
+        </if>
         <if test="query.gradeId != null and query.gradeId != ''">
             AND  question.grade_id = #{query.gradeId}
         </if>

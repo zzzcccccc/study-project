@@ -10,4 +10,6 @@ public interface VExamPaperService extends IService<VExamPaper> {
 
 
     IPage getPage(Page page, VQuestionDto vQuestionDto);
+
+    int add(VQuestionDto vQuestionDto);
 }

@@ -24,4 +24,5 @@ public interface VQuestionService extends IService<VQuestion> {
     Boolean edit(VQuestion vQuestion);
 
     Integer del(Long id);
+
 }

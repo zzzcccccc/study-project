@@ -11,9 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author zhangcc
@@ -36,4 +34,10 @@ public class VExamPaperController {
         return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
     }
 
+    @ApiOperation(value = "新增", notes = "新增")
+    @PostMapping("/add")
+    public RES add(@RequestBody VQuestionDto vQuestionDto){
+        int add = vExamPaperService.add(vQuestionDto);
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",null);
+    }
 }

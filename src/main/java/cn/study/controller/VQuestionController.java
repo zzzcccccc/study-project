@@ -34,8 +34,8 @@ public class VQuestionController {
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/getPage")
     public RES getPage(Page page,VQuestionDto vQuestionDto){
-        IPage page1 = vQuestionService.getPage(page, vQuestionDto);
-        return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",
+                vQuestionService.getPage(page, vQuestionDto));
     }
 
 

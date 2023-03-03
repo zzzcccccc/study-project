@@ -18,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion>  implements VQuestionService {
@@ -83,11 +81,6 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
 
 
     @Override
-    public IPage getPage(Page page, VQuestionDto vQuestionDto) {
-        return this.baseMapper.getPage(page,vQuestionDto);
-    }
-
-    @Override
     public Boolean edit(VQuestion vQuestion) {
         this.baseMapper.updateById(vQuestion);
         return Boolean.TRUE;
@@ -100,4 +93,10 @@ public class VQuestionServiceImpl extends ServiceImpl<VQuestionMapper, VQuestion
         int i = this.baseMapper.updateById(vQuestion);
         return i;
     }
+
+    @Override
+    public IPage getPage(Page page, VQuestionDto vQuestionDto) {
+        return this.baseMapper.getPage(page, vQuestionDto);
+    }
+
 }

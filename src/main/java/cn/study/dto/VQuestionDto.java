@@ -35,5 +35,9 @@ public class VQuestionDto extends VExamPaper {
     @ApiModelProperty("学科name")
     private String subjectName;
 
+    @ApiModelProperty("quesIds")
+    private String quesIds;
+
+
 
 }
