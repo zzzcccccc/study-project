@@ -4,36 +4,45 @@
 
     <select id="getPage" resultType="cn.study.vo.VQuestionVo">
         select
-            question.*,
-            grade.`name` AS gradeName,
-            `subject`.`name` AS subjectName
+        question.*,
+        grade.`name` AS gradeName,
+        `subject`.`name` AS subjectName
         from
-            v_question AS question
-        LEFT JOIN  v_grade AS grade ON question.grade_id = grade.id
-        LEFT JOIN  v_subject AS `subject` ON question.subject_id = `subject`.id
+        v_question AS question
+        LEFT JOIN v_grade AS grade ON question.grade_id = grade.id
+        LEFT JOIN v_subject AS `subject` ON question.subject_id = `subject`.id
         WHERE
-            question.del_flag = '0'
+        question.del_flag = '0'
         <if test="query.quesIds != null and query.quesIds != ''">
-            AND  !FIND_IN_SET(question.id, #{query.quesIds})
+            AND !FIND_IN_SET(question.id, #{query.quesIds})
         </if>
         <if test="query.gradeId != null and query.gradeId != ''">
-            AND  question.grade_id = #{query.gradeId}
+            AND question.grade_id = #{query.gradeId}
         </if>
         <if test="query.subjectId != null and query.subjectId != ''">
-            AND  question.subject_id = #{query.subjectId}
+            AND question.subject_id = #{query.subjectId}
         </if>
         <if test="query.subjectName != null and query.subjectName != ''">
-            AND  `subject`.`name` LIKE  CONCAT(CONCAT('%',#{query.subjectName},'%'))
+            AND `subject`.`name` LIKE CONCAT(CONCAT('%',#{query.subjectName},'%'))
         </if>
         <if test="query.paperType != null and query.paperType != ''">
-            AND  question.ques_type_id = #{query.paperType}
+            AND question.ques_type_id = #{query.paperType}
         </if>
         <if test="query.createTime != null">
             AND date_format(question.create_time,'yyyy-MMM-dd') = #{query.createTime}
         </if>
         <if test="query.headline != null">
-            AND question.`title` LIKE  CONCAT(CONCAT('%',#{query.headline},'%'))
+            AND question.`title` LIKE CONCAT(CONCAT('%',#{query.headline},'%'))
         </if>
         ORDER BY question.create_time DESC
+    </select>
+    <select id="getListByExamId" resultType="cn.study.entity.VQuestion">
+        select
+            question.*
+        from
+            v_question AS question
+        LEFT JOIN  v_exam_quest AS veq ON question.id = veq.quest_id
+        WHERE
+            veq.exam_id = #{examId}
     </select>
 </mapper>

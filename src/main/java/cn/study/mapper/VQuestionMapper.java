@@ -16,4 +16,6 @@ import java.util.List;
 public interface VQuestionMapper extends BaseMapper<VQuestion> {
 
     IPage getPage(Page page, @Param("query") VQuestionDto vQuestionDto);
+
+    List<VQuestion> getListByExamId(Long examId);
 }

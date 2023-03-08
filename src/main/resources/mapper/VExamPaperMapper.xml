@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.study.mapper.VExamPaperMapper">
+
+    <select id="getPage" resultType="cn.study.vo.VExamPaperVo">
+        select
+            question.*
+        from
+            v_exam_paper AS question
+        WHERE
+        question.del_flag = '0'
+        <if test="query.gradeId != null and query.gradeId != ''">
+            AND question.grade_id = #{query.gradeId}
+        </if>
+        <if test="query.subjectId != null and query.subjectId != ''">
+            AND question.subject_id = #{query.subjectId}
+        </if>
+        <if test="query.headline != null">
+            AND question.headline LIKE CONCAT(CONCAT('%',#{query.headline},'%'))
+        </if>
+
+    </select>
+</mapper>
