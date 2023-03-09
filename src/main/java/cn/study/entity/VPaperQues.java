@@ -7,12 +7,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class VExamQuest implements Serializable {
+public class VPaperQues implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)//指定自增策略
     private Long id;
 
-    private Long examId;
+    private Long paperId;
 
-    private Long questId;
+    private Long quesId;
 }

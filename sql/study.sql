@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 24/02/2023 17:33:51
+ Date: 09/03/2023 17:24:49
 */
 
 SET NAMES utf8mb4;
@@ -26,17 +26,19 @@ CREATE TABLE `blog`  (
   `title` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   `userId` int(11) NULL DEFAULT NULL,
-  `postTime` datetime(0) NULL DEFAULT NULL,
+  `fd_lately_remind_time` datetime(0) NULL DEFAULT NULL,
+  `fd_zgdy_sqrq` datetime(0) NULL DEFAULT NULL,
+  `del_flag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`blogId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog
 -- ----------------------------
-INSERT INTO `blog` VALUES (1, '我的第一篇博客', '一二三四五，六七八九十', 1, '2022-07-06 15:12:40');
-INSERT INTO `blog` VALUES (2, '我的第二篇博客', '一二三四五，十九八七六', 1, '2022-07-06 15:12:40');
-INSERT INTO `blog` VALUES (3, '我的第三篇博客', '一二三四五，六六六六六', 1, '2022-07-06 15:12:40');
-INSERT INTO `blog` VALUES (4, '我的第一篇博客', '一二三四五，上山打老虎', 2, '2022-07-06 15:12:40');
+INSERT INTO `blog` VALUES (1, '我的第一篇博客', '一二三四五，六七八九十', 1, NULL, '2023-02-03 00:00:00', '30');
+INSERT INTO `blog` VALUES (2, '我的第二篇博客', '一二三四五，十九八七六', 1, NULL, '2023-02-03 00:00:00', '30');
+INSERT INTO `blog` VALUES (3, '我的第三篇博客', '一二三四五，六六六六六', 1, '2022-07-06 15:12:40', '2023-02-03 00:00:00', '30');
+INSERT INTO `blog` VALUES (4, '我的第一篇博客', '一二三四五，上山打老虎', 2, NULL, '2023-02-03 00:00:00', '30');
 
 -- ----------------------------
 -- Table structure for sys_upload_task
@@ -84,7 +86,7 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'zhangsan', '123', 2.00);
-INSERT INTO `user` VALUES (2, 'lisi', '123', 2.60);
+INSERT INTO `user` VALUES (2, 'lisi-0', '123', 2.60);
 
 -- ----------------------------
 -- Table structure for user_s
@@ -96,14 +98,43 @@ CREATE TABLE `user_s`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `del_flag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `fd_zgdy_qljjfzsj` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_s
 -- ----------------------------
-INSERT INTO `user_s` VALUES (1, 'user', '123', 'user', '\r\n组内相互配合和领导交办工作的完成情况 \r\n组长、行业研究牵头人打分，每半年进行一次；');
-INSERT INTO `user_s` VALUES (2, 'admin', '123', 'admin', '利用投研平台进行模拟组合配置，根据模拟组合的超额收益（相对行业标准组合）计算该项考核得分\r\n\r\n二级部绩效评审小组根据各研究员模拟组合相对可比基准的超额收益情况评议打分。利用投研平台进行模拟组合配置，根据模拟组合的超额收益（相对行业标准组合）计算该项考核得分');
+INSERT INTO `user_s` VALUES (1, 'user', '123', 'user', '\r\n组内相互配合和领导交办工作的完成情况 \r\n组长、行业研究牵头人打分，每半年进行一次；', '20', NULL);
+INSERT INTO `user_s` VALUES (2, 'admin', '123', 'admin', '利用投研平台进行模拟组合配置，根据模拟组合的超额收益（相对行业标准组合）计算该项考核得分\r\n\r\n二级部绩效评审小组根据各研究员模拟组合相对可比基准的超额收益情况评议打分。利用投研平台进行模拟组合配置，根据模拟组合的超额收益（相对行业标准组合）计算该项考核得分', NULL, NULL);
+
+-- ----------------------------
+-- Table structure for v_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `v_answer`;
+CREATE TABLE `v_answer`  (
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(12) NULL DEFAULT NULL,
+  `real_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户名',
+  `class_id` int(12) NULL DEFAULT NULL,
+  `teacher_id` bigint(12) NULL DEFAULT NULL,
+  `paper_id` bigint(12) NULL DEFAULT NULL,
+  `answer_array` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `answer_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '答卷状态 0未完成 1已完成',
+  `correct_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '批改状态 0未完成 1已完成',
+  `grade` float(12, 2) NULL DEFAULT NULL COMMENT '总分',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_index`(`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户答卷表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of v_answer
+-- ----------------------------
+INSERT INTO `v_answer` VALUES (6, 35, 'jiafegn', 6, NULL, 34, NULL, NULL, NULL, NULL, '2023-03-09 16:38:23', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_class
@@ -193,46 +224,6 @@ CREATE TABLE `v_cron_exception`  (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for v_exam_paper
--- ----------------------------
-DROP TABLE IF EXISTS `v_exam_paper`;
-CREATE TABLE `v_exam_paper`  (
-  `id` bigint(12) NOT NULL AUTO_INCREMENT,
-  `headline` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷题目',
-  `paper_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷类型 1计时 2不计时',
-  `deadline` timestamp(0) NULL DEFAULT NULL COMMENT '截止时间',
-  `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
-  `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
-  `class_id_array` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级ids',
-  `total_points` float(12, 1) NULL DEFAULT NULL COMMENT '总分',
-  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
-  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of v_exam_paper
--- ----------------------------
-INSERT INTO `v_exam_paper` VALUES (7, '三年级试卷-语文', NULL, '2023-02-24 00:00:00', 10, 6, '[6, 12]', NULL, '2023-02-24 15:45:01', NULL, '0');
-
--- ----------------------------
--- Table structure for v_exam_quest
--- ----------------------------
-DROP TABLE IF EXISTS `v_exam_quest`;
-CREATE TABLE `v_exam_quest`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `exam_id` bigint(20) NULL DEFAULT NULL,
-  `quest_id` bigint(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of v_exam_quest
--- ----------------------------
-INSERT INTO `v_exam_quest` VALUES (6, 7, 44);
-
--- ----------------------------
 -- Table structure for v_grade
 -- ----------------------------
 DROP TABLE IF EXISTS `v_grade`;
@@ -264,7 +255,7 @@ CREATE TABLE `v_link`  (
   `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '显隐状态 0显示1隐藏',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_link
@@ -291,7 +282,7 @@ CREATE TABLE `v_menu`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`menu_id`) USING BTREE,
   INDEX `index_menu_id`(`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_menu
@@ -303,8 +294,8 @@ INSERT INTO `v_menu` VALUES (10, '修改', 'user:edit', 3, 3, NULL, NULL, 'el-ic
 INSERT INTO `v_menu` VALUES (11, '删除', 'user:del', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101050, '2022-07-22 16:25:42', '2023-02-24 14:59:04', '0');
 INSERT INTO `v_menu` VALUES (12, '分配角色', 'user:roles', 3, 3, NULL, NULL, 'el-icon-menu', 2, 101020, '2022-07-22 16:25:42', '2023-02-24 14:58:56', '0');
 INSERT INTO `v_menu` VALUES (17, '系统管理', 'sys:all', -1, 1, NULL, 'system/', 'el-icon-s-tools', 1, 2, '2022-07-22 16:26:54', '2022-09-01 15:04:36', '0');
-INSERT INTO `v_menu` VALUES (18, '角色列表', 'role:list', 17, 2, NULL, 'system/roleIndex', 'el-icon-s-help', 1, 2010, '2022-07-22 16:27:05', '2023-02-24 14:59:24', '0');
-INSERT INTO `v_menu` VALUES (19, '菜单列表', 'menu:list', 17, 2, NULL, 'menu/menuInfo', 'el-icon-menu', 1, 2020, '2022-07-22 16:27:08', '2023-02-24 14:59:26', '0');
+INSERT INTO `v_menu` VALUES (18, '权限管理', 'role:list', 17, 2, NULL, 'system/roleIndex', 'el-icon-s-help', 1, 2010, '2022-07-22 16:27:05', '2023-02-24 14:59:24', '0');
+INSERT INTO `v_menu` VALUES (19, '菜单管理', 'menu:list', 17, 2, NULL, 'menu/menuInfo', 'el-icon-menu', 1, 2020, '2022-07-22 16:27:08', '2023-02-24 14:59:26', '0');
 INSERT INTO `v_menu` VALUES (20, 'demo列表', 'demo:list', 17, 2, 'ceshi', 'system/permissionDemo', 'el-icon-s-opportunity', 1, 2030, '2022-07-22 16:27:12', '2023-02-24 14:59:29', '0');
 INSERT INTO `v_menu` VALUES (21, '添加角色', 'role:add', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201010, '2022-07-22 16:29:04', '2023-02-24 14:59:44', '0');
 INSERT INTO `v_menu` VALUES (22, '修改角色', 'role:edit', 18, 3, NULL, NULL, 'el-icon-menu', 2, 201020, '2022-07-22 16:29:04', '2023-02-24 14:59:57', '0');
@@ -331,11 +322,86 @@ INSERT INTO `v_menu` VALUES (55, '定时器详情', 'task:all', 54, 2, NULL, 'ta
 INSERT INTO `v_menu` VALUES (56, '文件上传', 'topic:file', 51, 2, NULL, 'topic/file', 'el-icon-upload', 1, 4040, '2023-01-30 15:26:49', '2023-02-24 15:03:25', '0');
 INSERT INTO `v_menu` VALUES (57, '创编', 'topic:create', 51, 2, NULL, 'topic/create', 'el-icon-s-opportunity', 1, 4020, '2023-02-10 13:56:51', '2023-02-24 15:03:19', '0');
 INSERT INTO `v_menu` VALUES (58, '卷库管理', 'exam:paper', -1, 1, NULL, 'exam', 'el-icon-s-data', 1, 5, '2023-02-15 09:30:35', '2023-02-24 14:37:05', '0');
-INSERT INTO `v_menu` VALUES (59, '列表', 'exam:paper', 58, 2, NULL, 'exam/paper', 'el-icon-s-data', 1, 5010, '2023-02-15 09:31:25', '2023-02-24 15:03:42', '0');
+INSERT INTO `v_menu` VALUES (59, '总列表', 'paper:admin', 58, 2, NULL, 'exam/paper', 'el-icon-s-data', 1, 5010, '2023-02-15 09:31:25', '2023-02-24 15:03:42', '0');
 INSERT INTO `v_menu` VALUES (60, '修改题库', 'topic:editQues', 52, 3, NULL, '/topic/editQues', 'el-icon-menu', 2, 401020, '2023-02-20 10:53:10', '2023-02-24 15:03:22', '0');
 INSERT INTO `v_menu` VALUES (61, '删除', 'topic:del', 52, 3, NULL, '/topic/del', 'el-icon-menu', 2, 401010, '2023-02-21 17:18:43', '2023-02-24 15:14:19', '0');
 INSERT INTO `v_menu` VALUES (62, 'test', 'test', 52, 3, NULL, 'test', 'el-icon-menu', 2, 999, '2023-02-21 17:21:01', '2023-02-24 15:10:40', '1');
 INSERT INTO `v_menu` VALUES (63, '创编', 'paper:create', 58, 2, NULL, 'paper/create', 'el-icon-s-opportunity', 1, 5020, '2023-02-24 14:33:06', '2023-02-24 15:03:44', '0');
+INSERT INTO `v_menu` VALUES (64, '批改', 'paper:correct', 58, 2, NULL, 'paper/correct', 'el-icon-s-check\r\n', 1, 5030, '2023-03-08 16:23:15', '2023-03-08 16:25:18', '0');
+INSERT INTO `v_menu` VALUES (65, '列表', 'paper:list', 58, 2, NULL, 'paper/list', 'el-icon-menu', 1, 5010, '2023-03-09 17:22:19', NULL, '0');
+
+-- ----------------------------
+-- Table structure for v_paper
+-- ----------------------------
+DROP TABLE IF EXISTS `v_paper`;
+CREATE TABLE `v_paper`  (
+  `id` bigint(12) NOT NULL AUTO_INCREMENT,
+  `headline` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷题目',
+  `paper_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '试卷类型 1计时 2不计时',
+  `deadline` timestamp(0) NULL DEFAULT NULL COMMENT '截止时间',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '创建者',
+  `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
+  `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
+  `class_id_array` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级ids',
+  `total_points` float(12, 1) NULL DEFAULT NULL COMMENT '总分',
+  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of v_paper
+-- ----------------------------
+INSERT INTO `v_paper` VALUES (7, '三年级试卷-语文', NULL, '2023-02-24 00:00:00', NULL, 10, 6, '[6, 12]', NULL, '2023-02-24 15:45:01', NULL, '0');
+INSERT INTO `v_paper` VALUES (17, 'by', NULL, '2023-03-06 16:24:59', NULL, 2, 1, NULL, NULL, '2023-03-06 16:25:10', NULL, '0');
+INSERT INTO `v_paper` VALUES (18, '88888', NULL, '2023-03-06 16:27:43', NULL, 1, 1, NULL, NULL, '2023-03-06 16:27:49', NULL, '0');
+INSERT INTO `v_paper` VALUES (19, 'xia', NULL, '2023-03-06 16:29:48', NULL, 5, 2, '[9, 3]', NULL, '2023-03-06 16:30:02', NULL, '0');
+INSERT INTO `v_paper` VALUES (20, '二年级-体育', NULL, '2023-03-31 00:00:00', NULL, 12, 4, '[2, 8]', NULL, '2023-03-08 13:25:56', NULL, '0');
+INSERT INTO `v_paper` VALUES (21, '三下语文一班', NULL, '2023-03-09 13:50:11', 2, 10, 6, '[6]', NULL, '2023-03-09 13:50:52', NULL, '0');
+INSERT INTO `v_paper` VALUES (22, '以上述一班张三', NULL, '2023-03-09 14:41:24', 2, 1, 1, '[1]', NULL, '2023-03-09 14:41:44', NULL, '0');
+INSERT INTO `v_paper` VALUES (26, '一年级上数学张三一班测试', NULL, NULL, 2, 1, 1, '[1]', NULL, '2023-03-09 14:46:22', NULL, '0');
+INSERT INTO `v_paper` VALUES (28, '有有有有有有有有有由于', NULL, NULL, 2, 1, 1, '[1]', NULL, '2023-03-09 14:50:00', '2023-03-09 16:55:46', '1');
+INSERT INTO `v_paper` VALUES (29, '三下语文无班', NULL, '2023-03-09 00:00:00', NULL, 10, 6, '[]', NULL, '2023-03-09 15:48:05', NULL, '0');
+INSERT INTO `v_paper` VALUES (30, '仨', NULL, NULL, 2, 10, 6, '[]', NULL, '2023-03-09 16:31:38', '2023-03-09 16:55:29', '1');
+INSERT INTO `v_paper` VALUES (31, '涛涛涛涛', NULL, NULL, 2, 10, 6, '[]', NULL, '2023-03-09 16:33:58', '2023-03-09 16:55:28', '1');
+INSERT INTO `v_paper` VALUES (32, '000000000', NULL, NULL, 2, 10, 6, '[]', NULL, '2023-03-09 16:34:50', '2023-03-09 16:55:26', '1');
+INSERT INTO `v_paper` VALUES (34, '对赌地对', NULL, NULL, 2, 10, 6, '[]', NULL, '2023-03-09 16:38:23', '2023-03-09 16:55:22', '1');
+
+-- ----------------------------
+-- Table structure for v_paper_ques
+-- ----------------------------
+DROP TABLE IF EXISTS `v_paper_ques`;
+CREATE TABLE `v_paper_ques`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `paper_id` bigint(20) NULL DEFAULT NULL,
+  `ques_id` bigint(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of v_paper_ques
+-- ----------------------------
+INSERT INTO `v_paper_ques` VALUES (6, 7, 44);
+INSERT INTO `v_paper_ques` VALUES (7, 17, 41);
+INSERT INTO `v_paper_ques` VALUES (8, 18, 40);
+INSERT INTO `v_paper_ques` VALUES (9, 19, 37);
+INSERT INTO `v_paper_ques` VALUES (10, 20, 45);
+INSERT INTO `v_paper_ques` VALUES (11, 20, 46);
+INSERT INTO `v_paper_ques` VALUES (12, 20, 47);
+INSERT INTO `v_paper_ques` VALUES (13, 20, 48);
+INSERT INTO `v_paper_ques` VALUES (14, 21, 40);
+INSERT INTO `v_paper_ques` VALUES (15, 21, 44);
+INSERT INTO `v_paper_ques` VALUES (16, 22, 49);
+INSERT INTO `v_paper_ques` VALUES (17, 22, 50);
+INSERT INTO `v_paper_ques` VALUES (18, 22, 51);
+INSERT INTO `v_paper_ques` VALUES (19, 22, 40);
+INSERT INTO `v_paper_ques` VALUES (32, 26, 49);
+INSERT INTO `v_paper_ques` VALUES (33, 26, 50);
+INSERT INTO `v_paper_ques` VALUES (34, 26, 51);
+INSERT INTO `v_paper_ques` VALUES (35, 26, 40);
+INSERT INTO `v_paper_ques` VALUES (44, 29, 52);
+INSERT INTO `v_paper_ques` VALUES (45, 29, 53);
 
 -- ----------------------------
 -- Table structure for v_question
@@ -357,21 +423,26 @@ CREATE TABLE `v_question`  (
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_question
 -- ----------------------------
-INSERT INTO `v_question` VALUES (1, '<p style=\"text-align: center\"><img class=\"xzs-image\" src=\"https://www.mindskip.net:7000/resource/image/8e5a1c74-89df-40ee-9424-a82878675d01/img01_r.jpg\" alt=\"img01_r.jpg\"></p><p><span style=\"color: rgb(255, 255, 0);\">88888888888888888888888</span><span style=\"color: rgb(255, 255, 0);\"></span></p>', '<span style=\"color: rgb(255, 0, 0);\">JIEXI</span>', 'A', 2, '[{\"prefix\": \"A\", \"content\": \"<span style=\\\"text-decoration: underline;\\\">AAAAAAAAAAAAAAAAADDD</span>\"}, {\"prefix\": \"B\", \"content\": \"<p><span style=\\\"color: rgb(255, 255, 0);\\\">BBBBBBBBBBBBBBBBBBBBBBBB</span></p><p>bbbbbbbbbbbbbbb</p>\"}, {\"prefix\": \"C\", \"content\": \"<p><span style=\\\"color: rgb(255, 0, 0);\\\">CCCCCCCCCCCCCCCCCCCC</span></p><p><span style=\\\"color: rgb(0, 0, 0);\\\">LALALALLALAA</span><span style=\\\"color: rgb(0, 0, 0);\\\"></span></p>\"}, {\"prefix\": \"D\", \"content\": \"DDDDDDDDDDDDDDDDDDDD\"}]', NULL, 1, 1.0, 1, 1, '2023-02-10 09:40:01', '2023-02-17 17:21:35', '1');
-INSERT INTO `v_question` VALUES (36, '题干是', '解析零零零零', '[\"参考答案是\"]', 3, '[]', NULL, 4, 5.0, 11, 3, '2023-02-17 17:22:29', '2023-02-21 17:13:17', '1');
 INSERT INTO `v_question` VALUES (37, '他们全让我走路，他们让我在雨里散步， ______?', '歌词', '[\"他们说我是怪物\"]', 5, '[]', NULL, 4, 777.0, 5, 2, '2023-02-17 17:23:43', '2023-02-24 11:02:00', '0');
-INSERT INTO `v_question` VALUES (38, '7777777', 'jic', '[\"7777\"]', 3, '[\"7777\",\"564\",\"45\",\"34\"]', NULL, 1, 7.0, 2, 1, '2023-02-20 14:35:54', '2023-02-21 15:59:41', '1');
-INSERT INTO `v_question` VALUES (39, '333333', '33334344', '[\"对\"]', 3, '[]', NULL, 5, 3.0, 2, 1, '2023-02-20 14:35:54', '2023-02-24 11:02:04', '1');
 INSERT INTO `v_question` VALUES (40, '写词都用12345 也听起来很俗 谁在乎呜呜呜呜~~', 'SDFSDFSD', '[\"BBBBBBB\"]', 2, '[\"BBBBBBB\",\"FFFFFFFFFFF\",\"CCCCCCCC\",\"DDDDDDDDD\"]', NULL, 1, 1.0, 1, 1, '2023-02-21 16:04:50', '2023-02-24 11:01:14', '0');
 INSERT INTO `v_question` VALUES (41, '高脚杯喝水真的很酷！！！', '45', '[\"6667676\"]', 2, '[\"6667676\",\"78\",\"56\",\"3\"]', NULL, 1, 9.0, 2, 1, '2023-02-21 16:35:13', '2023-02-21 16:36:16', '0');
 INSERT INTO `v_question` VALUES (42, '请问2023年2月24日星期天？', '自行百度', '[\"星期五\"]', 2, '[\"星期一\",\"星期五\",\"星期六\",\"星期四\"]', NULL, 1, 3.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
 INSERT INTO `v_question` VALUES (43, '1+1=2对吗', '有有有', '[\"对\"]', 4, '[]', NULL, 5, 2.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
 INSERT INTO `v_question` VALUES (44, '多选题 三年级下册 语文 一班二班 测试', '绑定卡了大家考虑进去看我Joe u恶女老总的', '[\"史蒂芬德尔呃呃\",\"大苏打JFK是\"]', 2, '[\"大苏打JFK是\",\"似懂非懂\",\"是的方法\",\"史蒂芬德尔呃呃\"]', NULL, 2, 10.0, 10, 6, '2023-02-24 15:45:01', NULL, '0');
+INSERT INTO `v_question` VALUES (45, '单选题啊啊啊', '解析1', '[\"儿童\"]', 3, '[\"他\",\"饿\",\"他饿\",\"儿童\"]', NULL, 1, 2.0, 12, 4, '2023-03-08 13:25:56', NULL, '0');
+INSERT INTO `v_question` VALUES (46, '题干', 'test', '[\"歌手\",\"王小帅\",\"囚鸟\"]', 5, '[\"囚鸟\",\"王小帅\",\"歌手\",\"test\"]', NULL, 2, 3.0, 12, 4, '2023-03-08 13:25:56', NULL, '0');
+INSERT INTO `v_question` VALUES (47, '填空题——？', '哥的嘀咕嘀咕', '[\"鸟\"]', 4, '[]', NULL, 3, 9.0, 12, 4, '2023-03-08 13:25:56', NULL, '0');
+INSERT INTO `v_question` VALUES (48, '对不对？？', '可有可无', '[\"对\"]', 1, '[]', NULL, 5, 3.0, 12, 4, '2023-03-08 13:25:56', NULL, '0');
+INSERT INTO `v_question` VALUES (49, '一上数单', '解析', '[\"333\"]', 5, '[\"333\",\"444\",\"555\",\"666\"]', NULL, 1, 1.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (50, '以上书判', '嗯嗯嗯', '[\"错\"]', 2, '[]', NULL, 5, 2.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (51, '以上述填空', '地方的方法', '[\"对对对\"]', 3, '[]', NULL, 3, 3.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (52, '三侠俞', 'test', '[\"她她她她她她她\"]', 3, '[]', NULL, 4, 3.0, 10, 6, '2023-03-09 15:48:05', NULL, '0');
+INSERT INTO `v_question` VALUES (53, '呃呃呃呃呃呃呃', '反对法烦烦烦', '[\"大大方方ff\"]', 3, '[]', NULL, 3, 3.0, 10, 6, '2023-03-09 15:48:05', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_role
@@ -465,7 +536,9 @@ INSERT INTO `v_role_menu` VALUES (3, 57);
 INSERT INTO `v_role_menu` VALUES (3, 56);
 INSERT INTO `v_role_menu` VALUES (3, 58);
 INSERT INTO `v_role_menu` VALUES (3, 59);
+INSERT INTO `v_role_menu` VALUES (3, 65);
 INSERT INTO `v_role_menu` VALUES (3, 63);
+INSERT INTO `v_role_menu` VALUES (3, 64);
 INSERT INTO `v_role_menu` VALUES (3, 54);
 INSERT INTO `v_role_menu` VALUES (3, 55);
 
@@ -504,7 +577,7 @@ INSERT INTO `v_subject` VALUES (12, '体育', 4, '2022-09-09 10:32:11', NULL, '0
 -- ----------------------------
 DROP TABLE IF EXISTS `v_user`;
 CREATE TABLE `v_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `user_uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -523,7 +596,7 @@ CREATE TABLE `v_user`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_user_id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of v_user
@@ -541,40 +614,41 @@ INSERT INTO `v_user` VALUES (28, NULL, '张三', '123456', '张三', 12, 1, '202
 INSERT INTO `v_user` VALUES (29, NULL, '李老师', '123456', '李四', 44, 2, '2022-09-05 08:00:00.0', NULL, '1937472933', 1, NULL, '2022-09-06 15:31:57', NULL, NULL, NULL, '0');
 INSERT INTO `v_user` VALUES (30, NULL, '王老师', '123456', '王五', 555, 1, '2021-09-07 08:00:00.0', NULL, '57382739021', 1, NULL, '2022-09-06 15:35:01', NULL, NULL, NULL, '0');
 INSERT INTO `v_user` VALUES (31, NULL, '00', '000000', '00', 0, 2, '2022-09-13 08:00:00.0', NULL, '00889786556', 1, NULL, '2022-09-07 10:39:58', '2022-09-09 10:07:05', NULL, NULL, '1');
-INSERT INTO `v_user` VALUES (32, NULL, '33', '333333', '33', 33, 1, '2022-09-20 08:00:00.0', NULL, '33333333333', 1, NULL, '2022-09-07 10:53:09', NULL, NULL, NULL, '0');
+INSERT INTO `v_user` VALUES (32, NULL, '33', '333333', '33', 33, 1, '2022-09-20 08:00:00.0', NULL, '33333333333', 1, NULL, '2022-09-07 10:53:09', '2023-02-27 09:16:19', NULL, NULL, '1');
 INSERT INTO `v_user` VALUES (33, NULL, '665', '555555', '55555', 55, 1, '2022-09-13 08:00:00.0', NULL, '54534455', 1, NULL, '2022-09-07 10:58:05', '2023-02-21 17:26:26', NULL, NULL, '1');
 INSERT INTO `v_user` VALUES (34, NULL, 'test', '123456', 'test', 12, 1, '2022-09-06 08:00:00.0', NULL, '12223424675', 1, NULL, '2022-09-07 16:51:15', NULL, NULL, NULL, '0');
+INSERT INTO `v_user` VALUES (35, NULL, 'jiafeng', 'jiafeng', 'jiafegn', NULL, NULL, NULL, NULL, '', 1, NULL, '2023-02-27 09:00:29', NULL, NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `v_user_role`;
 CREATE TABLE `v_user_role`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NULL DEFAULT NULL,
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(11) NULL DEFAULT NULL,
   `role_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 80 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_user_role
 -- ----------------------------
 INSERT INTO `v_user_role` VALUES (38, 29, 2);
 INSERT INTO `v_user_role` VALUES (39, 30, 2);
-INSERT INTO `v_user_role` VALUES (41, 32, NULL);
-INSERT INTO `v_user_role` VALUES (59, 1, 1);
 INSERT INTO `v_user_role` VALUES (60, 3, 2);
-INSERT INTO `v_user_role` VALUES (68, 34, 2);
-INSERT INTO `v_user_role` VALUES (69, 34, 3);
 INSERT INTO `v_user_role` VALUES (70, 2, 3);
-INSERT INTO `v_user_role` VALUES (74, 28, 2);
+INSERT INTO `v_user_role` VALUES (78, 34, 3);
+INSERT INTO `v_user_role` VALUES (79, 34, 2);
+INSERT INTO `v_user_role` VALUES (81, 28, 2);
+INSERT INTO `v_user_role` VALUES (82, 1, 1);
+INSERT INTO `v_user_role` VALUES (83, 35, 1);
 
 -- ----------------------------
 -- Table structure for v_user_subject_class
 -- ----------------------------
 DROP TABLE IF EXISTS `v_user_subject_class`;
 CREATE TABLE `v_user_subject_class`  (
-  `user_id` int(11) NULL DEFAULT NULL,
+  `user_id` bigint(11) NULL DEFAULT NULL,
   `subject_id` int(11) NULL DEFAULT NULL,
   `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
   `class_ids` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL
@@ -583,10 +657,11 @@ CREATE TABLE `v_user_subject_class`  (
 -- ----------------------------
 -- Records of v_user_subject_class
 -- ----------------------------
-INSERT INTO `v_user_subject_class` VALUES (1, 3, 2, '[3]');
 INSERT INTO `v_user_subject_class` VALUES (3, 3, 2, '[3]');
-INSERT INTO `v_user_subject_class` VALUES (34, 10, 6, '[12, 6]');
 INSERT INTO `v_user_subject_class` VALUES (2, NULL, NULL, '[]');
-INSERT INTO `v_user_subject_class` VALUES (28, 4, 1, '[1]');
+INSERT INTO `v_user_subject_class` VALUES (34, 10, 6, '[12, 6]');
+INSERT INTO `v_user_subject_class` VALUES (28, 1, 1, '[1, 7]');
+INSERT INTO `v_user_subject_class` VALUES (1, NULL, 1, '[1]');
+INSERT INTO `v_user_subject_class` VALUES (35, NULL, 6, '[6]');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.study.mapper.VUserSubjectClassMapper">
+
+
+    <select id="selectUserByClassId" resultType="cn.study.vo.VUserSubClaVo">
+       SELECT
+            usc.user_id,
+            usc.class_ids,
+            u.real_name
+        FROM
+            v_user_subject_class AS usc
+            LEFT JOIN v_user AS u ON usc.user_id = u.id
+        WHERE
+            1=1
+        <if test="classId!=null">
+            AND JSON_CONTAINS( usc.class_ids,CONVERT ( #{classId}, CHAR )) = 1
+        </if>
+        <if test="gradeId!=null">
+            AND usc.grade_id = #{gradeId}
+        </if>
+        AND usc.subject_id IS  NULL
+    </select>
+    <select id="selectTeacher" resultType="java.lang.Long">
+        SELECT
+            usc.user_id
+        FROM
+            v_user_subject_class AS usc
+        WHERE
+         JSON_CONTAINS( usc.class_ids,CONVERT ( #{classId}, CHAR )) = 1
+        AND usc.subject_id = #{subjectId}
+        AND usc.grade_id = #{gradeId}
+    </select>
+</mapper>

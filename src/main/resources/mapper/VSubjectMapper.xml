@@ -5,7 +5,7 @@
     <select id="getPageSubject" resultType="cn.study.vo.VSubjectVo">
         select
             v_subject.*,
-            v_grade.name AS grade_name
+            v_grade.name AS gradeName
         from
             v_subject
         LEFT JOIN  v_grade ON v_subject.grade_id = v_grade.id

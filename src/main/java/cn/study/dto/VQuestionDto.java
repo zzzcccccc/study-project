@@ -1,16 +1,14 @@
 package cn.study.dto;
 
-import cn.hutool.json.JSONArray;
-import cn.study.entity.VExamPaper;
+import cn.study.entity.VPaper;
 import cn.study.entity.VQuestion;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class VQuestionDto extends VExamPaper {
+public class VQuestionDto extends VPaper {
 
     /**
      * 是否生成试卷 1是 2否
@@ -37,6 +35,9 @@ public class VQuestionDto extends VExamPaper {
 
     @ApiModelProperty("quesIds")
     private String quesIds;
+
+    @ApiModelProperty("userId")
+    private Long userId;
 
 
 

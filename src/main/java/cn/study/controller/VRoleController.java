@@ -31,6 +31,7 @@ public class VRoleController {
 
     /**
      * 权限列表
+     *
      * @return
      */
     @SaCheckLogin
@@ -59,11 +60,12 @@ public class VRoleController {
 
     /**
      * 获取已选中的权限id
+     *
      * @param userId
      * @return
      */
     @GetMapping("/getUseRoleByUserId/{userId}")
-    public RES getUseRoleByUserId(@PathVariable(value = "userId") Integer userId) {
+    public RES getUseRoleByUserId(@PathVariable(value = "userId") Long userId) {
         List<Integer> collect = vUserRoleService.getUseRoleByUserId(userId)
                 .stream().map(VUserRole::getRoleId).collect(Collectors.toList());
         //使用toArray(T[] a)方法

@@ -15,8 +15,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
  * @date 2023-02-13
  */
 @Data
-@ApiModel("v_exam_paper")
-public class VExamPaper implements Serializable {
+@ApiModel("v_paper")
+public class VPaper implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +41,13 @@ public class VExamPaper implements Serializable {
      */
     @ApiModelProperty("截止时间")
     private String deadline;
+
+    /**
+     * 学科id
+     */
+    @ApiModelProperty("创建者用户id")
+    private Long userId;
+
 
     /**
      * 学科id

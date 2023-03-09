@@ -18,7 +18,7 @@ public class VUser implements Serializable {
 
     @ApiModelProperty(value = "用户ID")
     @TableId(value = "id", type = IdType.AUTO)//指定自增策略
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "uuid")
     private String userUuid;

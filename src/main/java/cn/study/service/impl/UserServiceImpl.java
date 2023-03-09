@@ -47,7 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
             String userName1 = vUser.getUserName();
             String password1 = vUser.getPassword();
             if(userName1.equals(userName) && password1.equals(password)) {
-                Integer id = vUser.getId();
+                Long id = vUser.getId();
                 boolean login = StpUtil.isLogin();
                 if (login){
                     System.out.println("1111");
@@ -93,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
         BeanUtils.copyProperties(vUserDto,vUser);
         int insert = this.baseMapper.insert(vUser);
         if (insert>0) {
-            Integer userId = vUser.getId();
+            Long userId = vUser.getId();
             for (int i = 0; i < roleIds.length; i++) {
                 VUserRole vUserRole = new VUserRole();
                 vUserRole.setUserId(userId);
@@ -131,7 +131,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE,
             rollbackFor = Exception.class)
     public Integer editUser(VUserDto vUserDto) {
-        Integer userId = vUserDto.getId();
+        Long userId = vUserDto.getId();
         int delete = vUserRoleMapper.delete(Wrappers.<VUserRole>lambdaQuery()
                 .eq(VUserRole::getUserId, userId));
         if (delete>=0){

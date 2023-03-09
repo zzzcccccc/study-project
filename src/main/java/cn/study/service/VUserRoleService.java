@@ -11,6 +11,6 @@ public interface VUserRoleService extends IService<VUserRole> {
 
     Integer editUsrRole(VUserRoleDto vUserRoleDto);
 
-    List<VUserRole> getUseRoleByUserId(Integer userId);
+    List<VUserRole> getUseRoleByUserId(Long userId);
 
 }

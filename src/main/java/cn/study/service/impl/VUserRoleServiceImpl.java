@@ -17,7 +17,7 @@ import java.util.List;
 public class VUserRoleServiceImpl extends ServiceImpl<VUserRoleMapper, VUserRole>  implements VUserRoleService {
 
     @Override
-    public List<VUserRole> getUseRoleByUserId(Integer userId) {
+    public List<VUserRole> getUseRoleByUserId(Long userId) {
         List<VUserRole> vUserRoles = this.baseMapper.selectList(Wrappers.<VUserRole>lambdaQuery()
                 .eq(VUserRole::getUserId, userId));
         return vUserRoles;
@@ -27,7 +27,7 @@ public class VUserRoleServiceImpl extends ServiceImpl<VUserRoleMapper, VUserRole
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE,
             rollbackFor = Exception.class)
     public Integer editUsrRole(VUserRoleDto vUserRoleDto) {
-        Integer userId = vUserRoleDto.getUserId();
+        Long userId = vUserRoleDto.getUserId();
         int delete = this.baseMapper.delete(Wrappers.<VUserRole>lambdaQuery()
                 .eq(VUserRole::getUserId, userId));
         if (delete>=0){

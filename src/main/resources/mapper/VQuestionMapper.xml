@@ -36,13 +36,13 @@
         </if>
         ORDER BY question.create_time DESC
     </select>
-    <select id="getListByExamId" resultType="cn.study.entity.VQuestion">
+    <select id="getListByPaperId" resultType="cn.study.entity.VQuestion">
         select
             question.*
         from
             v_question AS question
-        LEFT JOIN  v_exam_quest AS veq ON question.id = veq.quest_id
+        LEFT JOIN  v_paper_ques AS veq ON question.id = veq.ques_id
         WHERE
-            veq.exam_id = #{examId}
+            veq.paper_id = #{paperId}
     </select>
 </mapper>

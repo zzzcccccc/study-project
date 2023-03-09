@@ -1,14 +1,13 @@
 package cn.study.vo;
 
-import cn.study.entity.VExamPaper;
+import cn.study.entity.VPaper;
 import cn.study.entity.VQuestion;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class VExamPaperVo extends VExamPaper {
+public class VPaperVo extends VPaper {
 
 //    @ApiModelProperty("年级名称")
 //    private String gradeName;
@@ -20,6 +19,8 @@ public class VExamPaperVo extends VExamPaper {
      * 题目详情
      */
     private List<VQuestion> questions;
+
+    private String realName;
 
 
 }
