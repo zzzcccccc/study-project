@@ -15,4 +15,7 @@ public class VQuestionVo extends VQuestion{
     @ApiModelProperty("科目名称")
     private String subjectName;
 
+    @ApiModelProperty("用户答案")
+    private String userAnswer;
+
 }

@@ -35,12 +35,13 @@
         SELECT
             v_menu.*
         FROM
-            v_menu
+            v_menu AS v_menu
             LEFT JOIN v_role_menu ON v_menu.menu_id = v_role_menu.menu_id
         WHERE
             v_menu.del_flag = 0
             AND v_menu.`level` = 1
             AND FIND_IN_SET( v_role_menu.role_id, #{roleIds} )
+        GROUP BY v_menu.menu_id
         ORDER BY
             v_menu.sort ASC
     </select>

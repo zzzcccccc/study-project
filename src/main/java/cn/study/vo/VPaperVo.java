@@ -18,7 +18,7 @@ public class VPaperVo extends VPaper {
     /**
      * 题目详情
      */
-    private List<VQuestion> questions;
+    private List<VQuestionVo> questions;
 
     private String realName;
 

@@ -1,5 +1,6 @@
 package cn.study.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.util.Date;
 import java.io.Serializable;
@@ -42,9 +43,7 @@ public class VAnswer implements Serializable {
      */
     private Long teacherId;
 
-    /**
-     * answer_array
-     */
+    @ApiModelProperty("作答详情")
     private String answerArray;
 
     private String answerState;

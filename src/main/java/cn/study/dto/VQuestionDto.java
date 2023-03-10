@@ -39,6 +39,14 @@ public class VQuestionDto extends VPaper {
     @ApiModelProperty("userId")
     private Long userId;
 
+    @ApiModelProperty("role")
+    private String role;
+
+    @ApiModelProperty("年级ids")
+    private String gradeIds;
+
+    @ApiModelProperty("科目ids")
+    private String subjectIds;
 
 
 }

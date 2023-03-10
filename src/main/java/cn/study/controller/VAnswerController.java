@@ -2,12 +2,14 @@ package cn.study.controller;
 
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
+import cn.study.dto.VAnswerDto;
 import cn.study.dto.VQuestionDto;
 import cn.study.service.VAnswerService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author zhangcc
@@ -15,9 +17,9 @@ import javax.annotation.Resource;
  * @date 2023-03-08
  */
 @RestController
-@RequestMapping(value = "/vUserAnswer")
+@RequestMapping(value = "/paper/answer")
 @Api(value = "答卷管理", tags = "答卷管理")
-public class VUserAnswerController {
+public class VAnswerController {
 
     @Resource
     private VAnswerService vAnswerService;
@@ -56,17 +58,18 @@ public class VUserAnswerController {
 //    public RES delete(Long id) {
 //        return vUserAnswerService.delete(id);
 //    }
-//
-//    /**
-//     * 更新
-//     *
-//     * @author zhangcc
-//     * @date 2023/03/08
-//     **/
-//    @PutMapping("/update")
-//    public RES update(@RequestBody  VUserAnswer vUserAnswer) {
-//        return vUserAnswerService.update(vUserAnswer);
-//    }
+
+    /**
+     * 更新
+     *
+     * @author zhangcc
+     * @date 2023/03/08
+     **/
+    @PutMapping("/update")
+    public RES update(@RequestBody VAnswerDto vAnswerDto) {
+//        vAnswerService.edit(vAnswerDto);
+        return RES.ok(CommonConstants.SUCCESS, "操作成功", null);
+    }
 
 
 }

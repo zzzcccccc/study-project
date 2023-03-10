@@ -11,6 +11,7 @@
         paper.grade_id,
         paper.class_id_array,
         paper.user_id,
+        paper.create_time,
         u.real_name
         from
         v_paper AS paper
@@ -36,19 +37,30 @@
         paper.grade_id,
         paper.class_id_array,
         paper.user_id,
+        paper.create_time,
         answer.answer_state,
-        answer.correct_state
+        answer.correct_state,
+        u.real_name
         from
         v_paper AS paper
         INNER JOIN v_answer AS answer ON paper.id = answer.paper_id
+        INNER JOIN v_user AS u ON paper.user_id = u.id
         WHERE
             paper.del_flag = '0'
-        AND answer.user_id = #{userId}
+        AND answer.del_flag = '0'
+        <if test="query.gradeIds == null">
+            AND answer.user_id = #{query.userId}
+        </if>
+
         <if test="query.gradeId != null and query.gradeId != ''">
             AND paper.grade_id = #{query.gradeId}
         </if>
         <if test="query.subjectId != null and query.subjectId != ''">
             AND paper.subject_id = #{query.subjectId}
+        </if>
+        <if test="query.gradeIds != null and  query.subjectIds != null">
+            AND FIND_IN_SET(paper.grade_id,#{query.gradeIds})
+            AND FIND_IN_SET(paper.subject_id,#{query.subjectIds})
         </if>
         <if test="query.headline != null">
             AND paper.headline LIKE CONCAT(CONCAT('%',#{query.headline},'%'))

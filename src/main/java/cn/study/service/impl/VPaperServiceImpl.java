@@ -2,13 +2,11 @@ package cn.study.service.impl;
 
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VQuestionDto;
-import cn.study.entity.VAnswer;
-import cn.study.entity.VPaper;
-import cn.study.entity.VPaperQues;
-import cn.study.entity.VQuestion;
+import cn.study.entity.*;
 import cn.study.mapper.*;
 import cn.study.service.VPaperService;
 import cn.study.vo.VPaperVo;
+import cn.study.vo.VQuestionVo;
 import cn.study.vo.VUserSubClaVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -47,20 +45,35 @@ public class VPaperServiceImpl extends ServiceImpl<VPaperMapper, VPaper> impleme
         List<VPaperVo> examPapers = iPage.getRecords();
         for (VPaperVo examPaperVo : examPapers) {
             Long paperId = examPaperVo.getId();
-            List<VQuestion> listByExamId = vQuestionMapper.getListByPaperId(paperId);
-            examPaperVo.setQuestions(listByExamId);
+            List<VQuestionVo> listByPaperId = vQuestionMapper.getListByPaperId(paperId);
+            examPaperVo.setQuestions(listByPaperId);
         }
         return iPage;
     }
 
     @Override
     public IPage getPage(Page page, VQuestionDto vQuestionDto) {
+        Long userId = vQuestionDto.getUserId();
+        String role = vQuestionDto.getRole();
+        if (role.contains("teacher")){
+            List<VUserSubjectClass> vUserSubjectClasses = vUserSubjectClassMapper.selectList(Wrappers.<VUserSubjectClass>lambdaQuery()
+                    .eq(VUserSubjectClass::getUserId, userId));
+            String gradeIds = "";
+            String subjectIds = "";
+            for (VUserSubjectClass vUserSubjectClass:vUserSubjectClasses) {
+                gradeIds += vUserSubjectClass.getGradeId()+",";  //年级
+                subjectIds += vUserSubjectClass.getSubjectId()+",";
+            }
+            vQuestionDto.setGradeIds(gradeIds);
+            vQuestionDto.setSubjectIds(subjectIds);
+        }
+
         IPage iPage = vPaperMapper.getPage(page, vQuestionDto);
         List<VPaperVo> examPapers = iPage.getRecords();
         for (VPaperVo examPaperVo : examPapers) {
             Long paperId = examPaperVo.getId();
-            List<VQuestion> listByExamId = vQuestionMapper.getListByPaperId(paperId);
-            examPaperVo.setQuestions(listByExamId);
+            List<VQuestionVo> listByPaperId = vQuestionMapper.getListByPaperId(paperId);
+            examPaperVo.setQuestions(listByPaperId);
         }
         return iPage;
     }
@@ -160,9 +173,12 @@ public class VPaperServiceImpl extends ServiceImpl<VPaperMapper, VPaper> impleme
             vPaperQuesMapper.delete(Wrappers.<VPaperQues>lambdaQuery()
                     .eq(VPaperQues::getPaperId, paperId));
 
-            vAnswerMapper.delete(Wrappers.<VAnswer>lambdaQuery()
+            VAnswer vAnswer = new VAnswer();
+            vAnswer.setDelFlag(CommonConstants.STATUS_DEL);
+            vAnswerMapper.update(vAnswer,Wrappers.<VAnswer>lambdaQuery()
                     .eq(VAnswer::getPaperId, paperId)
-                    .isNotNull(VAnswer::getAnswerArray));
+                    .isNull(VAnswer::getAnswerArray));
+
         }
         return 0;
     }

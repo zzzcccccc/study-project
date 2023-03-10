@@ -38,7 +38,7 @@ public class VMenuController {
     }
 
     /**
-     * 页面左侧导航栏查询（查询全部，三级）
+     * （查询全部，三级）
      * @return
      */
     @SaCheckLogin

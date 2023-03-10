@@ -36,7 +36,7 @@
         </if>
         ORDER BY question.create_time DESC
     </select>
-    <select id="getListByPaperId" resultType="cn.study.entity.VQuestion">
+    <select id="getListByPaperId" resultType="cn.study.vo.VQuestionVo">
         select
             question.*
         from
