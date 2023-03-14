@@ -38,17 +38,23 @@
         paper.class_id_array,
         paper.user_id,
         paper.create_time,
-        answer.answer_state,
-        answer.correct_state,
+        <if test="query.gradeIds == null">
+            answer.id AS answerId,
+            answer.answer_state,
+            answer.correct_state,
+            answer.grade,
+        </if>
         u.real_name
         from
         v_paper AS paper
-        INNER JOIN v_answer AS answer ON paper.id = answer.paper_id
+        <if test="query.gradeIds == null">
+            INNER JOIN v_answer AS answer ON paper.id = answer.paper_id
+        </if>
         INNER JOIN v_user AS u ON paper.user_id = u.id
         WHERE
             paper.del_flag = '0'
-        AND answer.del_flag = '0'
         <if test="query.gradeIds == null">
+            AND answer.del_flag = '0'
             AND answer.user_id = #{query.userId}
         </if>
 

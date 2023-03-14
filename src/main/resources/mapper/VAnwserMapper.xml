@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.study.mapper.VAnswerMapper">
+
+    <select id="getPageToAnswerInfo" resultType="cn.study.vo.VAnwserVo">
+        select
+            answer.user_id AS userId,
+            answer.id AS answerId,
+            answer.real_name,
+            answer.answer_state,
+            answer.correct_state,
+            answer.grade,
+            vc.name AS className
+        from
+            v_answer AS answer
+        LEFT JOIN v_class AS vc ON answer.class_id = vc.id
+        LEFT JOIN v_user_subject_class AS sub_class ON
+             JSON_CONTAINS( sub_class.class_ids,CONVERT ( answer.class_id, CHAR )) = 1 AND sub_class.user_id =  #{query.userId}
+        WHERE
+            answer.paper_id = #{query.paperId}
+        <if test="query.correctState != null and query.correctState != 2">
+            AND answer.correct_state = #{query.correctState}
+            <if test="query.correctState == 0">
+                AND answer.answer_state = '1'
+            </if>
+        </if>
+        <if test="query.correctState != null and query.correctState == 2">
+            AND answer.answer_state = '0'
+        </if>
+    </select>
+</mapper>

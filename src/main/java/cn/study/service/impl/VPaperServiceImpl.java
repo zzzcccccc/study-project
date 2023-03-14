@@ -88,7 +88,7 @@ public class VPaperServiceImpl extends ServiceImpl<VPaperMapper, VPaper> impleme
         VPaper vPaper = new VPaper();
         BeanUtils.copyProperties(vQuestionDto, vPaper);
         Integer[] classIds = vQuestionDto.getClassIds();
-        if (classIds != null) {
+        if (classIds.length !=0) {
             vPaper.setClassIdArray(Arrays.toString(classIds));
         }
         int insert = vPaperMapper.insert(vPaper);
@@ -102,7 +102,8 @@ public class VPaperServiceImpl extends ServiceImpl<VPaperMapper, VPaper> impleme
                 vPaperQuesMapper.insert(vPaperQues);
             }
             // 创编试卷 班级一旦提交不可修改
-            if (classIds.length > 0) {  // 指定班级（卷子一次作废）
+            System.out.println( classIds.length);
+            if (classIds.length != 0) {  // 指定班级（卷子一次作废）
                 for (int i = 0; i < classIds.length; i++) {
                     Long teacherId = vUserSubjectClassMapper.selectTeacher(gradeId, subjectId, classIds[i]);
                     List<VUserSubClaVo> userSubClaVos = vUserSubjectClassMapper.selectUserByClassId(null, classIds[i]);

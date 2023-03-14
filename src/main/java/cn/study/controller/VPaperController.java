@@ -25,6 +25,28 @@ public class VPaperController {
     VPaperService vPaperService;
 
 
+//    @ApiOperation(value = "test", notes = "test")
+//    @GetMapping("/test")
+//    public RES test(){
+//
+//        TestVo testVo = new TestVo();
+//        testVo.setValue(1);
+//        testVo.setLabel("test1");
+//
+//        TestVo testVo2 = new TestVo();
+//        testVo2.setValue(2);
+//        testVo2.setLabel("test2");
+//
+//        List<TestVo> testVoList = new ArrayList<>();
+//        testVoList.add(testVo);
+//        testVoList.add(testVo2);
+//
+//
+//        return RES.ok(CommonConstants.SUCCESS,"操作成功",testVoList);
+//    }
+
+
+
     @ApiOperation(value = "分页-管理员查看试卷", notes = "分页-管理员查看试卷")
     @GetMapping("/getPageAdmin")
     public RES getPageAdmin(Page page, VQuestionDto vQuestionDto){
@@ -39,7 +61,6 @@ public class VPaperController {
         IPage page1 = vPaperService.getPage(page, vQuestionDto);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
     }
-
 
     @ApiOperation(value = "新增", notes = "新增")
     @PostMapping("/add")

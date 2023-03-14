@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 10/03/2023 17:41:07
+ Date: 14/03/2023 16:25:12
 */
 
 SET NAMES utf8mb4;
@@ -121,23 +121,32 @@ CREATE TABLE `v_answer`  (
   `teacher_id` bigint(12) NULL DEFAULT NULL,
   `paper_id` bigint(12) NULL DEFAULT NULL,
   `answer_array` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  `answer_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '答卷状态 0未完成 1已完成',
-  `correct_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '批改状态 0未完成 1已完成',
-  `grade` float(12, 2) NULL DEFAULT NULL COMMENT '总分',
+  `answer_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '答卷状态 0未完成 1已完成',
+  `correct_state` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0' COMMENT '批改状态 0未完成 1已完成',
+  `grade` int(12) NULL DEFAULT NULL COMMENT '总分',
   `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_index`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户答卷表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户答卷表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_answer
 -- ----------------------------
-INSERT INTO `v_answer` VALUES (7, 35, 'jiafegn', 6, 34, 1, NULL, NULL, NULL, NULL, '2023-03-10 10:23:17', NULL, '0');
-INSERT INTO `v_answer` VALUES (8, 35, 'jiafegn', 6, NULL, 2, NULL, NULL, NULL, NULL, '2023-03-10 11:00:37', '2023-03-10 15:04:35', '0');
-INSERT INTO `v_answer` VALUES (9, 1, '学生', 1, NULL, 3, NULL, NULL, NULL, NULL, '2023-03-10 11:01:40', NULL, '0');
-INSERT INTO `v_answer` VALUES (10, 1, '学生', 1, NULL, 4, NULL, NULL, NULL, NULL, '2023-03-10 15:56:04', NULL, '0');
+INSERT INTO `v_answer` VALUES (7, 35, 'jiafegn', 6, 34, 1, '[{\"analyze\":\"test\",\"answer\":\"[\\\"她她她她她她她\\\"]\",\"content\":\"\\\"[]\\\"\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":52,\"quesTypeId\":4,\"quesTypeName\":\"简答题\",\"score\":3,\"subjectId\":10,\"title\":\"三侠俞\",\"userAnswer\":\"[\\\"8888\\\"]\",\"userScore\":12},{\"analyze\":\"反对法烦烦烦\",\"answer\":\"[\\\"大大方方ff\\\"]\",\"content\":\"\\\"[]\\\"\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":53,\"quesTypeId\":3,\"quesTypeName\":\"填空题\",\"score\":3,\"subjectId\":10,\"title\":\"呃呃呃呃呃呃呃\",\"userAnswer\":\"[\\\"7777\\\"]\",\"userScore\":3},{\"analyze\":\"绑定卡了大家考虑进去看我Joe u恶女老总的\",\"answer\":\"[\\\"史蒂芬德尔呃呃\\\",\\\"大苏打JFK是\\\"]\",\"content\":\"[\\\"大苏打JFK是\\\",\\\"似懂非懂\\\",\\\"是的方法\\\",\\\"史蒂芬德尔呃呃\\\"]\",\"createTime\":\"2023-02-24 15:45:01\",\"difficult\":2,\"gradeId\":6,\"id\":44,\"quesTypeId\":2,\"quesTypeName\":\"多选题\",\"score\":10,\"subjectId\":10,\"title\":\"多选题 三年级下册 语文 一班二班 测试\",\"userAnswer\":\"[\\\"是的方法\\\"]\",\"userScore\":0},{\"analyze\":\"解析1\",\"answer\":\"[\\\"儿童\\\"]\",\"content\":\"[\\\"他\\\",\\\"饿\\\",\\\"他饿\\\",\\\"儿童\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":3,\"gradeId\":6,\"id\":45,\"quesTypeId\":1,\"quesTypeName\":\"单选题\",\"score\":2,\"subjectId\":10,\"title\":\"单选题啊啊啊\",\"userAnswer\":\"[\\\"儿童\\\"]\",\"userScore\":2},{\"analyze\":\"test\",\"answer\":\"[\\\"歌手\\\",\\\"王小帅\\\",\\\"囚鸟\\\"]\",\"content\":\"[\\\"囚鸟\\\",\\\"王小帅\\\",\\\"歌手\\\",\\\"test\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":5,\"gradeId\":6,\"id\":46,\"quesTypeId\":2,\"quesTypeName\":\"多选题\",\"score\":3,\"subjectId\":10,\"title\":\"题干\",\"userAnswer\":\"[\\\"囚鸟\\\"]\",\"userScore\":0},{\"analyze\":\"哥的嘀咕嘀咕\",\"answer\":\"[\\\"鸟\\\"]\",\"content\":\"\\\"[]\\\"\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":4,\"gradeId\":6,\"id\":47,\"quesTypeId\":3,\"quesTypeName\":\"填空题\",\"score\":9,\"subjectId\":10,\"title\":\"填空题——？\",\"userAnswer\":\"[\\\"66\\\"]\",\"userScore\":2},{\"analyze\":\"可有可无\",\"answer\":\"[\\\"对\\\"]\",\"content\":\"[\\\"对\\\",\\\"错\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":1,\"gradeId\":6,\"id\":48,\"quesTypeId\":5,\"quesTypeName\":\"判断题\",\"score\":3,\"subjectId\":10,\"title\":\"对不对？？\",\"userAnswer\":\"[\\\"错\\\"]\",\"userScore\":0}]', '1', '1', 19, '2023-03-10 10:23:17', '2023-03-14 15:31:15', '0');
+INSERT INTO `v_answer` VALUES (8, 35, 'jiafegn', 6, NULL, 2, NULL, '0', '0', NULL, '2023-03-10 11:00:37', '2023-03-13 13:09:23', '0');
+INSERT INTO `v_answer` VALUES (9, 1, '学生', 1, NULL, 3, NULL, '0', '0', NULL, '2023-03-10 11:01:40', '2023-03-13 13:09:23', '0');
+INSERT INTO `v_answer` VALUES (10, 1, '学生', 1, NULL, 4, NULL, '0', '0', NULL, '2023-03-10 15:56:04', '2023-03-13 13:09:23', '0');
+INSERT INTO `v_answer` VALUES (11, 35, 'jiafegn', 6, NULL, 13, NULL, '0', '0', NULL, '2023-03-14 10:20:33', '2023-03-14 10:20:42', '1');
+INSERT INTO `v_answer` VALUES (12, 36, '学生1号', 6, NULL, 13, NULL, '0', '0', NULL, '2023-03-14 10:20:33', '2023-03-14 10:20:42', '1');
+INSERT INTO `v_answer` VALUES (13, 37, '学生2号', 6, NULL, 13, NULL, '0', '0', NULL, '2023-03-14 10:20:33', '2023-03-14 10:20:42', '1');
+INSERT INTO `v_answer` VALUES (14, 35, 'jiafegn', 6, NULL, 14, NULL, '0', '0', NULL, '2023-03-14 10:21:00', '2023-03-14 10:24:55', '1');
+INSERT INTO `v_answer` VALUES (15, 36, '学生1号', 6, NULL, 14, NULL, '0', '0', NULL, '2023-03-14 10:21:00', '2023-03-14 10:24:55', '1');
+INSERT INTO `v_answer` VALUES (16, 37, '学生2号', 6, NULL, 14, NULL, '0', '0', NULL, '2023-03-14 10:21:00', '2023-03-14 10:24:55', '1');
+INSERT INTO `v_answer` VALUES (17, 35, 'jiafegn', 6, NULL, 15, '[{\"analyze\":\"test\",\"answer\":\"[\\\"她她她她她她她\\\"]\",\"content\":\"[]\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":52,\"quesTypeId\":4,\"score\":3.0,\"subjectId\":10,\"title\":\"三侠俞\",\"userAnswer\":\"[\\\"666\\\"]\"},{\"analyze\":\"反对法烦烦烦\",\"answer\":\"[\\\"大大方方ff\\\"]\",\"content\":\"[]\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":53,\"quesTypeId\":3,\"score\":3.0,\"subjectId\":10,\"title\":\"呃呃呃呃呃呃呃\",\"userAnswer\":\"[\\\"666\\\"]\"},{\"analyze\":\"解析1\",\"answer\":\"[\\\"儿童\\\"]\",\"content\":\"[\\\"他\\\",\\\"饿\\\",\\\"他饿\\\",\\\"儿童\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":3,\"gradeId\":6,\"id\":45,\"quesTypeId\":1,\"score\":2.0,\"subjectId\":10,\"title\":\"单选题啊啊啊\",\"userAnswer\":\"[\\\"儿童\\\"]\"},{\"analyze\":\"test\",\"answer\":\"[\\\"歌手\\\",\\\"王小帅\\\",\\\"囚鸟\\\"]\",\"content\":\"[\\\"囚鸟\\\",\\\"王小帅\\\",\\\"歌手\\\",\\\"test\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":5,\"gradeId\":6,\"id\":46,\"quesTypeId\":2,\"score\":3.0,\"subjectId\":10,\"title\":\"题干\",\"userAnswer\":\"[\\\"囚鸟\\\",\\\"王小帅\\\",\\\"歌手\\\"]\"}]', '1', '0', NULL, '2023-03-14 10:28:43', '2023-03-14 10:34:49', '0');
+INSERT INTO `v_answer` VALUES (18, 36, '学生1号', 6, NULL, 15, '[{\"analyze\":\"test\",\"answer\":\"[\\\"她她她她她她她\\\"]\",\"content\":\"[]\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":52,\"quesTypeId\":4,\"score\":3.0,\"subjectId\":10,\"title\":\"三侠俞\",\"userAnswer\":\"[\\\"三二一\\\"]\"},{\"analyze\":\"反对法烦烦烦\",\"answer\":\"[\\\"大大方方ff\\\"]\",\"content\":\"[]\",\"createTime\":\"2023-03-09 15:48:05\",\"difficult\":3,\"gradeId\":6,\"id\":53,\"quesTypeId\":3,\"score\":3.0,\"subjectId\":10,\"title\":\"呃呃呃呃呃呃呃\",\"userAnswer\":\"[\\\"语气词\\\"]\"},{\"analyze\":\"解析1\",\"answer\":\"[\\\"儿童\\\"]\",\"content\":\"[\\\"他\\\",\\\"饿\\\",\\\"他饿\\\",\\\"儿童\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":3,\"gradeId\":6,\"id\":45,\"quesTypeId\":1,\"score\":2.0,\"subjectId\":10,\"title\":\"单选题啊啊啊\",\"userAnswer\":\"[\\\"他\\\"]\"},{\"analyze\":\"test\",\"answer\":\"[\\\"歌手\\\",\\\"王小帅\\\",\\\"囚鸟\\\"]\",\"content\":\"[\\\"囚鸟\\\",\\\"王小帅\\\",\\\"歌手\\\",\\\"test\\\"]\",\"createTime\":\"2023-03-08 13:25:56\",\"difficult\":5,\"gradeId\":6,\"id\":46,\"quesTypeId\":2,\"score\":3.0,\"subjectId\":10,\"title\":\"题干\",\"userAnswer\":\"[\\\"王小帅\\\"]\"}]', '1', '0', NULL, '2023-03-14 10:28:43', '2023-03-14 16:10:05', '0');
+INSERT INTO `v_answer` VALUES (19, 37, '学生2号', 6, NULL, 15, NULL, '0', '0', NULL, '2023-03-14 10:28:43', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_class
@@ -350,8 +359,9 @@ CREATE TABLE `v_paper`  (
   `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_id`(`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '试卷详情表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_paper
@@ -360,6 +370,13 @@ INSERT INTO `v_paper` VALUES (1, '三下语文一二班jiafeng', NULL, '2023-03-
 INSERT INTO `v_paper` VALUES (2, '三下语文无班及', NULL, '2023-03-28 00:00:00', 3, 10, 6, '[]', NULL, '2023-03-10 11:00:37', '2023-03-10 15:04:56', '0');
 INSERT INTO `v_paper` VALUES (3, '一年级上数学', NULL, NULL, 3, 1, 1, '[]', NULL, '2023-03-10 11:01:40', '2023-03-10 11:08:22', '0');
 INSERT INTO `v_paper` VALUES (4, '一上语文', NULL, '2023-03-10 15:55:47', 3, 1, 1, '[]', NULL, '2023-03-10 15:56:04', NULL, '0');
+INSERT INTO `v_paper` VALUES (8, '无班及三下语文', NULL, '2023-03-14 09:29:51', 2, 10, 6, '[]', NULL, '2023-03-14 09:35:59', '2023-03-14 10:14:30', '1');
+INSERT INTO `v_paper` VALUES (9, '无班三下语文三人', NULL, NULL, 34, 10, 6, '[]', NULL, '2023-03-14 10:16:32', '2023-03-14 10:17:08', '1');
+INSERT INTO `v_paper` VALUES (10, '对对对', NULL, NULL, 34, 10, 6, '[]', NULL, '2023-03-14 10:17:18', '2023-03-14 10:24:52', '1');
+INSERT INTO `v_paper` VALUES (11, '对对对', NULL, NULL, 34, 10, 6, '[]', NULL, '2023-03-14 10:18:15', '2023-03-14 10:24:54', '1');
+INSERT INTO `v_paper` VALUES (13, '对对对', NULL, NULL, 34, 10, 6, NULL, NULL, '2023-03-14 10:20:33', '2023-03-14 10:20:42', '1');
+INSERT INTO `v_paper` VALUES (14, 'test', NULL, NULL, 34, 10, 6, NULL, NULL, '2023-03-14 10:21:00', '2023-03-14 10:24:55', '1');
+INSERT INTO `v_paper` VALUES (15, 'test', NULL, NULL, 34, 10, 6, NULL, NULL, '2023-03-14 10:28:43', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_paper_ques
@@ -370,7 +387,7 @@ CREATE TABLE `v_paper_ques`  (
   `paper_id` bigint(20) NULL DEFAULT NULL,
   `ques_id` bigint(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_paper_ques
@@ -390,6 +407,10 @@ INSERT INTO `v_paper_ques` VALUES (13, 1, 45);
 INSERT INTO `v_paper_ques` VALUES (14, 1, 46);
 INSERT INTO `v_paper_ques` VALUES (15, 1, 47);
 INSERT INTO `v_paper_ques` VALUES (16, 1, 48);
+INSERT INTO `v_paper_ques` VALUES (66, 15, 52);
+INSERT INTO `v_paper_ques` VALUES (67, 15, 53);
+INSERT INTO `v_paper_ques` VALUES (68, 15, 45);
+INSERT INTO `v_paper_ques` VALUES (69, 15, 46);
 
 -- ----------------------------
 -- Table structure for v_question
@@ -404,33 +425,34 @@ CREATE TABLE `v_question`  (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '单多判题 选项 [{},{}]',
   `konwlege_id_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '知识点',
   `ques_type_id` int(11) NULL DEFAULT NULL COMMENT '问题类型1单选 2多选 3填空 4简答 5判断',
-  `score` float(12, 1) NULL DEFAULT NULL COMMENT '分数',
+  `score` int(12) NULL DEFAULT NULL COMMENT '分数',
   `subject_id` int(11) NULL DEFAULT NULL COMMENT '学科id',
   `grade_id` int(11) NULL DEFAULT NULL COMMENT '年级id',
   `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
   `update_time` timestamp(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_id`(`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '题目表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_question
 -- ----------------------------
-INSERT INTO `v_question` VALUES (37, '他们全让我走路，他们让我在雨里散步， ______?', '歌词', '[\"他们说我是怪物\"]', 5, '[]', NULL, 4, 777.0, 5, 2, '2023-02-17 17:23:43', '2023-02-24 11:02:00', '0');
-INSERT INTO `v_question` VALUES (40, '写词都用12345 也听起来很俗 谁在乎呜呜呜呜~~', 'SDFSDFSD', '[\"BBBBBBB\"]', 2, '[\"BBBBBBB\",\"FFFFFFFFFFF\",\"CCCCCCCC\",\"DDDDDDDDD\"]', NULL, 1, 1.0, 1, 1, '2023-02-21 16:04:50', '2023-02-24 11:01:14', '0');
-INSERT INTO `v_question` VALUES (41, '高脚杯喝水真的很酷！！！', '45', '[\"6667676\"]', 2, '[\"6667676\",\"78\",\"56\",\"3\"]', NULL, 1, 9.0, 2, 1, '2023-02-21 16:35:13', '2023-02-21 16:36:16', '0');
-INSERT INTO `v_question` VALUES (42, '请问2023年2月24日星期天？', '自行百度', '[\"星期五\"]', 2, '[\"星期一\",\"星期五\",\"星期六\",\"星期四\"]', NULL, 1, 3.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
-INSERT INTO `v_question` VALUES (43, '1+1=2对吗', '有有有', '[\"对\"]', 4, '[]', NULL, 5, 2.0, 4, 1, '2023-02-24 10:59:36', NULL, '0');
-INSERT INTO `v_question` VALUES (44, '多选题 三年级下册 语文 一班二班 测试', '绑定卡了大家考虑进去看我Joe u恶女老总的', '[\"史蒂芬德尔呃呃\",\"大苏打JFK是\"]', 2, '[\"大苏打JFK是\",\"似懂非懂\",\"是的方法\",\"史蒂芬德尔呃呃\"]', NULL, 2, 10.0, 10, 6, '2023-02-24 15:45:01', NULL, '0');
-INSERT INTO `v_question` VALUES (45, '单选题啊啊啊', '解析1', '[\"儿童\"]', 3, '[\"他\",\"饿\",\"他饿\",\"儿童\"]', NULL, 1, 2.0, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:00:53', '0');
-INSERT INTO `v_question` VALUES (46, '题干', 'test', '[\"歌手\",\"王小帅\",\"囚鸟\"]', 5, '[\"囚鸟\",\"王小帅\",\"歌手\",\"test\"]', NULL, 2, 3.0, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:00:53', '0');
-INSERT INTO `v_question` VALUES (47, '填空题——？', '哥的嘀咕嘀咕', '[\"鸟\"]', 4, '[]', NULL, 3, 9.0, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:01:04', '0');
-INSERT INTO `v_question` VALUES (48, '对不对？？', '可有可无', '[\"对\"]', 1, '[]', NULL, 5, 3.0, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:01:04', '0');
-INSERT INTO `v_question` VALUES (49, '一上数单', '解析', '[\"333\"]', 5, '[\"333\",\"444\",\"555\",\"666\"]', NULL, 1, 1.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
-INSERT INTO `v_question` VALUES (50, '以上书判', '嗯嗯嗯', '[\"错\"]', 2, '[]', NULL, 5, 2.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
-INSERT INTO `v_question` VALUES (51, '以上述填空', '地方的方法', '[\"对对对\"]', 3, '[]', NULL, 3, 3.0, 1, 1, '2023-03-09 14:40:18', NULL, '0');
-INSERT INTO `v_question` VALUES (52, '三侠俞', 'test', '[\"她她她她她她她\"]', 3, '[]', NULL, 4, 3.0, 10, 6, '2023-03-09 15:48:05', NULL, '0');
-INSERT INTO `v_question` VALUES (53, '呃呃呃呃呃呃呃', '反对法烦烦烦', '[\"大大方方ff\"]', 3, '[]', NULL, 3, 3.0, 10, 6, '2023-03-09 15:48:05', NULL, '0');
+INSERT INTO `v_question` VALUES (37, '他们全让我走路，他们让我在雨里散步， ______?', '歌词', '[\"他们说我是怪物\"]', 5, '[]', NULL, 4, 777, 5, 2, '2023-02-17 17:23:43', '2023-02-24 11:02:00', '0');
+INSERT INTO `v_question` VALUES (40, '写词都用12345 也听起来很俗 谁在乎呜呜呜呜~~', 'SDFSDFSD', '[\"BBBBBBB\"]', 2, '[\"BBBBBBB\",\"FFFFFFFFFFF\",\"CCCCCCCC\",\"DDDDDDDDD\"]', NULL, 1, 1, 1, 1, '2023-02-21 16:04:50', '2023-02-24 11:01:14', '0');
+INSERT INTO `v_question` VALUES (41, '高脚杯喝水真的很酷！！！', '45', '[\"6667676\"]', 2, '[\"6667676\",\"78\",\"56\",\"3\"]', NULL, 1, 9, 2, 1, '2023-02-21 16:35:13', '2023-02-21 16:36:16', '0');
+INSERT INTO `v_question` VALUES (42, '请问2023年2月24日星期天？', '自行百度', '[\"星期五\"]', 2, '[\"星期一\",\"星期五\",\"星期六\",\"星期四\"]', NULL, 1, 3, 4, 1, '2023-02-24 10:59:36', NULL, '0');
+INSERT INTO `v_question` VALUES (43, '1+1=2对吗', '有有有', '[\"对\"]', 4, '[]', NULL, 5, 2, 4, 1, '2023-02-24 10:59:36', NULL, '0');
+INSERT INTO `v_question` VALUES (44, '多选题 三年级下册 语文 一班二班 测试', '绑定卡了大家考虑进去看我Joe u恶女老总的', '[\"史蒂芬德尔呃呃\",\"大苏打JFK是\"]', 2, '[\"大苏打JFK是\",\"似懂非懂\",\"是的方法\",\"史蒂芬德尔呃呃\"]', NULL, 2, 10, 10, 6, '2023-02-24 15:45:01', NULL, '0');
+INSERT INTO `v_question` VALUES (45, '单选题啊啊啊', '解析1', '[\"儿童\"]', 3, '[\"他\",\"饿\",\"他饿\",\"儿童\"]', NULL, 1, 2, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:00:53', '0');
+INSERT INTO `v_question` VALUES (46, '题干', 'test', '[\"歌手\",\"王小帅\",\"囚鸟\"]', 5, '[\"囚鸟\",\"王小帅\",\"歌手\",\"test\"]', NULL, 2, 3, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:00:53', '0');
+INSERT INTO `v_question` VALUES (47, '填空题——？', '哥的嘀咕嘀咕', '[\"鸟\"]', 4, '[]', NULL, 3, 9, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:01:04', '0');
+INSERT INTO `v_question` VALUES (48, '对不对？？', '可有可无', '[\"对\"]', 1, '[]', NULL, 5, 3, 10, 6, '2023-03-08 13:25:56', '2023-03-10 16:01:04', '0');
+INSERT INTO `v_question` VALUES (49, '一上数单', '解析', '[\"333\"]', 5, '[\"333\",\"444\",\"555\",\"666\"]', NULL, 1, 1, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (50, '以上书判', '嗯嗯嗯', '[\"错\"]', 2, '[]', NULL, 5, 2, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (51, '以上述填空', '地方的方法', '[\"对对对\"]', 3, '[]', NULL, 3, 3, 1, 1, '2023-03-09 14:40:18', NULL, '0');
+INSERT INTO `v_question` VALUES (52, '三侠俞', 'test', '[\"她她她她她她她\"]', 3, '[]', NULL, 4, 3, 10, 6, '2023-03-09 15:48:05', NULL, '0');
+INSERT INTO `v_question` VALUES (53, '呃呃呃呃呃呃呃', '反对法烦烦烦', '[\"大大方方ff\"]', 3, '[]', NULL, 3, 3, 10, 6, '2023-03-09 15:48:05', NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_role
@@ -606,7 +628,7 @@ CREATE TABLE `v_user`  (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `index_user_id`(`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of v_user
@@ -619,6 +641,8 @@ INSERT INTO `v_user` VALUES (29, NULL, '李老师', '123456', '李四', 44, 2, '
 INSERT INTO `v_user` VALUES (30, NULL, '王老师', '123456', '王五', 555, 1, '2021-09-07 08:00:00.0', NULL, '57382739021', 1, NULL, '2022-09-06 15:35:01', NULL, NULL, NULL, '0');
 INSERT INTO `v_user` VALUES (34, NULL, 'test', '123456', 'test', 12, 1, '2022-09-06 08:00:00.0', NULL, '12223424675', 1, NULL, '2022-09-07 16:51:15', NULL, NULL, NULL, '0');
 INSERT INTO `v_user` VALUES (35, NULL, 'jiafeng', 'jiafeng', 'jiafegn', NULL, NULL, NULL, NULL, '', 1, NULL, '2023-02-27 09:00:29', NULL, NULL, NULL, '0');
+INSERT INTO `v_user` VALUES (36, NULL, 'student1', '123456', '学生1号', NULL, NULL, NULL, NULL, '', 1, NULL, '2023-03-14 09:28:38', NULL, NULL, NULL, '0');
+INSERT INTO `v_user` VALUES (37, NULL, 'student2', '123456', '学生2号', NULL, NULL, NULL, NULL, '', 1, NULL, '2023-03-14 09:28:57', NULL, NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for v_user_role
@@ -629,7 +653,7 @@ CREATE TABLE `v_user_role`  (
   `user_id` bigint(11) NULL DEFAULT NULL,
   `role_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 86 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of v_user_role
@@ -644,6 +668,8 @@ INSERT INTO `v_user_role` VALUES (82, 1, 1);
 INSERT INTO `v_user_role` VALUES (84, 3, 2);
 INSERT INTO `v_user_role` VALUES (85, 3, 3);
 INSERT INTO `v_user_role` VALUES (86, 35, 1);
+INSERT INTO `v_user_role` VALUES (87, 36, 1);
+INSERT INTO `v_user_role` VALUES (88, 37, 1);
 
 -- ----------------------------
 -- Table structure for v_user_subject_class
@@ -664,7 +690,9 @@ INSERT INTO `v_user_subject_class` VALUES (34, 10, 6, '[12, 6]');
 INSERT INTO `v_user_subject_class` VALUES (28, 1, 1, '[1, 7]');
 INSERT INTO `v_user_subject_class` VALUES (1, NULL, 1, '[1]');
 INSERT INTO `v_user_subject_class` VALUES (3, 10, 6, '[3]');
-INSERT INTO `v_user_subject_class` VALUES (35, NULL, 6, '[]');
+INSERT INTO `v_user_subject_class` VALUES (35, NULL, 6, '[6]');
+INSERT INTO `v_user_subject_class` VALUES (36, NULL, 6, '[6]');
+INSERT INTO `v_user_subject_class` VALUES (37, NULL, 6, '[6]');
 
 -- ----------------------------
 -- View structure for test

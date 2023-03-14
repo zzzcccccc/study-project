@@ -2,14 +2,17 @@ package cn.study.controller;
 
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
-import cn.study.dto.VAnswerDto;
+import cn.study.dto.VAnswerInfoDto;
+import cn.study.dto.VAnswerElsDto;
 import cn.study.dto.VQuestionDto;
 import cn.study.service.VAnswerService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author zhangcc
@@ -25,16 +28,16 @@ public class VAnswerController {
     private VAnswerService vAnswerService;
 
     /**
-     * 查询 分页查询
+     * 查询
      *
      * @author zhangcc
      * @date 2023/03/08
      **/
-//    @RequestMapping("/pageList")
-//    public RES pageList(Page page, VUserAnswer vUserAnswer) {
-//        return vUserAnswerService.pageList(page, vUserAnswer);
-//    }
-//
+    @GetMapping("/getList")
+    public RES pageList(VAnswerInfoDto vAnswerInfoDto) {
+        return RES.ok(CommonConstants.SUCCESS, "操作成功",  vAnswerService.getList(vAnswerInfoDto));
+    }
+
 
     /**
      * 新增
@@ -59,6 +62,21 @@ public class VAnswerController {
 //        return vUserAnswerService.delete(id);
 //    }
 
+
+    /**
+     * 批改
+     *
+     * @author zhangcc
+     * @date 2023/03/08
+     **/
+    @ApiOperation(value = "批改", notes = "批改")
+    @PutMapping("/correct")
+    public RES correct(@RequestBody VAnswerInfoDto VAnswerInfoDto) {
+        int edit = vAnswerService.correct(VAnswerInfoDto);
+        return RES.ok(CommonConstants.SUCCESS, "操作成功", null);
+    }
+
+
     /**
      * 更新
      *
@@ -66,10 +84,17 @@ public class VAnswerController {
      * @date 2023/03/08
      **/
     @PutMapping("/update")
-    public RES update(@RequestBody VAnswerDto vAnswerDto) {
-//        vAnswerService.edit(vAnswerDto);
+    public RES update(@RequestBody VAnswerElsDto vAnswerElsDto) {
+        int edit = vAnswerService.edit(vAnswerElsDto);
         return RES.ok(CommonConstants.SUCCESS, "操作成功", null);
     }
 
+
+    @ApiOperation(value = "获取试卷答卷名单", notes = "获取试卷答卷名单")
+    @GetMapping("/getPageToAnswerInfo")
+    public RES getPageToAnswerInfo(Page page, VAnswerInfoDto VAnswerInfoDto){
+        IPage page1 = vAnswerService.getPageToAnswerInfo(page, VAnswerInfoDto);
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",page1);
+    }
 
 }

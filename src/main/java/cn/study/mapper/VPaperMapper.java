@@ -14,4 +14,5 @@ public interface VPaperMapper extends BaseMapper<VPaper> {
     IPage getPageAdmin(Page page,@Param("query") VQuestionDto vQuestionDto);
 
     IPage getPage(Page page,@Param("query") VQuestionDto vQuestionDto);
+
 }

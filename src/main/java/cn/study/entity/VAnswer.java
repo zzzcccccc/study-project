@@ -1,9 +1,12 @@
 package cn.study.entity;
 
+import cn.study.dto.VAnswerQuesDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 /**
@@ -18,9 +21,6 @@ public class VAnswer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
-    /**
-     * id
-     */
     private Long id;
 
     /**
@@ -33,14 +33,9 @@ public class VAnswer implements Serializable {
      * class_id
      */
     private Integer classId;
-    /**
-     * teacher_id
-     */
+
     private Long paperId;
 
-    /**
-     * teacher_id
-     */
     private Long teacherId;
 
     @ApiModelProperty("作答详情")
@@ -50,8 +45,7 @@ public class VAnswer implements Serializable {
 
     private String correctState;
 
-    private String grade;
-
+    private Integer grade;
 
     private String createTime;
 

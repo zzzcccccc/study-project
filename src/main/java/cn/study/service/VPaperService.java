@@ -18,4 +18,5 @@ public interface VPaperService extends IService<VPaper> {
     int del(Long paperId);
 
     IPage getPage(Page page, VQuestionDto vQuestionDto);
+
 }
