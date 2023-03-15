@@ -52,13 +52,14 @@
             AND JSON_CONTAINS( sub_class.class_ids,CONVERT ( #{query.classId}, CHAR )) = 1
         </if>
         GROUP BY `user`.id
-        <if test="query.orderBy != null">
-            ORDER BY
-            <choose>
-                <when test='query.orderBy=="create_time_asc"'>create_time ASC</when>
-                <when test='query.orderBy=="create_time_desc"'>create_time DESC</when>
-            </choose>
-        </if>
+        ORDER BY create_time DESC
+<!--        <if test="query.orderBy != null">-->
+<!--            ORDER BY-->
+<!--            <choose>-->
+<!--                <when test='query.orderBy=="create_time_asc"'>create_time ASC</when>-->
+<!--                <when test='query.orderBy=="create_time_desc"'>create_time DESC</when>-->
+<!--            </choose>-->
+<!--        </if>-->
     </select>
     <select id="getInfoById" resultMap="baseResultMap">
         SELECT
@@ -75,12 +76,14 @@
         `user`.status,
         `user`.image_path,
         `user`.create_time,
-        sub_class.class_ids,
+        sub_class.class_ids AS classIds,
         sub_class.subject_id,
-        sub_class.grade_id
+        sub_class.grade_id,
+        CONCAT( '[', GROUP_CONCAT( user_role.role_id ), ']' ) AS roleIds
         FROM
         v_user AS `user`
         LEFT  JOIN  v_user_subject_class AS sub_class ON `user`.id =sub_class.user_id
+        LEFT  JOIN  v_user_role AS user_role ON `user`.id = user_role.user_id
         WHERE
         user.del_flag = '0'
         AND `user`.id = #{userId}

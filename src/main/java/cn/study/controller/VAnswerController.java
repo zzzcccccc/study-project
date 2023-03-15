@@ -1,5 +1,8 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VAnswerInfoDto;
@@ -71,6 +74,7 @@ public class VAnswerController {
      **/
     @ApiOperation(value = "批改", notes = "批改")
     @PutMapping("/correct")
+    @SaCheckRole(value = {"admin","teacher"})
     public RES correct(@RequestBody VAnswerInfoDto VAnswerInfoDto) {
         int edit = vAnswerService.correct(VAnswerInfoDto);
         return RES.ok(CommonConstants.SUCCESS, "操作成功", null);

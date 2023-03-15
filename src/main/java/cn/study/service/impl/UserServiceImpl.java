@@ -73,12 +73,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, VUser> implements U
         IPage iPage = this.baseMapper.getPage(page, vUserDto);
         List<VUserVo> records = iPage.getRecords();
         for (VUserVo vo:records) {
-            String classIds = vo.getClassIds();
-            if(classIds!=null){
-                vo.setClassIdArray(JSON.parse(classIds));
+            if(vo.getClassIds()!=null){
+                String classIds = vo.getClassIds().toString();
+                vo.setClassIds(JSON.parse(classIds));
             }else{
                 Integer[] arr  = new  Integer[]{};
-                vo.setClassIdArray(arr);
+                vo.setClassIds(arr);
             }
         }
         return iPage;

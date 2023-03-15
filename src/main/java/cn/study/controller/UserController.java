@@ -98,13 +98,19 @@ public class UserController {
     @GetMapping("getInfoById/{userId}")
     public RES getInfoById(@PathVariable("userId") Integer userId) {
         VUserVo infoById = userService.getInfoById(userId);
-        String classIds = infoById.getClassIds();
-        if(classIds!=null){
-            infoById.setClassIdArray(JSON.parse(classIds));
+        if(infoById.getClassIds()!=null){
+            String classIds = infoById.getClassIds().toString();
+            infoById.setClassIds(JSON.parse(classIds));
         }else{
             Integer[] arr  = new  Integer[]{};
-            infoById.setClassIdArray(arr);
+            infoById.setClassIds(arr);
         }
+
+        String chooseRoleIds = infoById.getRoleIds().toString();
+        if (chooseRoleIds!=null){
+            infoById.setRoleIds(JSON.parse(chooseRoleIds));
+        }
+
         return RES.ok(CommonConstants.SUCCESS,"操作成功",infoById);
     }
 
