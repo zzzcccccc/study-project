@@ -39,6 +39,8 @@ public class VQuestionController {
     }
 
 
+    @SaCheckLogin
+    @SaCheckPermission(value = "topic:create", orRole = {"admin","teacher"})
     @ApiOperation(value = "新增", notes = "新增")
     @PostMapping("/add")
     public RES add(@RequestBody VQuestionDto vQuestionDto) {
@@ -48,6 +50,7 @@ public class VQuestionController {
 
     @ApiOperation(value = "修改", notes = "修改")
     @PutMapping("/edit")
+    @SaCheckPermission(value = "topic:editQues", orRole = {"admin","teacher"})
     public RES edit(@RequestBody VQuestion vQuestion) {
         vQuestionService.edit(vQuestion);
         return RES.ok(CommonConstants.SUCCESS,"保存成功",null);

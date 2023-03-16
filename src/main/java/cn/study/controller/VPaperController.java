@@ -1,5 +1,6 @@
 package cn.study.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.study.config.RES;
 import cn.study.constant.CommonConstants;
 import cn.study.dto.VQuestionDto;
@@ -64,12 +65,14 @@ public class VPaperController {
 
     @ApiOperation(value = "新增", notes = "新增")
     @PostMapping("/add")
+    @SaCheckPermission(value = "paper:create", orRole = {"admin","teacher"})
     public RES add(@RequestBody VQuestionDto vQuestionDto){
         int add = vPaperService.add(vQuestionDto);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",null);
     }
 
     @ApiOperation(value = "新增", notes = "新增")
+    @SaCheckPermission(value = "paper:add", orRole = {"admin","teacher"})
     @PostMapping("/insert")
     public RES insert(@RequestBody VQuestionDto vQuestionDto){
         int add = vPaperService.insert(vQuestionDto);
@@ -77,6 +80,7 @@ public class VPaperController {
     }
 
     @ApiOperation(value = "删除", notes = "删除")
+    @SaCheckPermission(value = "paper:del", orRole = {"admin","teacher"})
     @DeleteMapping("/del/{paperId}")
     public RES del(@PathVariable(value = "paperId") Long paperId){
         vPaperService.del(paperId);
