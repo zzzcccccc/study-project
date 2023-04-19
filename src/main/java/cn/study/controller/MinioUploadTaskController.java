@@ -42,8 +42,6 @@ public class MinioUploadTaskController {
     private SysUploadTaskService sysUploadTaskService;
     @Resource
     private AmazonS3 amazonS3;
-
-
     /**
      * 获取上传进度
      * @param identifier 文件md5
@@ -108,6 +106,7 @@ public class MinioUploadTaskController {
     public void viewFile(HttpServletResponse response,
                         @RequestParam("bucketName") String bucketName,
                         @RequestParam("fileName") String fileName) {
+        
         sysUploadTaskService.download(response,bucketName,fileName);
     }
 
@@ -232,5 +231,4 @@ public class MinioUploadTaskController {
 //            }
 //        }
 //    }
-
 }
