@@ -1,6 +1,7 @@
-package cn.study.controller;
+package cn.study.commons;
 
 
+import cn.study.controller.BeanContext;
 import cn.study.entity.VLink;
 import cn.study.entity.VLink2;
 import cn.study.mapper.Study2Mapper;

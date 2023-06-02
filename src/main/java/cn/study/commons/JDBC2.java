@@ -1,10 +1,14 @@
-package cn.study.controller;
+package cn.study.commons;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * main方法插入很多数据。
+ * 准备工作
+ */
 public class JDBC2 {
 
     //static int count = 0;
