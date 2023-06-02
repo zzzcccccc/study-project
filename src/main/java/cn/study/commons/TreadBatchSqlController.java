@@ -1,11 +1,10 @@
-package cn.study.controller;
+package cn.study.commons;
 
 
 import cn.study.entity.VLink;
 import cn.study.mapper.StudyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +22,12 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by 029302 on 2021/7/3.
+ * 分批次处理sql 线程池
  */
 @Controller
 @RequestMapping("emptype")
-public class TestClass {
-    private final Logger logger = LoggerFactory.getLogger(TestClass.class);
+public class TreadBatchSqlController {
+    private final Logger logger = LoggerFactory.getLogger(TreadBatchSqlController.class);
 
     @Resource
     StudyMapper studyMapper;
