@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.study.mapper.Study2Mapper">
+
+
+    <insert id="inserList">
+        INSERT INTO v_link2 (id,title, link)
+        VALUES
+        <foreach collection="list" item="e" separator=",">
+            (#{e.id},#{e.title},#{e.link})
+        </foreach>
+    </insert>
+</mapper>
