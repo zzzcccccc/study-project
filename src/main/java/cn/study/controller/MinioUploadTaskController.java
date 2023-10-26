@@ -15,6 +15,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,72 +43,86 @@ public class MinioUploadTaskController {
     private SysUploadTaskService sysUploadTaskService;
     @Resource
     private AmazonS3 amazonS3;
+
+
+    @ApiOperation("文件上传")
+    @PostMapping(value = "/upload")
+    public RES upload(@RequestParam("file") MultipartFile file) {
+        return sysUploadTaskService.upload(file);
+    }
+
+
     /**
      * 获取上传进度
+     *
      * @param identifier 文件md5
      * @return
      */
     @ApiOperation(value = "获取上传进度", notes = "获取上传进度")
     @GetMapping("/{identifier}")
-    public RES taskInfo (@PathVariable("identifier") String identifier) {
-        TaskInfoVo taskInfoVo =  sysUploadTaskService.getTaskInfo(identifier);
-        return  RES.ok(CommonConstants.SUCCESS,"成功",taskInfoVo);
+    public RES taskInfo(@PathVariable("identifier") String identifier) {
+        TaskInfoVo taskInfoVo = sysUploadTaskService.getTaskInfo(identifier);
+        return RES.ok(CommonConstants.SUCCESS, "成功", taskInfoVo);
     }
 
     /**
      * 创建一个上传任务
+     *
      * @return
      */
     @PostMapping("/initTask")
     @ApiOperation(value = "创建一个上传任务", notes = "创建一个上传任务")
-    public RES initTask (@Valid @RequestBody InitTaskDto param) {
-        return RES.ok(CommonConstants.SUCCESS,"",sysUploadTaskService.initTask(param));
+    public RES initTask(@Valid @RequestBody InitTaskDto param) {
+        return RES.ok(CommonConstants.SUCCESS, "", sysUploadTaskService.initTask(param));
     }
 
     /**
      * 获取每个分片的预签名上传地址
+     *
      * @param identifier
      * @param partNumber
      * @return
      */
     @ApiOperation(value = "获取每个分片的预签名上传地址", notes = "获取每个分片的预签名上传地址")
     @GetMapping("/{identifier}/{partNumber}")
-    public RES preSignUploadUrl (@PathVariable("identifier") String identifier, @PathVariable("partNumber") Integer partNumber) {
+    public RES preSignUploadUrl(@PathVariable("identifier") String identifier, @PathVariable("partNumber") Integer partNumber) {
         SysUploadTask task = sysUploadTaskService.getByIdentifier(identifier);
         if (task == null) {
-            return RES.no(CommonConstants.FAIL,"分片任务不存在");
+            return RES.no(CommonConstants.FAIL, "分片任务不存在");
         }
         Map<String, String> params = new HashMap<>();
         params.put("partNumber", partNumber.toString());
         params.put("uploadId", task.getUploadId());
 
         String s = sysUploadTaskService.genPreSignUploadUrl(task.getBucketName(), task.getObjectKey(), params);
-        return RES.ok(CommonConstants.SUCCESS,"", s);
+        return RES.ok(CommonConstants.SUCCESS, "", s);
     }
 
     /**
      * 合并分片
+     *
      * @param identifier
      * @return
      */
     @ApiOperation(value = "合并分片", notes = "合并分片")
     @PostMapping("/merge/{identifier}")
-    public RES merge (@PathVariable("identifier") String identifier) {
+    public RES merge(@PathVariable("identifier") String identifier) {
         sysUploadTaskService.merge(identifier);
-        return RES.ok(CommonConstants.SUCCESS,"",null);
+        return RES.ok(CommonConstants.SUCCESS, "", null);
     }
 
     /**
      * 查看---->可直接http://127.0.0.1:9000/bucketName/2023-02-07%2Ff0919f53-9b52-4ad4-b290-67dcf6bead81.jpg
+     *
      * @return
      */
     @ApiOperation(value = "查看", notes = "查看")
     @GetMapping("/viewFile")
     public void viewFile(HttpServletResponse response,
-                        @RequestParam("bucketName") String bucketName,
-                        @RequestParam("fileName") String fileName) {
-        
-        sysUploadTaskService.download(response,bucketName,fileName);
+                         @RequestParam("bucketName") String bucketName,
+                         @RequestParam("fileName") String fileName) {
+
+        sysUploadTaskService.download(response, bucketName, fileName);
     }
 
 //    @ApiOperation(value = "视频边下载边看", notes = "视频边下载边看")

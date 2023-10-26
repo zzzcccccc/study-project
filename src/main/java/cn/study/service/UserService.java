@@ -27,4 +27,6 @@ public interface UserService extends IService<VUser> {
     Integer del(Integer userId);
 
     VUser getInfoByUsername(String username);
+
+    Integer editPassword(String password, Integer userId);
 }

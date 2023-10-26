@@ -1,9 +1,12 @@
 package cn.study.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.study.config.RES;
+import cn.study.constant.CommonConstants;
 import cn.study.constant.MinioConstant;
 import cn.study.dto.InitTaskDto;
 import cn.study.entity.SysUploadTask;
@@ -15,21 +18,29 @@ import cn.study.vo.TaskRecordVo;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static io.netty.util.internal.PlatformDependent.putObject;
 
 /**
  * 分片上传-分片任务记录(SysUploadTask)表服务实现类
@@ -60,7 +71,7 @@ public class SysUploadTaskServiceImpl extends ServiceImpl<SysUploadTaskMapper, S
         Date currentDate = new Date();
         String bucketName = minioProperties.getBucket(); //可让前端传指定Bucket
         String fileName = param.getFileName();
-        String suffix = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
         String key = StrUtil.format("{}/{}.{}", DateUtil.format(currentDate, "YYYY-MM-dd"), IdUtil.randomUUID(), suffix);
         String contentType = MediaTypeFactory.getMediaType(key).orElse(MediaType.APPLICATION_OCTET_STREAM).toString();
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -147,15 +158,41 @@ public class SysUploadTaskServiceImpl extends ServiceImpl<SysUploadTaskMapper, S
         CompleteMultipartUploadResult result = amazonS3.completeMultipartUpload(completeMultipartUploadRequest);
     }
 
-
-
     //--------------------------
+
     @SneakyThrows
     @Override
     public void download(HttpServletResponse response, String bucketName, String fileName) {
-        InputStream inputStream  = amazonS3.getObject(bucketName, fileName).getObjectContent();
-//        response.setContentType("image/jpeg; charset=UTF-8");
- //response.setContentType("application/octet-stream; charset=UTF-8");
+        InputStream inputStream = amazonS3.getObject(bucketName, fileName).getObjectContent();
+        //  response.setContentType("image/jpeg; charset=UTF-8");
+        // response.setContentType("application/octet-stream; charset=UTF-8");
         IoUtil.copy(inputStream, response.getOutputStream());
+    }
+
+    @Override
+    public RES upload(MultipartFile file) {
+        String fileName = "20231026";
+        if (StringUtils.isNotBlank(file.getOriginalFilename())) {
+            fileName += IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+        } else {
+            fileName += IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getName());
+        }
+        Map<String, String> resultMap = new HashMap<>(4);
+        resultMap.put("bucketName", "atest");
+        resultMap.put("fileName", fileName);
+
+        try {
+            InputStream stream = file.getInputStream();
+            byte[] bytes = IOUtils.toByteArray(stream);
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.setContentType("application/octet-stream");
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+            PutObjectResult atests = amazonS3.putObject("atest", fileName, byteArrayInputStream, objectMetadata);
+            return RES.ok(CommonConstants.SUCCESS, "success", resultMap);
+        } catch (IOException e) {
+            log.error("上传失败", e);
+            throw new RuntimeException(e);
+        }
     }
 }

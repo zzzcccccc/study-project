@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -114,6 +115,7 @@ public class UserController {
         return RES.ok(CommonConstants.SUCCESS,"操作成功",infoById);
     }
 
+
     @ApiOperation(value = "根据用户名获取",notes = "根据用户名获取")
     @SaCheckLogin
     @GetMapping("getInfoByUsername/{username}")
@@ -121,6 +123,16 @@ public class UserController {
         VUser vUser = userService.getInfoByUsername(username);
         return RES.ok(CommonConstants.SUCCESS,"操作成功",vUser);
     }
+
+    @ApiOperation(value = "修改密码",notes = "修改密码")
+    @SaCheckLogin
+    @GetMapping("editPassword/{password}/{userId}")
+    public RES editPassword(@PathVariable("password") String password,
+                            @PathVariable("userId") Integer userId) {
+        Integer flag  = userService.editPassword(password,userId);
+        return RES.ok(CommonConstants.SUCCESS,"操作成功",flag);
+    }
+
 
     @ApiOperation(value = "修改用户",notes = "修改用户")
     @SaCheckLogin
